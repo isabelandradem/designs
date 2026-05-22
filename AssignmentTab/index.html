@@ -802,6 +802,7 @@
 
     /* ======================================================== */
     /* Teacher Library mockup (Spec 2) — `.tl-*` prefix          */
+    /* Calibrated against the simulator screenshot.              */
     /* ======================================================== */
     .tl-screen {
       background: #ffffff;
@@ -811,46 +812,50 @@
       flex-direction: column;
     }
 
-    /* Top bar: class block (left) · logo (center) · actions (right) */
+    /* Top bar: class block (left) · logo (center) · actions (right).
+       Items align to top so Switch User / Add Class pin to the top edge;
+       the logo is explicitly re-centered. */
     .tl-topbar {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: 18px 40px 14px;
+      align-items: start;
+      padding: 18px 28px 16px;
     }
     .tl-class {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 18px;
     }
     .tl-class-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
+      width: 88px;
+      height: 88px;
+      border-radius: 18px;
       object-fit: cover;
       background: #efe4d2;
     }
-    .tl-class-info { display: flex; flex-direction: column; gap: 4px; }
+    .tl-class-info { display: flex; flex-direction: column; gap: 6px; }
     .tl-class-name {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
-      color: #1f2740;
+      color: #27447A;
       line-height: 1.15;
     }
-    .tl-settings { height: 18px; width: auto; opacity: 0.85; align-self: flex-start; }
+    .tl-settings { height: 22px; width: auto; opacity: 0.85; align-self: flex-start; }
     .tl-logo {
-      height: 52px;
+      height: 64px;
       width: auto;
       display: block;
       margin: 0 auto;
+      align-self: center;
     }
     .tl-actions {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 8px;
+      gap: 10px;
+      padding-top: 4px;
     }
-    .tl-actions img { height: 18px; width: auto; opacity: 0.85; }
+    .tl-actions img { height: 24px; width: auto; opacity: 0.85; }
 
     /* Bubble tabs: 9 tabs with dividers between section groups.
        Centered horizontally to match the app. */
@@ -858,8 +863,8 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: 14px;
-      padding: 8px 40px 14px;
+      gap: 18px;
+      padding: 16px 40px 22px;
     }
     .tl-tab {
       display: flex;
@@ -867,15 +872,15 @@
       justify-content: center;
     }
     .tl-tab img {
-      height: 100px;
+      height: 110px;
       width: auto;
       display: block;
     }
     .tl-divider {
       width: 1px;
-      height: 60px;
+      height: 66px;
       background: rgba(0, 0, 0, 0.12);
-      margin: 0 4px;
+      margin: 0 6px;
       align-self: center;
     }
 
@@ -890,22 +895,24 @@
       gap: 4px;
     }
     .tl-tab-new-img {
-      width: 82px;
-      height: 82px;
+      width: 92px;
+      height: 92px;
       display: block;
     }
     .tl-tab-new-label {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       color: #4a5577;
       letter-spacing: 0.01em;
     }
 
-    /* Dark navy banner: title · class reports · delete student */
+    /* Dark navy banner: title · class reports · delete student.
+       Padded so the title left-aligns with the student grid column 1, and
+       Delete Student lives inside the layout rather than hugging the edge. */
     .tl-banner {
-      background: #1B3A8A;
+      background: #27447A;
       color: #ffffff;
-      padding: 18px 40px;
+      padding: 24px 100px;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
@@ -913,83 +920,91 @@
     }
     .tl-banner-left h2 {
       margin: 0;
-      font-size: 38px;
+      font-size: 44px;
       font-weight: 700;
       letter-spacing: 0.01em;
       line-height: 1.1;
     }
     .tl-banner-left p {
       margin: 4px 0 0;
-      font-size: 18px;
+      font-size: 20px;
       opacity: 0.92;
       font-weight: 400;
     }
     .tl-banner-center { justify-self: center; }
     .tl-banner-center img {
-      height: 44px;
+      height: 60px;
       width: auto;
       display: block;
     }
     .tl-banner-right { justify-self: end; }
     .tl-banner-right img {
-      height: 34px;
+      height: 46px;
       width: auto;
       display: block;
       opacity: 0.95;
     }
 
-    /* Student grid: 3 columns */
+    /* Student grid: 3 columns, tight rows. Padding matches the banner so
+       the column 1 avatar aligns under the "Students" title. */
     .tl-students {
       flex: 1;
-      padding: 26px 80px 96px;
+      padding: 22px 100px 20px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px 60px;
+      gap: 14px 40px;
       align-content: start;
     }
     .tl-student {
       display: flex;
       align-items: center;
-      gap: 18px;
-      font-size: 19px;
+      gap: 14px;
+      font-size: 22px;
       font-weight: 700;
-      color: #1f2740;
+      color: #27447A;
     }
     .tl-student img {
-      width: 80px;
-      height: 80px;
+      width: 74px;
+      height: 74px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
       background: #d8e7ee;
     }
     .tl-student.is-add .tl-add-icon {
-      width: 80px;
-      height: 80px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
-      background: #1B3A8A;
+      background: #27447A;
       color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 42px;
+      font-size: 34px;
       font-weight: 600;
       line-height: 1;
-      padding-bottom: 4px;
+      padding-bottom: 3px;
+      margin-left: 5px; /* nudges plus-circle to align with student avatars */
     }
 
-    /* Floating Student Learning Path button at bottom */
+    /* Floating Student Learning Path button at bottom — large and lifted. */
     .tl-preview {
       position: absolute;
-      bottom: 38px;
+      bottom: 82px;
       left: 50%;
       transform: translateX(-50%);
       filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.10));
     }
     .tl-preview img {
-      height: 60px;
+      height: 95px;
       width: auto;
       display: block;
+    }
+
+    /* Wider home indicator just for the teacher-library mockups. */
+    .tl-screen .kk-home-indicator {
+      width: 280px;
+      bottom: 14px;
     }
   </style>
 </head>

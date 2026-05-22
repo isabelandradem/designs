@@ -839,7 +839,7 @@
     }
     .tl-settings { height: 18px; width: auto; opacity: 0.85; align-self: flex-start; }
     .tl-logo {
-      height: 32px;
+      height: 52px;
       width: auto;
       display: block;
       margin: 0 auto;
@@ -852,10 +852,12 @@
     }
     .tl-actions img { height: 18px; width: auto; opacity: 0.85; }
 
-    /* Bubble tabs: 9 tabs with dividers between section groups */
+    /* Bubble tabs: 9 tabs with dividers between section groups.
+       Centered horizontally to match the app. */
     .tl-tabs {
       display: flex;
       align-items: flex-end;
+      justify-content: center;
       gap: 14px;
       padding: 8px 40px 14px;
     }
@@ -889,14 +891,15 @@
     }
     .tl-banner-left h2 {
       margin: 0;
-      font-size: 28px;
+      font-size: 38px;
       font-weight: 700;
       letter-spacing: 0.01em;
+      line-height: 1.1;
     }
     .tl-banner-left p {
-      margin: 2px 0 0;
-      font-size: 14px;
-      opacity: 0.9;
+      margin: 4px 0 0;
+      font-size: 18px;
+      opacity: 0.92;
       font-weight: 400;
     }
     .tl-banner-center { justify-self: center; }
@@ -916,41 +919,41 @@
     /* Student grid: 3 columns */
     .tl-students {
       flex: 1;
-      padding: 22px 60px 70px;
+      padding: 26px 80px 96px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px 60px;
+      gap: 18px 60px;
       align-content: start;
     }
     .tl-student {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: 17px;
+      gap: 18px;
+      font-size: 19px;
       font-weight: 700;
       color: #1f2740;
     }
     .tl-student img {
-      width: 56px;
-      height: 56px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
       background: #d8e7ee;
     }
     .tl-student.is-add .tl-add-icon {
-      width: 56px;
-      height: 56px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       background: #1B3A8A;
       color: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 42px;
       font-weight: 600;
       line-height: 1;
-      padding-bottom: 3px;
+      padding-bottom: 4px;
     }
 
     /* Floating Student Learning Path button at bottom */
@@ -1954,7 +1957,7 @@
             <!-- Top bar: class identity (left) · logo (center) · Switch User / Add Class (right) -->
             <div class="tl-topbar">
               <div class="tl-class">
-                <img class="tl-class-avatar" src="assets/avatar1@2x.png" alt="">
+                <img class="tl-class-avatar" src="assets/avatarteacher2@2x.png" alt="">
                 <div class="tl-class-info">
                   <div class="tl-class-name">Mr. Jesse&rsquo;s<br>Heeler PreK</div>
                   <img class="tl-settings" src="assets/teacherlibrary_settings_btn@2x.png" alt="Settings">

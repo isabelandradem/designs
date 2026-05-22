@@ -149,19 +149,17 @@
       color: inherit;
     }
     .option-intro p:last-child { margin-bottom: 0; }
-    .option-intro dl {
-      margin: 12px 0;
+    /* Tight inline bullet list used inside .option-intro (e.g. Option A) */
+    .option-intro .option-bullets {
+      margin: 6px 0 10px;
+      padding-left: 22px;
+      list-style: disc;
     }
-    .option-intro dt {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-top: 12px;
+    .option-intro .option-bullets li {
+      margin: 2px 0;
+      line-height: 1.5;
     }
-    .option-intro dt:first-child { margin-top: 0; }
-    .option-intro dd {
-      margin: 2px 0 0;
-      color: var(--text-secondary);
-    }
+    .option-intro .option-bullets strong { color: var(--text-primary); }
 
     /* Sub-options (e.g. Option A.1, A.2). Tighter top spacing + smaller
        headline + a subtle left rail to communicate "child of the option
@@ -968,12 +966,10 @@
     <h2 class="option-title">Option A: Folder tabs</h2>
     <div class="option-intro">
       <p>Split the Assignments tab into two tabs:</p>
-      <dl>
-        <dt>Lessons</dt>
-        <dd>Shows learning activities.</dd>
-        <dt>Assessments</dt>
-        <dd>Shows assessment activities.</dd>
-      </dl>
+      <ul class="option-bullets">
+        <li><strong>Lessons:</strong> Shows learning activities.</li>
+        <li><strong>Assessments:</strong> Shows assessment activities.</li>
+      </ul>
       <p>The <em>Lessons</em> tab is selected by default. Selecting a tab filters the list to that activity type.</p>
     </div>
   </section>

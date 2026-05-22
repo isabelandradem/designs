@@ -100,6 +100,27 @@
     }
     .jira-link:hover { border-bottom-color: #1568db; }
 
+    /* Top-of-page Jira callout. Anchored to the same 840px column as
+       the Status Quo / Option blocks so it reads as the spec's source. */
+    .jira-callout {
+      max-width: 840px;
+      margin: 4px auto 28px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(21, 104, 219, 0.06);
+      border: 1px solid rgba(21, 104, 219, 0.18);
+      border-left: 4px solid #1568db;
+      border-radius: 8px;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+    .jira-callout-label {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
     /* Option section heading (Option A, Option B, …) – same column rhythm
        as the Status Quo block above. */
     .option-section {
@@ -732,6 +753,11 @@
     <div class="eyebrow">Engineering Spec</div>
     <h1>Update UX Assignments Tab</h1>
   </header>
+
+  <aside class="jira-callout" aria-label="Source Jira ticket">
+    <span class="jira-callout-label">Jira Ticket:</span>
+    <a class="jira-link" href="https://duckduckmoose.atlassian.net/browse/KKIDS-8479" target="_blank" rel="noopener">KKIDS-8474</a>
+  </aside>
 
   <section class="status-quo" aria-label="Status quo">
     <h2 class="status-quo-title">Status Quo:</h2>

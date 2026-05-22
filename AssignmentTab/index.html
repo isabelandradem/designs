@@ -907,10 +907,14 @@
       justify-content: center;
       box-shadow: inset 0 -2px 4px rgba(70, 120, 138, 0.18);
     }
-    .tl-tab-new-bubble svg {
-      width: 38px;
-      height: 38px;
-      color: #0A2A66;
+    /* Star shape uses the rounded star PNG as a mask filled with navy.
+       Gives pixel-perfect shape while letting us tint via background-color. */
+    .tl-tab-new-star {
+      width: 42px;
+      height: 44px;
+      background-color: #0A2A66;
+      -webkit-mask: url('assets/star_rounded.png') center / contain no-repeat;
+              mask: url('assets/star_rounded.png') center / contain no-repeat;
     }
     .tl-tab-new-label {
       font-size: 13px;
@@ -2156,9 +2160,7 @@
 
               <div class="tl-tab tl-tab-new" role="tab" aria-label="Assessments">
                 <div class="tl-tab-new-bubble">
-                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M12 2.4 L14.81 8.69 L21.6 9.4 L16.4 14.04 L17.92 21 L12 17.3 L6.08 21 L7.6 14.04 L2.4 9.4 L9.19 8.69 Z"/>
-                  </svg>
+                  <div class="tl-tab-new-star" aria-hidden="true"></div>
                 </div>
                 <div class="tl-tab-new-label">Assessments</div>
               </div>

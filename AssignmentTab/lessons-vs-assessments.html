@@ -771,6 +771,18 @@
       align-items: flex-start;
       flex-wrap: wrap;
     }
+    /* Empty-state copy used when a folder has no activities yet
+       (e.g. "Note: No Assignments" mock). Sits flush near the top of the
+       content area, mirroring the in-app empty state. */
+    .kk-empty {
+      padding: 4px 0 0;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 1.35;
+      color: #5e6b85;
+      letter-spacing: 0.005em;
+    }
     .kk-thumb {
       width: 200px;
       display: flex;
@@ -2127,6 +2139,115 @@
               <div class="kk-thumb-label">Vowel Sounds</div>
             </div>
 
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Note — Empty state: student has no assignments in either folder  -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Note: No Assignments">
+    <h2 class="option-title">Note: No Assignments</h2>
+    <div class="option-intro">
+      <p>What students see when their teacher hasn&rsquo;t assigned anything yet. Each folder shows its own empty-state message.</p>
+    </div>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Note · Empty state &middot; No assignments</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap">
+    <div class="mock-card" aria-label="Note: Assignments tab folder split with no activities">
+      <div class="kk-screen has-folders">
+        <!-- Top bar -->
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <!-- Bubble tabs (Assignments-First mode still on, so others dimmed).
+             Count is 0 because the student has no assignments yet. -->
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 0 assignments">
+            <span class="kk-count" aria-hidden="true">0</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_ollo_btn1@2x.png" alt="Letters tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_reya_btn1@2x.png" alt="Reading tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_peck_btn1@2x.png" alt="Math tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)">
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_books_btn1@2x.png" alt="Books tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_videos_btn1@2x.png" alt="Videos tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_draw_btn1@2x.png" alt="Create tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)">
+          </div>
+        </div>
+
+        <!-- Folder tabs: Lessons | Assessments -->
+        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
+          <button class="kk-folder-tab is-active"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  data-folder="lessons">Lessons</button>
+          <button class="kk-folder-tab"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  data-folder="assessments">Assessments</button>
+        </div>
+
+        <!-- Banner (title & subtitle swap when the folder changes) -->
+        <div class="kk-banner">
+          <h2 data-banner-title>Lessons</h2>
+          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        </div>
+
+        <!-- Empty-state panels: no thumbnails, just a friendly note per folder. -->
+        <div class="kk-section">
+          <!-- Lessons folder (default) -->
+          <div class="kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
+            <div class="kk-empty">Your teacher will assign lessons for you here.</div>
+          </div>
+
+          <!-- Assessments folder -->
+          <div class="kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
+            <div class="kk-empty">Your teacher will assign assessments for you here.</div>
           </div>
         </div>
 

@@ -880,29 +880,19 @@
     }
 
     /* Custom bubble used for the proposed Assessments tab (Spec 2).
-       Matches the visual rhythm of the PNG bubbles: ~82px circle + label. */
+       Uses the in-app `thumb_check_blue` asset (navy circle + white star) —
+       the same artwork used as the assessment completion mark in
+       AssignmentsTab::addCheckMark. */
     .tl-tab-new {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
     }
-    .tl-tab-new-bubble {
+    .tl-tab-new-img {
       width: 82px;
       height: 82px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 28%, #ffffff 0%, #eef0f5 95%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow:
-        inset 0 -2px 5px rgba(0, 0, 0, 0.06),
-        0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-    .tl-tab-new-bubble svg {
-      width: 46px;
-      height: 46px;
-      color: #0A2A66;
+      display: block;
     }
     .tl-tab-new-label {
       font-size: 12px;
@@ -2124,11 +2114,7 @@
               <div class="tl-tab"><img src="assets/libraryteacher_assignments_btn1@2x.png" alt="Assignments"></div>
 
               <div class="tl-tab tl-tab-new" role="tab" aria-label="Assessments">
-                <div class="tl-tab-new-bubble">
-                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M12 2.4 L14.81 8.69 L21.6 9.4 L16.4 14.04 L17.92 21 L12 17.3 L6.08 21 L7.6 14.04 L2.4 9.4 L9.19 8.69 Z"/>
-                  </svg>
-                </div>
+                <img class="tl-tab-new-img" src="assets/thumb_check_blue@2x.png" alt="">
                 <div class="tl-tab-new-label">Assessments</div>
               </div>
 

@@ -631,6 +631,44 @@
       letter-spacing: 0.04em;
     }
 
+    /* ---------- Label-toggle pill (sits above a specific mockup) ---------- */
+    .label-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 0 4px;
+      font-size: 13px;
+      color: rgba(39, 68, 122, 0.55);
+      font-weight: 500;
+    }
+    .label-toggle-wrap span { white-space: nowrap; }
+    .label-toggle {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1.5px solid rgba(39, 68, 122, 0.22);
+      overflow: hidden;
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .label-toggle button {
+      padding: 5px 16px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: rgba(39, 68, 122, 0.5);
+      transition: background 0.15s, color 0.15s;
+    }
+    .label-toggle button.is-active {
+      background: var(--kk-navy);
+      color: #ffffff;
+    }
+    .label-toggle button:not(.is-active):hover {
+      background: rgba(39, 68, 122, 0.07);
+      color: var(--kk-navy);
+    }
+
     /* ---------- Assignments tab recreation (scaled for 1366×1024) ----------
        Vertical proportions tuned to match the real app screenshot:
        back button + Library title + bubble strip should occupy ~22% of the
@@ -1403,13 +1441,23 @@
   </section>
 
   <section class="stage">
-    <div class="mock-stack">
+    <div class="mock-stack" id="optionAMockStack">
     <div class="mock-header">
       <div class="mock-label">Option A · Folder tabs</div>
       <div class="mock-dims">1366 × 1024</div>
     </div>
+
+    <!-- Toggle outside the mockup: swap between Lessons/Assessments and Practice/Assess -->
+    <div class="label-toggle-wrap">
+      <span>Tab labels:</span>
+      <div class="label-toggle" id="optionALabelToggle" role="group" aria-label="Choose tab label variant">
+        <button type="button" class="is-active" data-variant="lessons-assessments">Lessons / Assessments</button>
+        <button type="button" data-variant="practice-assess">Practice / Assess</button>
+      </div>
+    </div>
+
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option A: Assignments tab with folder split">
+    <div class="mock-card" aria-label="Option A: Assignments tab with folder split" id="optionAMock">
       <div class="kk-screen has-folders">
         <!-- Top bar -->
         <div class="kk-topbar">
@@ -2650,6 +2698,86 @@
         studentsTab.addEventListener('keydown', keyActivate(selectStudents));
         assessmentsTab.addEventListener('keydown', keyActivate(selectAssessments));
       });
+    })();
+
+    // Option A label-toggle: swap folder-tab text between
+    // "Lessons / Assessments" and "Practice / Assess" without re-rendering
+    // the mockup. Also updates the banner title to match the active folder.
+    (function () {
+      var toggle  = document.getElementById('optionALabelToggle');
+      var mock    = document.getElementById('optionAMock');
+      if (!toggle || !mock) return;
+
+      var VARIANTS = {
+        'lessons-assessments': {
+          lessons:     'Lessons',
+          assessments: 'Assessments',
+          banners: {
+            lessons:     { title: 'Lessons',     sub: 'Lessons assigned to you by Teacher Isa' },
+            assessments: { title: 'Assessments', sub: 'Assessments assigned to you by Teacher Isa' }
+          }
+        },
+        'practice-assess': {
+          lessons:     'Practice',
+          assessments: 'Assess',
+          banners: {
+            lessons:     { title: 'Practice',    sub: 'Practice activities assigned to you by Teacher Isa' },
+            assessments: { title: 'Assess',      sub: 'Assessments assigned to you by Teacher Isa' }
+          }
+        }
+      };
+
+      function applyVariant(variantKey) {
+        var v = VARIANTS[variantKey];
+        if (!v) return;
+
+        // Update folder-tab button text
+        mock.querySelectorAll('.kk-folder-tab').forEach(function (btn) {
+          var folder = btn.getAttribute('data-folder');
+          if (v[folder]) btn.textContent = v[folder];
+        });
+
+        // Update the banner to reflect the currently active folder
+        var activeFolder = (mock.querySelector('.kk-folder-tab.is-active') || {}).getAttribute
+          ? mock.querySelector('.kk-folder-tab.is-active').getAttribute('data-folder')
+          : 'lessons';
+        var titleEl = mock.querySelector('[data-banner-title]');
+        var subEl   = mock.querySelector('[data-banner-sub]');
+        var copy    = v.banners[activeFolder];
+        if (titleEl && copy) titleEl.textContent = copy.title;
+        if (subEl   && copy) subEl.textContent   = copy.sub;
+
+        // Patch the global BANNERS map so folder-tab clicks keep using the
+        // right copy after the variant is switched.
+        if (mock._patchedBanners) mock._patchedBanners(v.banners);
+      }
+
+      // Expose a patcher hook so the folder-switch handler can call it back.
+      // We find the card's _switchFolder which was set up by the folder-tab
+      // IIFE, then wrap the banner lookup with the current variant.
+      var currentVariant = 'lessons-assessments';
+      mock._patchedBanners = null; // filled in below after DOM is ready
+
+      toggle.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          toggle.querySelectorAll('button').forEach(function (b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          currentVariant = btn.getAttribute('data-variant');
+          applyVariant(currentVariant);
+        });
+      });
+
+      // Override the folder switcher's BANNERS lookup for this specific card
+      // by monkey-patching _switchFolder to use the patched map.
+      (function waitForHook() {
+        if (!mock._switchFolder) { setTimeout(waitForHook, 50); return; }
+        var origSwitch = mock._switchFolder;
+        mock._switchFolder = function (folder) {
+          origSwitch(folder);
+          // Re-apply label so the banner matches the current variant
+          applyVariant(currentVariant);
+        };
+      })();
     })();
   </script>
 

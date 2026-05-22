@@ -43,6 +43,32 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    /* ---------- Back link ---------- */
+    .back-link-wrap {
+      max-width: 1180px;
+      margin: 28px auto 0;
+      padding: 0 32px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.18s ease;
+    }
+    .back-link:hover { color: var(--text-primary); }
+    .back-link::before {
+      content: '←';
+      font-weight: 700;
+      display: inline-block;
+      transition: transform 0.18s ease;
+    }
+    .back-link:hover::before { transform: translateX(-2px); }
+
     /* ---------- Page header ---------- */
     .page-header {
       max-width: 1180px;
@@ -1154,6 +1180,10 @@
   </style>
 </head>
 <body>
+
+  <div class="back-link-wrap">
+    <a class="back-link" href="./">Back to specs</a>
+  </div>
 
   <header class="page-header">
     <h1><strong>Assignments Tab:</strong> Separate Lessons from Assessments</h1>

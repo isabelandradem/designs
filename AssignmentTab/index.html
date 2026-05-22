@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Update UX Assignments Tab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f4f8fa;
+      --text-primary: #27447a;
+      --text-muted: #6c7a99;
+      --frame-border: #d8dde6;
+
+      /* Khan Kids in-app palette */
+      --kk-teal: #4ec9bc;
+      --kk-teal-banner: #5dcdc1;
+      --kk-navy: #2b3a55;
+      --kk-grey-back: #c9d3d6;
+      --kk-bubble-teal: #b8e5e0;
+      --kk-bubble-blue: #cfe9f4;
+      --kk-bubble-pink: #f5d6df;
+      --kk-bubble-yellow: #fde3a9;
+      --kk-bubble-purple: #e6daf4;
+      --kk-assign-orange: #ffb547;
+      --kk-letters: #4aa3c9;
+      --kk-reading: #e85f74;
+      --kk-math: #f5a623;
+      --kk-logic: #b066c6;
+
+      --font: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- Page header ---------- */
+    .page-header {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 56px 32px 24px;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 38px;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+    /* Status Quo block (sits above the iPad mock, centered as a block,
+       text left-aligned inside). Width is matched to the iPad mock so it
+       reads as part of the same column. */
+    .status-quo {
+      max-width: 840px;
+      margin: 8px auto 24px;
+      padding: 0 24px;
+    }
+    .status-quo-title {
+      margin: 0 0 12px;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+      text-align: left;
+    }
+    .status-quo-list {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.55;
+      text-align: left;
+    }
+    .status-quo-list li { margin-bottom: 8px; }
+    .status-quo-list li:last-child { margin-bottom: 0; }
+    .jira-link {
+      color: #1568db;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(21, 104, 219, 0.35);
+      font-weight: 500;
+    }
+    .jira-link:hover { border-bottom-color: #1568db; }
+
+    /* Option section heading (Option A, Option B, …) – same column rhythm
+       as the Status Quo block above. */
+    .option-section {
+      max-width: 840px;
+      margin: 56px auto 16px;
+      padding: 0 24px;
+    }
+    .option-title {
+      margin: 0 0 10px;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+    .option-intro {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+
+    /* Sub-options (e.g. Option A.1, A.2). Tighter top spacing + smaller
+       headline + a subtle left rail to communicate "child of the option
+       above". The iPad mock itself stays centered and the same size as
+       the parent's mock, so they read as variants of the same idea. */
+    .option-section.is-sub {
+      margin-top: 28px;
+      padding-left: 56px;
+      position: relative;
+    }
+    .option-section.is-sub::before {
+      content: "";
+      position: absolute;
+      left: 32px;
+      top: 4px;
+      bottom: 0;
+      width: 2px;
+      background: rgba(39, 68, 122, 0.14);
+      border-radius: 1px;
+    }
+    .option-section.is-sub .option-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .option-section.is-sub .option-intro {
+      font-size: 15px;
+    }
+    /* Tighten the stage that follows a sub-option so the mock sits closer
+       to its description and reads as part of the same group. */
+    .option-section.is-sub + .stage {
+      padding-top: 0;
+    }
+
+    /* ---------- Folder tabs (Assignments / Assessments) ---------- */
+    .kk-folder-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 14px 56px 0;
+      position: relative;
+      z-index: 1;
+      margin-bottom: -1px; /* overlap banner by 1px so tabs visually merge */
+    }
+    .kk-folder-tab {
+      font-family: var(--font);
+      font-size: 22px;
+      font-weight: 600;
+      padding: 10px 32px 14px;
+      min-width: 220px;
+      text-align: center;
+      border: 0;
+      border-radius: 14px 14px 0 0;
+      background: #e8edef;
+      color: #8a96a6;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease;
+      letter-spacing: 0.01em;
+    }
+    .kk-folder-tab:hover { color: #5b6878; }
+    .kk-folder-tab.is-active { color: #ffffff; }
+    /* Active-tab color matches the banner color for each folder, so the
+       selected tab visually merges into the banner below it. */
+    .kk-folder-tab.is-active[data-folder="lessons"]     { background: var(--kk-teal-banner); }
+    .kk-folder-tab.is-active[data-folder="assessments"] { background: #0A2A66; }
+    .kk-folder-tab:focus-visible {
+      outline: 3px solid #1568db;
+      outline-offset: -3px;
+    }
+
+    /* When folder tabs are present, the banner butts directly against them */
+    .kk-screen.has-folders .kk-banner {
+      margin-top: 0;
+      transition: background 0.18s ease;
+    }
+    /* Banner color follows the active folder. */
+    .kk-banner.is-assessments { background: #0A2A66; }
+
+    /* Folder content panels — hidden ones use the `hidden` attribute */
+    .kk-folder-panel[hidden] { display: none !important; }
+
+    /* ---------- Filter dropdown (Option B) ----------
+       A pill-shaped trigger button sits inline with the "Today" header on
+       the right. Tapping it opens a small popover menu listing each
+       filter option. Mirrors the grade-level dropdown that already exists
+       in the Khan Kids parent / teacher view. */
+    .kk-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .kk-section-head .kk-section-title { margin: 0; }
+
+    .kk-dropdown {
+      position: relative;
+    }
+    .kk-dropdown-trigger {
+      font-family: var(--font);
+      font-size: 20px;
+      font-weight: 600;
+      padding: 9px 18px 9px 26px;
+      border-radius: 999px;
+      border: 2px solid #858B99;
+      background: #ffffff;
+      color: #2b3a55;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+      justify-content: space-between;
+      letter-spacing: 0.01em;
+      transition: border-color 0.15s ease, color 0.15s ease;
+    }
+    .kk-dropdown-trigger:hover { color: #2b3a55; border-color: #6d7383; }
+    .kk-dropdown-trigger:focus-visible {
+      outline: 3px solid #1568db;
+      outline-offset: 2px;
+    }
+    .kk-dropdown-trigger .chev {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      transition: transform 0.18s ease;
+    }
+    .kk-dropdown.is-open .kk-dropdown-trigger .chev {
+      transform: rotate(180deg);
+    }
+
+    .kk-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 100%;
+      background: #ffffff;
+      border: 2px solid #858B99;
+      border-radius: 18px;
+      padding: 8px;
+      box-shadow: 0 10px 24px rgba(39, 68, 122, 0.12);
+      z-index: 15;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .kk-dropdown-menu[hidden] { display: none; }
+
+    .kk-dropdown-option {
+      font-family: var(--font);
+      font-size: 19px;
+      font-weight: 600;
+      padding: 10px 28px;
+      border-radius: 14px;
+      border: 0;
+      background: transparent;
+      color: #2b3a55;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.01em;
+      transition: background 0.12s ease, color 0.12s ease;
+      white-space: nowrap;
+    }
+    .kk-dropdown-option:hover { background: #eef2f4; }
+    .kk-dropdown-option.is-active {
+      background: #858B99;
+      color: #ffffff;
+    }
+    .kk-dropdown-option:focus-visible {
+      outline: 3px solid #1568db;
+      outline-offset: -2px;
+    }
+
+    /* Content panels driven by the filter — same hidden-toggle pattern
+       used by folder tabs in Option A. */
+    .kk-filter-panel[hidden] { display: none !important; }
+
+    /* ---------- Parent-lock dialog (mirrors ParentLockDlg.cpp) ----------
+       The screen is overlaid with a dimmed backdrop; a small white card
+       sits centered with the "Grown-Ups Only!" title, padlock icon, and
+       "Swipe X to continue" instruction. The X direction is randomized
+       on each show (LEFT / RIGHT / UP / DOWN). */
+    .kk-lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      touch-action: none;
+    }
+    .kk-lock-overlay[hidden] { display: none; }
+
+    .kk-lock-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .kk-lock-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 40px 64px 36px;
+      min-width: 440px;
+      max-width: 520px;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.10);
+    }
+
+    .kk-lock-close {
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      width: 60px;
+      height: 60px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .kk-lock-close img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .kk-lock-title {
+      margin: 0 0 22px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 28px;
+      color: var(--kk-navy);
+      letter-spacing: 0.01em;
+    }
+    .kk-lock-icon {
+      width: 96px;
+      height: auto;
+      display: block;
+      margin: 0 auto 24px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .kk-lock-instruction {
+      margin: 0;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--kk-navy);
+      letter-spacing: 0.01em;
+    }
+
+    /* ---------- Teacher password dialog (Option A.2) ----------
+       Same modal pattern as the lock dialog: dimmed backdrop + a small
+       white card with an X close button. Inside: "Enter Password" title,
+       teacher's email, a password field, a teal Enter button, and a
+       "Forgot Password?" link. */
+    .kk-pwd-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+    .kk-pwd-overlay[hidden] { display: none; }
+
+    .kk-pwd-card {
+      position: relative;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 36px 48px 32px;
+      min-width: 540px;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.30), 0 2px 6px rgba(0, 0, 0, 0.10);
+    }
+
+    .kk-pwd-title {
+      margin: 0 0 8px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 28px;
+      color: var(--kk-navy);
+      letter-spacing: 0.01em;
+    }
+    .kk-pwd-email {
+      margin: 0 0 18px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--kk-navy);
+    }
+    .kk-pwd-input {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: var(--font);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--kk-navy);
+      padding: 14px 22px;
+      border: 1.5px solid #6b80b8;
+      border-radius: 999px;
+      outline: none;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .kk-pwd-input::placeholder { color: #6b80b8; opacity: 0.85; }
+    .kk-pwd-input:focus {
+      border-color: var(--kk-navy);
+      box-shadow: 0 0 0 3px rgba(43, 58, 85, 0.10);
+    }
+    .kk-pwd-enter {
+      display: block;
+      margin: 18px auto 10px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 22px;
+      color: #ffffff;
+      background: var(--kk-teal-banner);
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 56px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.05);
+      transition: transform 0.08s ease, background 0.15s ease;
+    }
+    .kk-pwd-enter:hover  { background: #50c4b7; }
+    .kk-pwd-enter:active { transform: translateY(1px); }
+    .kk-pwd-forgot {
+      display: inline-block;
+      margin-top: 4px;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 16px;
+      color: #c2c7d6;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .kk-pwd-forgot:hover { color: #8a96a6; }
+
+    /* ---------- Mock stage ---------- */
+    .stage {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 8px 24px 64px;
+    }
+
+    /* Wrapper that scales the fixed 1366x1024 mock down to a comfortable
+       on-screen size. The mock itself stays at its true 1366×1024 px so
+       screenshots match iPad Pro 12.9" exactly; only the displayed size
+       is reduced via transform: scale() in the script below. */
+    .mock-card-wrap {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* The iPad mock — exact dimensions: 1366 × 1024 pixels */
+    .mock-card {
+      width: 1366px;
+      height: 1024px;
+      flex: 0 0 1366px;
+      background: #ffffff;
+      border-radius: 28px;
+      border: 1px solid var(--frame-border);
+      box-shadow:
+        0 20px 60px rgba(39, 68, 122, 0.10),
+        0 4px 12px rgba(39, 68, 122, 0.05);
+      overflow: hidden;
+      position: relative;
+      transform-origin: top center;
+    }
+
+    /* Header row that sits ABOVE the iPad mock, holding the caption
+       (e.g. "Option A · Folder tabs") on the left and the device
+       dimensions on the right. Width matches the visible iPad mock. */
+    .mock-stack {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .mock-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      padding: 0 4px;
+    }
+    .mock-label {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(39, 68, 122, 0.45);
+      font-weight: 500;
+    }
+    .mock-dims {
+      font-size: 12px;
+      color: rgba(39, 68, 122, 0.35);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- Assignments tab recreation (scaled for 1366×1024) ----------
+       Vertical proportions tuned to match the real app screenshot:
+       back button + Library title + bubble strip should occupy ~22% of the
+       screen height, not 33%. */
+    .kk-screen {
+      background: #ffffff;
+      padding: 28px 56px 32px;
+      position: relative;
+      height: 100%;
+    }
+
+    /* Top bar: back button + Library title */
+    .kk-topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 4px 10px;
+    }
+    .kk-back {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--kk-grey-back);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.08);
+      justify-self: start;
+    }
+    .kk-back svg { width: 22px; height: 22px; color: #ffffff; }
+
+    .kk-title {
+      font-family: var(--font);
+      font-weight: 600;
+      color: var(--kk-teal);
+      font-size: 42px;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.03);
+    }
+
+    /* Tab strip — uses real PNG assets from the app's Nav/ folder.
+       We size by HEIGHT (not width) so every tab's bubble center and label
+       baseline line up, even though library_assignments_btn2 has a wider
+       native aspect ratio (100×116) than the other tabs (92×116). */
+    .kk-tabs {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px 0 12px;
+      flex-wrap: nowrap;
+    }
+    .kk-tab {
+      flex: 0 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .kk-tab img {
+      height: 120px;
+      width: auto;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* Assignment count overlaid on the selected Assignments heart.
+       The PNG is 100x116. The orange bubble fills the top ~100px and the
+       "Assignments" pill sits in the bottom ~16px. The heart sits inside
+       the bubble centered around y≈48px native ≈ 41% of total height,
+       but the visual mass of a heart sits in its upper lobes, so we nudge
+       the number up a couple more percent so it looks optically centered. */
+    .kk-tab.selected .kk-count {
+      position: absolute;
+      top: 38%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1;
+      pointer-events: none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+    }
+
+    /* Thin vertical divider between tab groups.
+       The screenshot shows a divider on BOTH sides of the Assignments tab:
+       one between Assignments | Letters, and one between Logic+ | Books. */
+    .kk-divider {
+      width: 1px;
+      height: 74px;
+      align-self: flex-end;
+      background: #d6dee2;
+      margin: 0 6px 14px;
+    }
+
+    /* "Assignments First" mode dims every non-Assignments tab to 30% alpha.
+       The exact value comes from MainApp::Consts::DisabledAlpha = 0.3 in
+       LibraryPage.cpp when ClassMgr::showAssignmentsFirst() is true. */
+    .kk-tab.dim { opacity: 0.3; }
+    .kk-divider.dim { opacity: 0.3; }
+
+    /* Assignments banner */
+    .kk-banner {
+      background: var(--kk-teal-banner);
+      color: #ffffff;
+      padding: 22px 56px 24px;
+      margin: 12px -56px 0;
+    }
+    .kk-banner h2 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 36px;
+      letter-spacing: 0.01em;
+    }
+    .kk-banner p {
+      margin: 4px 0 0;
+      font-weight: 400;
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    /* Assignments list (grouped by due date) */
+    .kk-section {
+      padding: 26px 4px 0;
+    }
+    .kk-section-title {
+      margin: 0 0 16px;
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--kk-navy);
+      letter-spacing: 0.01em;
+    }
+    .kk-thumbs {
+      display: flex;
+      gap: 36px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .kk-thumb {
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .kk-thumb-card {
+      width: 200px;
+      height: 144px;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(39, 68, 122, 0.10);
+      border: 1px solid rgba(39, 68, 122, 0.06);
+    }
+    .kk-thumb-card svg { display: block; width: 100%; height: 100%; }
+    .kk-thumb-label {
+      font-weight: 500;
+      font-size: 20px;
+      color: #8a96a6;
+      text-align: center;
+    }
+    /* Lesson-type pill overlaid on some thumbs.
+       Teal "Main" pill marks core lessons; dark-blue "Assessment" pill
+       marks assessment lessons (#0A2A66). */
+    .kk-pill {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+      padding: 4px 16px;
+      border-radius: 14px;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
+    .kk-pill.main       { background: var(--kk-teal); }
+    .kk-pill.assessment { background: #0A2A66; }
+
+    /* iPad-style home indicator */
+    .kk-home-indicator {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 6px;
+      background: #1d1d1f;
+      border-radius: 3px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="eyebrow">Engineering Spec</div>
+    <h1>Update UX Assignments Tab</h1>
+  </header>
+
+  <section class="status-quo" aria-label="Status quo">
+    <h2 class="status-quo-title">Status Quo:</h2>
+    <ul class="status-quo-list">
+      <li>
+        The Assignments tab currently renders all assignments (both learning and assessment activities) in a single list grouped by assignment date.
+      </li>
+      <li>
+        The only distinction between learning vs. assessment activities is the banner on the leaf thumbnail reading &ldquo;Main/Practice/Basic&rdquo; vs. &ldquo;Assessment&rdquo; (see <a class="jira-link" href="https://duckduckmoose.atlassian.net/browse/KKIDS-8476" target="_blank" rel="noopener">KKIDS-8476</a>).
+      </li>
+    </ul>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Current state · Assignments-First mode</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap" id="mockWrap">
+    <div class="mock-card" id="mockCard" aria-label="Recreated Assignments tab from Khan Academy Kids">
+      <div class="kk-screen">
+        <!-- Top bar -->
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <!-- Tab strip (real PNGs from kkids/KinBoxK/Resources New/Nav/).
+             Non-Assignments tabs are dimmed because Assignments-First mode is on. -->
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+            <span class="kk-count" aria-hidden="true">4</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_ollo_btn1@2x.png" alt="Letters tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_reya_btn1@2x.png" alt="Reading tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_peck_btn1@2x.png" alt="Math tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)">
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_books_btn1@2x.png" alt="Books tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_videos_btn1@2x.png" alt="Videos tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_draw_btn1@2x.png" alt="Create tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)">
+          </div>
+        </div>
+
+        <!-- Green Assignments banner -->
+        <div class="kk-banner">
+          <h2>Assignments</h2>
+          <p>Lessons assigned to you by Mr. Jesse</p>
+        </div>
+
+        <!-- "Today" section: 4 lesson thumbnails grouped under one date -->
+        <div class="kk-section">
+          <h3 class="kk-section-title">Today</h3>
+          <div class="kk-thumbs">
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Print Concepts">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cfe9b8"/>
+                      <stop offset="1" stop-color="#a4d287"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#sky)"/>
+                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Print Concepts</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Bored & Silly">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#f4ebd9"/>
+                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Bored &amp; Silly</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Vowel Sounds">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#1b3a8a"/>
+                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Vowel Sounds</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Rhyming">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="ocean" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cdeaf3"/>
+                      <stop offset="1" stop-color="#9fd3e4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#ocean)"/>
+                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Rhyming</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Option A — Split Assignments vs. Assessments into folder tabs    -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Option A">
+    <h2 class="option-title">Option A: Folder Tabs</h2>
+    <p class="option-intro">
+      Split the Assignments tab into two <strong>folder tabs</strong>: <em>Lessons</em> (learning activities) and <em>Assessments</em>. Tapping a folder filters the list to that activity type. <em>Lessons</em> is the default folder. Click the tabs below to preview both states.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Option A · Folder tabs</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap">
+    <div class="mock-card" aria-label="Option A: Assignments tab with folder split">
+      <div class="kk-screen has-folders">
+        <!-- Top bar -->
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <!-- Bubble tabs (Assignments-First mode still on, so others dimmed) -->
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+            <span class="kk-count" aria-hidden="true">4</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_ollo_btn1@2x.png" alt="Letters tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_reya_btn1@2x.png" alt="Reading tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_peck_btn1@2x.png" alt="Math tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)">
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim">
+            <img src="assets/library_books_btn1@2x.png" alt="Books tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_videos_btn1@2x.png" alt="Videos tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_draw_btn1@2x.png" alt="Create tab (disabled)">
+          </div>
+          <div class="kk-tab dim">
+            <img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)">
+          </div>
+        </div>
+
+        <!-- Folder tabs: Lessons | Assessments -->
+        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
+          <button class="kk-folder-tab is-active"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  data-folder="lessons">Lessons</button>
+          <button class="kk-folder-tab"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  data-folder="assessments">Assessments</button>
+        </div>
+
+        <!-- Banner (title & subtitle swap when the folder changes) -->
+        <div class="kk-banner">
+          <h2 data-banner-title>Lessons</h2>
+          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        </div>
+
+        <!-- "Today" section. Each folder has its own panel of thumbs. -->
+        <div class="kk-section">
+          <h3 class="kk-section-title">Today</h3>
+
+          <!-- Lessons folder (default) -->
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Bored & Silly">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#f4ebd9"/>
+                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Bored &amp; Silly</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Rhyming">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="oceanA" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cdeaf3"/>
+                      <stop offset="1" stop-color="#9fd3e4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#oceanA)"/>
+                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Rhyming</div>
+            </div>
+
+          </div>
+
+          <!-- Assessments folder -->
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Print Concepts">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skyA" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cfe9b8"/>
+                      <stop offset="1" stop-color="#a4d287"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#skyA)"/>
+                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Print Concepts</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Vowel Sounds">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#1b3a8a"/>
+                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Vowel Sounds</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Option A.1 — Folder tabs + parent-lock dialog on Assessments     -->
+  <!-- ================================================================ -->
+  <section class="option-section is-sub" aria-label="Option A.1">
+    <h2 class="option-title">Option A.1: Lock Dialog</h2>
+    <p class="option-intro">
+      Same folder-tab layout as Option A, but tapping <em>Assessments</em> prompts a <strong>swipe-to-continue lock</strong>. Tap <em>Assessments</em> in the mock below to preview the dialog.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Option A.1 · Lock dialog on Assessments</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap">
+    <div class="mock-card" aria-label="Option A.1: Folder tabs with parent-lock dialog on Assessments">
+      <!-- data-lock marks which folder requires unlocking before it'll show -->
+      <div class="kk-screen has-folders" data-lock="assessments">
+        <!-- Top bar -->
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <!-- Bubble tabs (Assignments-First mode still on, so others dimmed) -->
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+            <span class="kk-count" aria-hidden="true">4</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png"  alt="Letters tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png"  alt="Reading tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png"  alt="Math tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png"    alt="Books tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png"   alt="Videos tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png"     alt="Create tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
+        </div>
+
+        <!-- Folder tabs: Lessons | Assessments -->
+        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
+          <button class="kk-folder-tab is-active"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  data-folder="lessons">Lessons</button>
+          <button class="kk-folder-tab"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  data-folder="assessments">Assessments</button>
+        </div>
+
+        <div class="kk-banner">
+          <h2 data-banner-title>Lessons</h2>
+          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        </div>
+
+        <div class="kk-section">
+          <h3 class="kk-section-title">Today</h3>
+
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Bored & Silly">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#f4ebd9"/>
+                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Bored &amp; Silly</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Rhyming">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="oceanA1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cdeaf3"/>
+                      <stop offset="1" stop-color="#9fd3e4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#oceanA1)"/>
+                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Rhyming</div>
+            </div>
+
+          </div>
+
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Print Concepts">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skyA1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cfe9b8"/>
+                      <stop offset="1" stop-color="#a4d287"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#skyA1)"/>
+                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Print Concepts</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Vowel Sounds">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#1b3a8a"/>
+                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Vowel Sounds</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+
+        <!-- Parent-lock dialog (hidden by default; shown when Assessments is tapped) -->
+        <div class="kk-lock-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="lockTitleA1">
+          <div class="kk-lock-backdrop"></div>
+          <div class="kk-lock-card">
+            <button class="kk-lock-close" type="button" aria-label="Close">
+              <img src="assets/leaf_hintvideo_close_btn@2x.png" alt="">
+            </button>
+            <h3 class="kk-lock-title" id="lockTitleA1">Grown-Ups Only!</h3>
+            <img class="kk-lock-icon" src="assets/childlock_icon@2x.png" alt="">
+            <p class="kk-lock-instruction">Swipe <span data-swipe-dir>RIGHT</span> to continue</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Option A.2 — Folder tabs + teacher-password dialog on Assessments -->
+  <!-- ================================================================ -->
+  <section class="option-section is-sub" aria-label="Option A.2">
+    <h2 class="option-title">Option A.2: Teacher Password</h2>
+    <p class="option-intro">
+      Same folder-tab layout as Option A.1, but tapping <em>Assessments</em> prompts for the <strong>teacher's password</strong>. Tap <em>Assessments</em> in the mock below to preview the dialog.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Option A.2 · Teacher password on Assessments</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap">
+    <div class="mock-card" aria-label="Option A.2: Folder tabs with teacher-password dialog on Assessments">
+      <div class="kk-screen has-folders" data-lock="assessments">
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+            <span class="kk-count" aria-hidden="true">4</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png"  alt="Letters tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png"  alt="Reading tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png"  alt="Math tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png"    alt="Books tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png"   alt="Videos tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png"     alt="Create tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
+        </div>
+
+        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
+          <button class="kk-folder-tab is-active"
+                  type="button"
+                  role="tab"
+                  aria-selected="true"
+                  data-folder="lessons">Lessons</button>
+          <button class="kk-folder-tab"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  data-folder="assessments">Assessments</button>
+        </div>
+
+        <div class="kk-banner">
+          <h2 data-banner-title>Lessons</h2>
+          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        </div>
+
+        <div class="kk-section">
+          <h3 class="kk-section-title">Today</h3>
+
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Bored & Silly">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#f4ebd9"/>
+                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Bored &amp; Silly</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Rhyming">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="oceanA2" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cdeaf3"/>
+                      <stop offset="1" stop-color="#9fd3e4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#oceanA2)"/>
+                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Rhyming</div>
+            </div>
+
+          </div>
+
+          <div class="kk-thumbs kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Print Concepts">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skyA2" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cfe9b8"/>
+                      <stop offset="1" stop-color="#a4d287"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#skyA2)"/>
+                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Print Concepts</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Vowel Sounds">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#1b3a8a"/>
+                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Vowel Sounds</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+
+        <!-- Teacher password dialog (hidden by default) -->
+        <div class="kk-pwd-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="pwdTitleA2">
+          <div class="kk-lock-backdrop"></div>
+          <div class="kk-pwd-card">
+            <button class="kk-lock-close" type="button" aria-label="Close">
+              <img src="assets/leaf_hintvideo_close_btn@2x.png" alt="">
+            </button>
+            <h3 class="kk-pwd-title" id="pwdTitleA2">Enter Password</h3>
+            <p class="kk-pwd-email">khankids2526+jesse@gmail.com</p>
+            <input class="kk-pwd-input" type="password" placeholder="Password" autocomplete="off" spellcheck="false">
+            <button class="kk-pwd-enter" type="button">Enter</button>
+            <a class="kk-pwd-forgot" href="#" onclick="return false;">Forgot Password?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Option B — Single tab, with Lessons / Assessments filter chips   -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Option B">
+    <h2 class="option-title">Option B: Dropdown</h2>
+    <p class="option-intro">
+      Add a <strong>dropdown menu</strong> (<em>Lessons</em> / <em>Assessments</em>) beside the date header. Mirrors the grade-level dropdown that already exists in other tabs in the Library. Open the dropdown in the mock below to swap views.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+    <div class="mock-header">
+      <div class="mock-label">Option B · Dropdown filter</div>
+      <div class="mock-dims">1366 × 1024</div>
+    </div>
+    <div class="mock-card-wrap">
+    <div class="mock-card" aria-label="Option B: Assignments tab with Lessons / Assessments dropdown filter">
+      <div class="kk-screen">
+        <div class="kk-topbar">
+          <div class="kk-back" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 6 9 12 15 18"></polyline>
+            </svg>
+          </div>
+          <div class="kk-title">Library</div>
+          <div></div>
+        </div>
+
+        <div class="kk-tabs">
+          <div class="kk-tab selected">
+            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+            <span class="kk-count" aria-hidden="true">4</span>
+          </div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png"  alt="Letters tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png"  alt="Reading tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png"  alt="Math tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
+
+          <div class="kk-divider dim" aria-hidden="true"></div>
+
+          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png"    alt="Books tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png"   alt="Videos tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png"     alt="Create tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
+        </div>
+
+        <!-- Banner stays static for Option B (chips filter, don't navigate) -->
+        <div class="kk-banner">
+          <h2>Assignments</h2>
+          <p>Lessons assigned to you by Teacher Isa</p>
+        </div>
+
+        <div class="kk-section">
+          <div class="kk-section-head">
+            <h3 class="kk-section-title">Today</h3>
+            <div class="kk-dropdown" data-filter-default="lessons">
+              <button class="kk-dropdown-trigger"
+                      type="button"
+                      aria-haspopup="listbox"
+                      aria-expanded="false">
+                <span data-dropdown-label>Lessons</span>
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="kk-dropdown-menu" role="listbox" aria-label="Filter by activity type" hidden>
+                <button class="kk-dropdown-option is-active"
+                        type="button"
+                        role="option"
+                        aria-selected="true"
+                        data-value="lessons">Lessons</button>
+                <button class="kk-dropdown-option"
+                        type="button"
+                        role="option"
+                        aria-selected="false"
+                        data-value="assessments">Assessments</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lessons (default) -->
+          <div class="kk-thumbs kk-filter-panel" data-filter-panel="lessons" role="tabpanel">
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Bored & Silly">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#f4ebd9"/>
+                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Bored &amp; Silly</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Rhyming">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="oceanB" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cdeaf3"/>
+                      <stop offset="1" stop-color="#9fd3e4"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#oceanB)"/>
+                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                </svg>
+                <div class="kk-pill main">Main</div>
+              </div>
+              <div class="kk-thumb-label">Rhyming</div>
+            </div>
+
+          </div>
+
+          <!-- Assessments -->
+          <div class="kk-thumbs kk-filter-panel" data-filter-panel="assessments" role="tabpanel" hidden>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Print Concepts">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="skyB" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0" stop-color="#cfe9b8"/>
+                      <stop offset="1" stop-color="#a4d287"/>
+                    </linearGradient>
+                  </defs>
+                  <rect width="200" height="144" fill="url(#skyB)"/>
+                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Print Concepts</div>
+            </div>
+
+            <div class="kk-thumb">
+              <div class="kk-thumb-card" aria-label="Vowel Sounds">
+                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="200" height="144" fill="#1b3a8a"/>
+                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                </svg>
+                <div class="kk-pill assessment">Assessment</div>
+              </div>
+              <div class="kk-thumb-label">Vowel Sounds</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="kk-home-indicator" aria-hidden="true"></div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <script>
+    // Keep every iPad mock at its true 1366×1024 internal dimensions, but
+    // scale them down to fit their wrapper width using transform: scale().
+    (function () {
+      var MOCK_W = 1366;
+      var MOCK_H = 1024;
+      var wraps = Array.prototype.slice.call(document.querySelectorAll('.mock-card-wrap'));
+      if (!wraps.length) return;
+
+      function fit() {
+        wraps.forEach(function (wrap) {
+          var card = wrap.querySelector('.mock-card');
+          if (!card) return;
+          var avail = wrap.clientWidth;
+          var scale = Math.min(1, avail / MOCK_W);
+          card.style.transform = 'scale(' + scale + ')';
+          wrap.style.height = (MOCK_H * scale) + 'px';
+        });
+      }
+
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      fit();
+    })();
+
+    // Folder-tab interaction: swap visible panel + banner text when the user
+    // taps Lessons vs. Assessments. Scoped per mock so multiple options
+    // can coexist on the page. Mocks may opt into a parent-lock dialog on
+    // a specific folder via data-lock="..." on .kk-screen.
+    (function () {
+      var BANNERS = {
+        lessons: {
+          title: 'Lessons',
+          sub:   'Lessons assigned to you by Teacher Isa'
+        },
+        assessments: {
+          title: 'Assessments',
+          sub:   'Assessments assigned to you by Teacher Isa'
+        }
+      };
+
+      function switchFolder(card, folder) {
+        card.querySelectorAll('.kk-folder-tab').forEach(function (t) {
+          var on = t.getAttribute('data-folder') === folder;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        card.querySelectorAll('[data-folder-panel]').forEach(function (p) {
+          p.hidden = p.getAttribute('data-folder-panel') !== folder;
+        });
+
+        var banner = card.querySelector('.kk-banner');
+        if (banner) banner.classList.toggle('is-assessments', folder === 'assessments');
+
+        var titleEl = card.querySelector('[data-banner-title]');
+        var subEl   = card.querySelector('[data-banner-sub]');
+        var copy    = BANNERS[folder];
+        if (titleEl && copy) titleEl.textContent = copy.title;
+        if (subEl   && copy) subEl.textContent   = copy.sub;
+      }
+
+      function currentFolder(card) {
+        var active = card.querySelector('.kk-folder-tab.is-active');
+        return active ? active.getAttribute('data-folder') : null;
+      }
+
+      document.querySelectorAll('.kk-folder-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          var folder = tab.getAttribute('data-folder');
+          var card = tab.closest('.mock-card');
+          if (!card) return;
+          if (currentFolder(card) === folder) return; // already there
+
+          var screen = card.querySelector('.kk-screen');
+          var lockedFolder = screen && screen.getAttribute('data-lock');
+          if (lockedFolder === folder) {
+            var gate = card._lockDialog || card._pwdDialog;
+            if (gate) {
+              gate.show();
+              return;
+            }
+          }
+          switchFolder(card, folder);
+        });
+      });
+
+      // Expose the switcher to the lock-dialog module via a tiny per-card hook
+      document.querySelectorAll('.mock-card').forEach(function (card) {
+        card._switchFolder = function (folder) { switchFolder(card, folder); };
+      });
+    })();
+
+    // Parent-lock dialog (mirrors kkids/.../ParentLockDlg.cpp).
+    // - Randomizes the swipe direction every time it shows
+    // - Detects swipes via pointer events; a successful swipe in the matching
+    //   direction calls the per-card folder switcher
+    // - Tapping the X button or doing a stationary tap dismisses the dialog
+    (function () {
+      var DIRS = ['LEFT', 'RIGHT', 'UP', 'DOWN'];
+      var SWIPE_THRESHOLD = 70;   // screen pixels — close to ParentLockDlg's 125pt
+      var TAP_THRESHOLD   = 14;   // a small movement counts as a tap
+
+      function setupLockDialog(card) {
+        var overlay  = card.querySelector('.kk-lock-overlay');
+        if (!overlay) return null;
+
+        var dirSpan  = overlay.querySelector('[data-swipe-dir]');
+        var closeBtn = overlay.querySelector('.kk-lock-close');
+        var screen   = card.querySelector('.kk-screen');
+        var lockedFolder = screen && screen.getAttribute('data-lock');
+
+        var requiredDir = null;
+        var pStart = null;
+
+        function show() {
+          requiredDir = DIRS[Math.floor(Math.random() * DIRS.length)];
+          if (dirSpan) dirSpan.textContent = requiredDir;
+          overlay.hidden = false;
+        }
+        function hide() {
+          overlay.hidden = true;
+          requiredDir = null;
+          pStart = null;
+        }
+        function unlock() {
+          hide();
+          if (lockedFolder && typeof card._switchFolder === 'function') {
+            card._switchFolder(lockedFolder);
+          }
+        }
+
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hide();
+        });
+
+        overlay.addEventListener('pointerdown', function (e) {
+          if (closeBtn.contains(e.target)) return;
+          pStart = { x: e.clientX, y: e.clientY };
+          overlay.setPointerCapture && overlay.setPointerCapture(e.pointerId);
+        });
+
+        overlay.addEventListener('pointerup', function (e) {
+          if (!pStart) return;
+          var dx  = e.clientX - pStart.x;
+          var dy  = e.clientY - pStart.y;
+          var adx = Math.abs(dx);
+          var ady = Math.abs(dy);
+          pStart = null;
+
+          // Stationary tap dismisses (matches ParentLockDlg::onTouchEnd)
+          if (adx < TAP_THRESHOLD && ady < TAP_THRESHOLD) {
+            hide();
+            return;
+          }
+
+          var detected = null;
+          if (adx > ady && adx >= SWIPE_THRESHOLD) {
+            detected = dx > 0 ? 'RIGHT' : 'LEFT';
+          } else if (ady >= SWIPE_THRESHOLD) {
+            detected = dy > 0 ? 'DOWN' : 'UP';
+          }
+          if (detected && detected === requiredDir) unlock();
+        });
+
+        return { show: show, hide: hide };
+      }
+
+      document.querySelectorAll('.mock-card').forEach(function (card) {
+        var dlg = setupLockDialog(card);
+        if (dlg) card._lockDialog = dlg;
+      });
+    })();
+
+    // Teacher-password dialog (Option A.2). Any non-empty password counts as
+    // "correct" in the mock — this is a presentation prototype, not an auth
+    // surface. Enter button or pressing Enter in the field unlocks.
+    (function () {
+      function setupPasswordDialog(card) {
+        var overlay = card.querySelector('.kk-pwd-overlay');
+        if (!overlay) return null;
+
+        var input    = overlay.querySelector('.kk-pwd-input');
+        var enterBtn = overlay.querySelector('.kk-pwd-enter');
+        var closeBtn = overlay.querySelector('.kk-lock-close');
+        var backdrop = overlay.querySelector('.kk-lock-backdrop');
+        var screen   = card.querySelector('.kk-screen');
+        var lockedFolder = screen && screen.getAttribute('data-lock');
+
+        function show() {
+          overlay.hidden = false;
+          input.value = '';
+          // Focus after a tick so the overlay is rendered before focus moves
+          setTimeout(function () { input.focus(); }, 0);
+        }
+        function hide() {
+          overlay.hidden = true;
+          input.value = '';
+        }
+        function unlock() {
+          hide();
+          if (lockedFolder && typeof card._switchFolder === 'function') {
+            card._switchFolder(lockedFolder);
+          }
+        }
+        function attempt() {
+          // Prototype: any non-empty password unlocks. Wire up real auth later.
+          if (input.value.trim().length > 0) {
+            unlock();
+          } else {
+            input.focus();
+          }
+        }
+
+        closeBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          hide();
+        });
+        enterBtn.addEventListener('click', attempt);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            attempt();
+          }
+        });
+        // Click on dimmed backdrop cancels (matches the parent-lock pattern)
+        backdrop.addEventListener('click', hide);
+
+        return { show: show, hide: hide };
+      }
+
+      document.querySelectorAll('.mock-card').forEach(function (card) {
+        var dlg = setupPasswordDialog(card);
+        if (dlg) card._pwdDialog = dlg;
+      });
+    })();
+
+    // Dropdown filter (Option B). Mirrors the grade-level dropdown pattern
+    // from the teacher view: pill-shaped trigger that opens a popover menu
+    // of options. The banner stays static — the dropdown filters the
+    // visible list rather than navigating to a different surface.
+    (function () {
+      // Close any open dropdown when the user clicks outside it
+      document.addEventListener('click', function (e) {
+        document.querySelectorAll('.kk-dropdown.is-open').forEach(function (dd) {
+          if (!dd.contains(e.target)) close(dd);
+        });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        document.querySelectorAll('.kk-dropdown.is-open').forEach(close);
+      });
+
+      function open(dd) {
+        dd.classList.add('is-open');
+        var menu    = dd.querySelector('.kk-dropdown-menu');
+        var trigger = dd.querySelector('.kk-dropdown-trigger');
+        if (menu)    menu.hidden = false;
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      }
+      function close(dd) {
+        dd.classList.remove('is-open');
+        var menu    = dd.querySelector('.kk-dropdown-menu');
+        var trigger = dd.querySelector('.kk-dropdown-trigger');
+        if (menu)    menu.hidden = true;
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+
+      document.querySelectorAll('.kk-dropdown').forEach(function (dd) {
+        var trigger = dd.querySelector('.kk-dropdown-trigger');
+        var labelEl = trigger.querySelector('[data-dropdown-label]');
+        var card    = dd.closest('.mock-card');
+
+        trigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (dd.classList.contains('is-open')) close(dd); else open(dd);
+        });
+
+        dd.querySelectorAll('.kk-dropdown-option').forEach(function (opt) {
+          opt.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var value = opt.getAttribute('data-value');
+
+            // Update active state on options
+            dd.querySelectorAll('.kk-dropdown-option').forEach(function (o) {
+              var on = o === opt;
+              o.classList.toggle('is-active', on);
+              o.setAttribute('aria-selected', on ? 'true' : 'false');
+            });
+
+            // Update trigger label
+            if (labelEl) labelEl.textContent = opt.textContent;
+
+            // Swap the visible panel
+            if (card) {
+              card.querySelectorAll('[data-filter-panel]').forEach(function (p) {
+                p.hidden = p.getAttribute('data-filter-panel') !== value;
+              });
+            }
+
+            close(dd);
+          });
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

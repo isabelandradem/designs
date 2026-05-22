@@ -289,6 +289,12 @@
       outline: 3px solid #1568db;
       outline-offset: -3px;
     }
+    /* Narrower tabs when short labels like "Practice" / "Assess" are active */
+    .kk-folder-tabs.is-compact .kk-folder-tab {
+      min-width: 150px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
 
     /* When folder tabs are present, the banner butts directly against them */
     .kk-screen.has-folders .kk-banner {
@@ -2730,6 +2736,10 @@
       function applyVariant(variantKey) {
         var v = VARIANTS[variantKey];
         if (!v) return;
+
+        // Compact tab width for short labels
+        var tabsEl = mock.querySelector('.kk-folder-tabs');
+        if (tabsEl) tabsEl.classList.toggle('is-compact', variantKey === 'practice-assess');
 
         // Update folder-tab button text
         mock.querySelectorAll('.kk-folder-tab').forEach(function (btn) {

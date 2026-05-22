@@ -1076,6 +1076,10 @@
       right: 80px;
       z-index: 2;
     }
+    .tl-assess-grade-wrap {
+      position: relative;
+      display: inline-block;
+    }
     .tl-assess-grade {
       display: inline-flex;
       align-items: center;
@@ -1088,6 +1092,8 @@
       font-weight: 700;
       color: #6b7488;
       box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      cursor: pointer;
+      user-select: none;
     }
     .tl-assess-grade::after {
       content: '';
@@ -1096,6 +1102,64 @@
       border-left: 6px solid transparent;
       border-right: 6px solid transparent;
       border-top: 7px solid #6b7488;
+      transition: transform 0.18s ease;
+    }
+    .tl-assess-grade-wrap.is-open .tl-assess-grade::after {
+      transform: rotate(180deg);
+    }
+    /* Open-state menu: white rounded panel with selected option highlighted
+       in slate, mirroring the in-app grade-level picker. */
+    .tl-assess-grade-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 100%;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 8px 0;
+      box-shadow:
+        0 10px 28px rgba(20, 30, 60, 0.18),
+        0 2px 6px rgba(20, 30, 60, 0.08);
+      display: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+    .tl-assess-grade-wrap.is-open .tl-assess-grade-menu {
+      display: block;
+    }
+    /* Small triangle pointing up to the trigger pill */
+    .tl-assess-grade-menu::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      right: 32px;
+      width: 14px;
+      height: 14px;
+      background: #ffffff;
+      transform: rotate(45deg);
+      border-radius: 2px;
+    }
+    .tl-assess-grade-option {
+      display: block;
+      padding: 12px 28px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #98a1b3;
+      background: transparent;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+      transition: background 0.12s ease, color 0.12s ease;
+    }
+    .tl-assess-grade-option:hover {
+      background: rgba(0, 0, 0, 0.04);
+      color: #6b7488;
+    }
+    .tl-assess-grade-option.is-selected,
+    .tl-assess-grade-option.is-selected:hover {
+      background: #6b7488;
+      color: #ffffff;
     }
     .tl-assess-section {
       display: flex;
@@ -1384,7 +1448,14 @@
             <!-- Assessments content pane (shown when the new Assessments tab is selected) -->
             <div class="tl-content tl-content-assessments" data-tl-pane="assessments" hidden>
               <div class="tl-assess-header">
-                <div class="tl-assess-grade" role="button" aria-haspopup="listbox">Preschool (Age 4)</div>
+                <div class="tl-assess-grade-wrap" data-grade-dropdown>
+                  <div class="tl-assess-grade" role="button" aria-haspopup="listbox" aria-expanded="false" tabindex="0" data-grade-trigger>Preschool (Age 4)</div>
+                  <div class="tl-assess-grade-menu" role="listbox" aria-label="Grade level">
+                    <div class="tl-assess-grade-option is-selected" role="option" aria-selected="true"  data-grade-option>Preschool (Age 4)</div>
+                    <div class="tl-assess-grade-option"             role="option" aria-selected="false" data-grade-option>Preschool (Age 3)</div>
+                    <div class="tl-assess-grade-option"             role="option" aria-selected="false" data-grade-option>Preschool (Age 2)</div>
+                  </div>
+                </div>
               </div>
 
               <section class="tl-assess-section">
@@ -1853,6 +1924,64 @@
         }
         studentsTab.addEventListener('keydown', keyActivate(selectStudents));
         assessmentsTab.addEventListener('keydown', keyActivate(selectAssessments));
+      });
+    })();
+
+    // Grade-level dropdown in the Spec 2 Assessments pane.
+    // Tap the pill to open the menu, tap an option to select it. The trigger
+    // label updates to reflect the selected grade and the menu closes on
+    // outside click or Escape.
+    (function () {
+      var dropdowns = document.querySelectorAll('[data-grade-dropdown]');
+      if (!dropdowns.length) return;
+
+      dropdowns.forEach(function (wrap) {
+        var trigger = wrap.querySelector('[data-grade-trigger]');
+        var menu    = wrap.querySelector('.tl-assess-grade-menu');
+        var options = wrap.querySelectorAll('[data-grade-option]');
+        if (!trigger || !menu || !options.length) return;
+
+        function setOpen(open) {
+          wrap.classList.toggle('is-open', open);
+          trigger.setAttribute('aria-expanded', String(!!open));
+        }
+
+        function selectOption(opt) {
+          options.forEach(function (o) {
+            var isSel = (o === opt);
+            o.classList.toggle('is-selected', isSel);
+            o.setAttribute('aria-selected', String(isSel));
+          });
+          trigger.textContent = opt.textContent;
+          setOpen(false);
+        }
+
+        trigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          setOpen(!wrap.classList.contains('is-open'));
+        });
+        trigger.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setOpen(!wrap.classList.contains('is-open'));
+          } else if (e.key === 'Escape') {
+            setOpen(false);
+          }
+        });
+
+        options.forEach(function (opt) {
+          opt.addEventListener('click', function (e) {
+            e.stopPropagation();
+            selectOption(opt);
+          });
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!wrap.contains(e.target)) setOpen(false);
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') setOpen(false);
+        });
       });
     })();
   </script>

@@ -114,6 +114,17 @@
       text-align: left;
     }
     .status-quo p:last-child { margin-bottom: 0; }
+    .status-quo ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .status-quo ul li { margin-bottom: 6px; }
+    .status-quo ul li:last-child { margin-bottom: 0; }
     .jira-link {
       color: #1568db;
       text-decoration: none;
@@ -787,6 +798,173 @@
       background: #1d1d1f;
       border-radius: 3px;
       opacity: 0.85;
+    }
+
+    /* ======================================================== */
+    /* Teacher Library mockup (Spec 2) — `.tl-*` prefix          */
+    /* ======================================================== */
+    .tl-screen {
+      background: #ffffff;
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar: class block (left) · logo (center) · actions (right) */
+    .tl-topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 18px 40px 14px;
+    }
+    .tl-class {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .tl-class-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: #efe4d2;
+    }
+    .tl-class-info { display: flex; flex-direction: column; gap: 4px; }
+    .tl-class-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1f2740;
+      line-height: 1.15;
+    }
+    .tl-settings { height: 18px; width: auto; opacity: 0.85; align-self: flex-start; }
+    .tl-logo {
+      height: 32px;
+      width: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .tl-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .tl-actions img { height: 18px; width: auto; opacity: 0.85; }
+
+    /* Bubble tabs: 9 tabs with dividers between section groups */
+    .tl-tabs {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      padding: 8px 40px 14px;
+    }
+    .tl-tab {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .tl-tab img {
+      height: 100px;
+      width: auto;
+      display: block;
+    }
+    .tl-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.12);
+      margin: 0 4px;
+      align-self: center;
+    }
+
+    /* Dark navy banner: title · class reports · delete student */
+    .tl-banner {
+      background: #1B3A8A;
+      color: #ffffff;
+      padding: 18px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+    .tl-banner-left h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .tl-banner-left p {
+      margin: 2px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 400;
+    }
+    .tl-banner-center { justify-self: center; }
+    .tl-banner-center img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+    .tl-banner-right { justify-self: end; }
+    .tl-banner-right img {
+      height: 34px;
+      width: auto;
+      display: block;
+      opacity: 0.95;
+    }
+
+    /* Student grid: 3 columns */
+    .tl-students {
+      flex: 1;
+      padding: 22px 60px 70px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px 60px;
+      align-content: start;
+    }
+    .tl-student {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1f2740;
+    }
+    .tl-student img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: #d8e7ee;
+    }
+    .tl-student.is-add .tl-add-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #1B3A8A;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1;
+      padding-bottom: 3px;
+    }
+
+    /* Floating Student Learning Path button at bottom */
+    .tl-preview {
+      position: absolute;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.10));
+    }
+    .tl-preview img {
+      height: 60px;
+      width: auto;
+      display: block;
     }
   </style>
 </head>
@@ -1755,6 +1933,112 @@
   <header class="page-header">
     <h1><strong>New Assessments Tab</strong> in Teacher Library</h1>
   </header>
+
+  <section class="status-quo" aria-label="Current experience (Teacher Library)">
+    <h2 class="status-quo-title">Current experience</h2>
+    <ul>
+      <li>There are 9 tabs (bubbles) in the Teacher Library.</li>
+    </ul>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+      <div class="mock-header">
+        <div class="mock-label">Current state · Teacher Library · Students</div>
+        <div class="mock-dims">1366 × 1024</div>
+      </div>
+      <div class="mock-card-wrap">
+        <div class="mock-card" aria-label="Teacher Library — Students view">
+          <div class="tl-screen">
+
+            <!-- Top bar: class identity (left) · logo (center) · Switch User / Add Class (right) -->
+            <div class="tl-topbar">
+              <div class="tl-class">
+                <img class="tl-class-avatar" src="assets/avatar1@2x.png" alt="">
+                <div class="tl-class-info">
+                  <div class="tl-class-name">Mr. Jesse&rsquo;s<br>Heeler PreK</div>
+                  <img class="tl-settings" src="assets/teacherlibrary_settings_btn@2x.png" alt="Settings">
+                </div>
+              </div>
+              <img class="tl-logo" src="assets/khan_academy_kids_logo.png" alt="Khan Academy Kids">
+              <div class="tl-actions">
+                <img src="assets/teacherlibrary_switchuser_btn@2x.png" alt="Switch User">
+                <img src="assets/teacherlibrary_addclass_btn@2x.png" alt="Add Class">
+              </div>
+            </div>
+
+            <!-- Bubble tabs (9): Students · Assignments · Search | Letters · Reading · Math · Logic+ | Books · Videos -->
+            <div class="tl-tabs" role="tablist" aria-label="Teacher Library tabs">
+              <div class="tl-tab selected"><img src="assets/libraryteacher_students_btn2@2x.png"     alt="Students (selected)"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_assignments_btn1@2x.png" alt="Assignments"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_search_btn1@2x.png"      alt="Search"></div>
+
+              <div class="tl-divider" aria-hidden="true"></div>
+
+              <div class="tl-tab"><img src="assets/libraryteacher_ollo_btn1@2x.png"  alt="Letters"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_reya_btn1@2x.png"  alt="Reading"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_peck_btn1@2x.png"  alt="Math"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_sandy_btn1@2x.png" alt="Logic+"></div>
+
+              <div class="tl-divider" aria-hidden="true"></div>
+
+              <div class="tl-tab"><img src="assets/libraryteacher_books_btn1@2x.png"  alt="Books"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_videos_btn1@2x.png" alt="Videos"></div>
+            </div>
+
+            <!-- Dark navy banner: title (left) · Class Reports (center) · Delete Student (right) -->
+            <div class="tl-banner">
+              <div class="tl-banner-left">
+                <h2>Students</h2>
+                <p>Tap to view student profile.</p>
+              </div>
+              <div class="tl-banner-center">
+                <img src="assets/teacherlibrary_classreport_btn@2x.png" alt="Class Reports">
+              </div>
+              <div class="tl-banner-right">
+                <img src="assets/delete_student_btn1@2x.png" alt="Delete Student">
+              </div>
+            </div>
+
+            <!-- 3-column student grid (15 students + Add Students) -->
+            <div class="tl-students">
+              <div class="tl-student"><img src="assets/avatar2@2x.png"  alt=""><div>Bandit</div></div>
+              <div class="tl-student"><img src="assets/avatar3@2x.png"  alt=""><div>Bingo</div></div>
+              <div class="tl-student"><img src="assets/avatar4@2x.png"  alt=""><div>Bluey</div></div>
+
+              <div class="tl-student"><img src="assets/avatar5@2x.png"  alt=""><div>Calypso</div></div>
+              <div class="tl-student"><img src="assets/avatar6@2x.png"  alt=""><div>Chilli</div></div>
+              <div class="tl-student"><img src="assets/avatar7@2x.png"  alt=""><div>Coco</div></div>
+
+              <div class="tl-student"><img src="assets/avatar8@2x.png"  alt=""><div>Indy</div></div>
+              <div class="tl-student"><img src="assets/avatar9@2x.png"  alt=""><div>Lucky</div></div>
+              <div class="tl-student"><img src="assets/avatar10@2x.png" alt=""><div>Mackenzie</div></div>
+
+              <div class="tl-student"><img src="assets/avatar11@2x.png" alt=""><div>Muffin</div></div>
+              <div class="tl-student"><img src="assets/avatar12@2x.png" alt=""><div>Rusty</div></div>
+              <div class="tl-student"><img src="assets/avatar13@2x.png" alt=""><div>Socks</div></div>
+
+              <div class="tl-student"><img src="assets/avatar14@2x.png" alt=""><div>Stripe</div></div>
+              <div class="tl-student"><img src="assets/avatar15@2x.png" alt=""><div>Trixie</div></div>
+              <div class="tl-student"><img src="assets/avatar16@2x.png" alt=""><div>Winnie</div></div>
+
+              <div class="tl-student is-add">
+                <div class="tl-add-icon" aria-hidden="true">+</div>
+                <div>Add Students</div>
+              </div>
+            </div>
+
+            <!-- Floating Student Learning Path button -->
+            <div class="tl-preview">
+              <img src="assets/teacherlibrary_preview_btn@2x.png" alt="Student Learning Path: Preview the student homepage.">
+            </div>
+
+            <div class="kk-home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script>
     // Keep every iPad mock at its true 1366×1024 internal dimensions, but

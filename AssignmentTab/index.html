@@ -58,6 +58,29 @@
       font-weight: 500;
       margin-bottom: 14px;
     }
+
+    /* Visual divider between top-level specs. Will be easy to lift this
+       second spec out into its own page later. */
+    .spec-divider {
+      max-width: 840px;
+      margin: 96px auto 8px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .spec-divider::before,
+    .spec-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(15, 41, 89, 0.14);
+    }
     h1 {
       margin: 0;
       font-weight: 400;
@@ -1720,6 +1743,18 @@
     </div>
     </div>
   </section>
+
+  <!-- ================================================================ -->
+  <!-- SPEC 2: New Assessments Tab in Teacher Library                   -->
+  <!-- (Slated to move to its own website later)                        -->
+  <!-- ================================================================ -->
+  <div class="spec-divider" role="separator" aria-label="New spec begins">
+    <span>Spec 2</span>
+  </div>
+
+  <header class="page-header">
+    <h1><strong>New Assessments Tab</strong> in Teacher Library</h1>
+  </header>
 
   <script>
     // Keep every iPad mock at its true 1366×1024 internal dimensions, but

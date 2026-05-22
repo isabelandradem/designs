@@ -887,16 +887,19 @@
     /* Custom bubble used for the proposed Assessments tab (Spec 2).
        Matches the visual style of the existing pale-aqua nav bubbles
        (Books, Videos, Assignments) with a small solid navy star inside,
-       sitting in the same way the red heart sits in the Assignments bubble. */
+       sitting in the same way the red heart sits in the Assignments bubble.
+       Dimensions are tuned to match Books/Videos exactly: 91px circle, ~111px
+       total tab height, fixed container width so the label has room. */
     .tl-tab-new {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
+      width: 120px;
     }
     .tl-tab-new-bubble {
-      width: 82px;
-      height: 82px;
+      width: 91px;
+      height: 91px;
       border-radius: 50%;
       background:
         radial-gradient(circle at 30% 26%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 32%),
@@ -910,8 +913,8 @@
     /* Star shape uses the rounded star PNG as a mask filled with navy.
        Gives pixel-perfect shape while letting us tint via background-color. */
     .tl-tab-new-star {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background-color: #0A2A66;
       -webkit-mask: url('assets/star_rounded.png') center / contain no-repeat;
               mask: url('assets/star_rounded.png') center / contain no-repeat;
@@ -919,8 +922,10 @@
     .tl-tab-new-label {
       font-size: 13px;
       font-weight: 700;
-      color: #2c3957;
+      color: #8D94A6;
       letter-spacing: 0.01em;
+      text-align: center;
+      white-space: nowrap;
     }
 
     /* Dark navy banner: title · class reports · delete student.

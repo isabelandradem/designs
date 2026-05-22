@@ -151,6 +151,15 @@
     }
     .status-quo ul li { margin-bottom: 6px; }
     .status-quo ul li:last-child { margin-bottom: 0; }
+    /* Mini Pros / Cons headings inside a .status-quo section. */
+    .status-quo .pros-cons-label {
+      margin: 14px 0 6px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+    .status-quo .pros-cons-label + ul { margin-bottom: 14px; }
     .jira-link {
       color: #1568db;
       text-decoration: none;
@@ -1356,7 +1365,22 @@
   <section class="status-quo" aria-label="Current experience (Teacher Library)">
     <h2 class="status-quo-title">Current experience</h2>
     <p>The Teacher Library currently has 9 tabs.</p>
-    <p>During the pilot, teachers could access assessments from the <em>Reading</em> and <em>Math</em> tabs. For SY26&ndash;27, we were planning to make assessments available only through the Web Dashboard.</p>
+    <p>During the pilot, teachers could access assessments from the <em>Reading</em> and <em>Math</em> tabs.</p>
+
+    <p><strong>Open question for beta launch:</strong> For the beta launch, do we want teachers to be able to preview and assign assessments from the app? Or should we limit access to assessments to the Web Dashboard?</p>
+
+    <h4 class="pros-cons-label">Pros</h4>
+    <ul>
+      <li>Teachers can test the assessment from their devices.</li>
+      <li>Consistent functionality for assessments &amp; learning activities.</li>
+    </ul>
+
+    <h4 class="pros-cons-label">Cons</h4>
+    <ul>
+      <li>Requires a significant change to the app UX.</li>
+    </ul>
+
+    <p>For SY26&ndash;27, we were planning to make assessments available only through the Web Dashboard.</p>
   </section>
 
   <section class="status-quo" aria-label="Challenge">

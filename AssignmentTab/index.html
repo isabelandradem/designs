@@ -879,6 +879,38 @@
       align-self: center;
     }
 
+    /* Custom bubble used for the proposed Assessments tab (Spec 2).
+       Matches the visual rhythm of the PNG bubbles: ~82px circle + label. */
+    .tl-tab-new {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .tl-tab-new-bubble {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #ffffff 0%, #eef0f5 95%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        inset 0 -2px 5px rgba(0, 0, 0, 0.06),
+        0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .tl-tab-new-bubble svg {
+      width: 46px;
+      height: 46px;
+      color: #0A2A66;
+    }
+    .tl-tab-new-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #4a5577;
+      letter-spacing: 0.01em;
+    }
+
     /* Dark navy banner: title · class reports · delete student */
     .tl-banner {
       background: #1B3A8A;
@@ -2042,6 +2074,119 @@
             </div>
 
             <!-- Floating Student Learning Path button -->
+            <div class="tl-preview">
+              <img src="assets/teacherlibrary_preview_btn@2x.png" alt="Student Learning Path: Preview the student homepage.">
+            </div>
+
+            <div class="kk-home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="status-quo" aria-label="Proposal">
+    <h2 class="status-quo-title">Proposal</h2>
+    <ul>
+      <li>Add a new <strong>tab (bubble)</strong> to the Teacher Library dedicated to <em>Assessments</em>.</li>
+      <li>Use a <strong>navy blue star</strong> (<code style="font-size:14px;">#0A2A66</code>) as the bubble icon.</li>
+    </ul>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+      <div class="mock-header">
+        <div class="mock-label">Proposal · Teacher Library with new Assessments tab</div>
+        <div class="mock-dims">1366 × 1024</div>
+      </div>
+      <div class="mock-card-wrap">
+        <div class="mock-card" aria-label="Teacher Library with proposed Assessments tab">
+          <div class="tl-screen">
+
+            <div class="tl-topbar">
+              <div class="tl-class">
+                <img class="tl-class-avatar" src="assets/avatarteacher2@2x.png" alt="">
+                <div class="tl-class-info">
+                  <div class="tl-class-name">Mr. Jesse&rsquo;s<br>Heeler PreK</div>
+                  <img class="tl-settings" src="assets/teacherlibrary_settings_btn@2x.png" alt="Settings">
+                </div>
+              </div>
+              <img class="tl-logo" src="assets/khan_academy_kids_logo.png" alt="Khan Academy Kids">
+              <div class="tl-actions">
+                <img src="assets/teacherlibrary_switchuser_btn@2x.png" alt="Switch User">
+                <img src="assets/teacherlibrary_addclass_btn@2x.png" alt="Add Class">
+              </div>
+            </div>
+
+            <!-- 10 bubbles: new Assessments tab sits right after Assignments -->
+            <div class="tl-tabs" role="tablist" aria-label="Teacher Library tabs">
+              <div class="tl-tab selected"><img src="assets/libraryteacher_students_btn2@2x.png"     alt="Students (selected)"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_assignments_btn1@2x.png" alt="Assignments"></div>
+
+              <div class="tl-tab tl-tab-new" role="tab" aria-label="Assessments">
+                <div class="tl-tab-new-bubble">
+                  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 2.4 L14.81 8.69 L21.6 9.4 L16.4 14.04 L17.92 21 L12 17.3 L6.08 21 L7.6 14.04 L2.4 9.4 L9.19 8.69 Z"/>
+                  </svg>
+                </div>
+                <div class="tl-tab-new-label">Assessments</div>
+              </div>
+
+              <div class="tl-tab"><img src="assets/libraryteacher_search_btn1@2x.png"      alt="Search"></div>
+
+              <div class="tl-divider" aria-hidden="true"></div>
+
+              <div class="tl-tab"><img src="assets/libraryteacher_ollo_btn1@2x.png"  alt="Letters"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_reya_btn1@2x.png"  alt="Reading"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_peck_btn1@2x.png"  alt="Math"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_sandy_btn1@2x.png" alt="Logic+"></div>
+
+              <div class="tl-divider" aria-hidden="true"></div>
+
+              <div class="tl-tab"><img src="assets/libraryteacher_books_btn1@2x.png"  alt="Books"></div>
+              <div class="tl-tab"><img src="assets/libraryteacher_videos_btn1@2x.png" alt="Videos"></div>
+            </div>
+
+            <div class="tl-banner">
+              <div class="tl-banner-left">
+                <h2>Students</h2>
+                <p>Tap to view student profile.</p>
+              </div>
+              <div class="tl-banner-center">
+                <img src="assets/teacherlibrary_classreport_btn@2x.png" alt="Class Reports">
+              </div>
+              <div class="tl-banner-right">
+                <img src="assets/delete_student_btn1@2x.png" alt="Delete Student">
+              </div>
+            </div>
+
+            <div class="tl-students">
+              <div class="tl-student"><img src="assets/avatar2@2x.png"  alt=""><div>Bandit</div></div>
+              <div class="tl-student"><img src="assets/avatar3@2x.png"  alt=""><div>Bingo</div></div>
+              <div class="tl-student"><img src="assets/avatar4@2x.png"  alt=""><div>Bluey</div></div>
+
+              <div class="tl-student"><img src="assets/avatar5@2x.png"  alt=""><div>Calypso</div></div>
+              <div class="tl-student"><img src="assets/avatar6@2x.png"  alt=""><div>Chilli</div></div>
+              <div class="tl-student"><img src="assets/avatar7@2x.png"  alt=""><div>Coco</div></div>
+
+              <div class="tl-student"><img src="assets/avatar8@2x.png"  alt=""><div>Indy</div></div>
+              <div class="tl-student"><img src="assets/avatar9@2x.png"  alt=""><div>Lucky</div></div>
+              <div class="tl-student"><img src="assets/avatar10@2x.png" alt=""><div>Mackenzie</div></div>
+
+              <div class="tl-student"><img src="assets/avatar11@2x.png" alt=""><div>Muffin</div></div>
+              <div class="tl-student"><img src="assets/avatar12@2x.png" alt=""><div>Rusty</div></div>
+              <div class="tl-student"><img src="assets/avatar13@2x.png" alt=""><div>Socks</div></div>
+
+              <div class="tl-student"><img src="assets/avatar14@2x.png" alt=""><div>Stripe</div></div>
+              <div class="tl-student"><img src="assets/avatar15@2x.png" alt=""><div>Trixie</div></div>
+              <div class="tl-student"><img src="assets/avatar16@2x.png" alt=""><div>Winnie</div></div>
+
+              <div class="tl-student is-add">
+                <div class="tl-add-icon" aria-hidden="true">+</div>
+                <div>Add Students</div>
+              </div>
+            </div>
+
             <div class="tl-preview">
               <img src="assets/teacherlibrary_preview_btn@2x.png" alt="Student Learning Path: Preview the student homepage.">
             </div>

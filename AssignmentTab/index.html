@@ -81,17 +81,15 @@
       letter-spacing: 0.01em;
       text-align: left;
     }
-    .status-quo-list {
-      margin: 0;
-      padding-left: 22px;
+    .status-quo p {
+      margin: 0 0 10px;
       color: var(--text-primary);
       font-size: 16px;
       font-weight: 400;
-      line-height: 1.55;
+      line-height: 1.6;
       text-align: left;
     }
-    .status-quo-list li { margin-bottom: 8px; }
-    .status-quo-list li:last-child { margin-bottom: 0; }
+    .status-quo p:last-child { margin-bottom: 0; }
     .jira-link {
       color: #1568db;
       text-decoration: none;
@@ -140,6 +138,29 @@
       font-size: 16px;
       line-height: 1.55;
       color: var(--text-primary);
+    }
+    /* When .option-intro is used as a wrapper around multiple blocks
+       (paragraphs, definition lists), style the children directly so a
+       single rule covers both the inline-<p> and wrapper-<div> cases. */
+    .option-intro p {
+      margin: 0 0 10px;
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+    .option-intro p:last-child { margin-bottom: 0; }
+    .option-intro dl {
+      margin: 12px 0;
+    }
+    .option-intro dt {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 12px;
+    }
+    .option-intro dt:first-child { margin-top: 0; }
+    .option-intro dd {
+      margin: 2px 0 0;
+      color: var(--text-secondary);
     }
 
     /* Sub-options (e.g. Option A.1, A.2). Tighter top spacing + smaller
@@ -759,19 +780,21 @@
     <a class="jira-link" href="https://duckduckmoose.atlassian.net/browse/KKIDS-8479" target="_blank" rel="noopener">KKIDS-8474</a>
   </aside>
 
-  <section class="status-quo" aria-label="Status quo">
-    <h2 class="status-quo-title">Status Quo:</h2>
-    <ul class="status-quo-list">
-      <li>
-        The Assignments tab currently renders all assignments (both learning and assessment activities) in a single list grouped by assignment date.
-      </li>
-      <li>
-        The only distinction between learning vs. assessment activities is the banner on the leaf thumbnail reading &ldquo;Main/Practice/Basic&rdquo; vs. &ldquo;Assessment&rdquo; (see <a class="jira-link" href="https://duckduckmoose.atlassian.net/browse/KKIDS-8476" target="_blank" rel="noopener">KKIDS-8476</a>).
-      </li>
-      <li>
-        Assessment activities require a controlled environment to be valid. When a child completes an assessment at home they won&rsquo;t have teacher support and they might get parental help &ndash; compromising the integrity of the data.
-      </li>
-    </ul>
+  <section class="status-quo" aria-label="Current experience">
+    <h2 class="status-quo-title">Current experience</h2>
+    <p>
+      The Assignments tab currently shows all assigned activities in one list, grouped by date. This includes both lessons and assessments.
+    </p>
+    <p>
+      Right now, the only way to tell them apart is the label on the activity thumbnail: <em>Main</em> / <em>Practice</em> / <em>Basic</em> for lessons, and <em>Assessment</em> for assessments.
+    </p>
+  </section>
+
+  <section class="status-quo" aria-label="Why this matters">
+    <h2 class="status-quo-title">Why this matters</h2>
+    <p>
+      Assessments need to happen in a controlled setting to produce reliable data. If a child completes an assessment at home, they may not have teacher support, or they may get help from a parent. This can make the results less valid.
+    </p>
   </section>
 
   <section class="stage">
@@ -942,10 +965,17 @@
   <!-- Option A — Split Assignments vs. Assessments into folder tabs    -->
   <!-- ================================================================ -->
   <section class="option-section" aria-label="Option A">
-    <h2 class="option-title">Option A: Folder Tabs</h2>
-    <p class="option-intro">
-      Split the Assignments tab into two <strong>folder tabs</strong>: <em>Lessons</em> (learning activities) and <em>Assessments</em>. Tapping a folder filters the list to that activity type. <em>Lessons</em> is the default folder. Click the tabs below to preview both states.
-    </p>
+    <h2 class="option-title">Option A: Folder tabs</h2>
+    <div class="option-intro">
+      <p>Split the Assignments tab into two tabs:</p>
+      <dl>
+        <dt>Lessons</dt>
+        <dd>Shows learning activities.</dd>
+        <dt>Assessments</dt>
+        <dd>Shows assessment activities.</dd>
+      </dl>
+      <p>The <em>Lessons</em> tab is selected by default. Selecting a tab filters the list to that activity type.</p>
+    </div>
   </section>
 
   <section class="stage">
@@ -1136,10 +1166,11 @@
   <!-- Option A.1 — Folder tabs + parent-lock dialog on Assessments     -->
   <!-- ================================================================ -->
   <section class="option-section is-sub" aria-label="Option A.1">
-    <h2 class="option-title">Option A.1: Lock Dialog</h2>
-    <p class="option-intro">
-      Same folder-tab layout as Option A, but tapping <em>Assessments</em> prompts a <strong>swipe-to-continue lock</strong>. Tap <em>Assessments</em> in the mock below to preview the dialog.
-    </p>
+    <h2 class="option-title">Option A.1: Lock dialog</h2>
+    <div class="option-intro">
+      <p>Use the same folder-tab layout as Option A.</p>
+      <p>When a student taps <em>Assessments</em>, show a swipe-to-continue lock before opening the tab. This adds light friction before a student can access assessments.</p>
+    </div>
   </section>
 
   <section class="stage">
@@ -1324,10 +1355,11 @@
   <!-- Option A.2 — Folder tabs + teacher-password dialog on Assessments -->
   <!-- ================================================================ -->
   <section class="option-section is-sub" aria-label="Option A.2">
-    <h2 class="option-title">Option A.2: Teacher Password</h2>
-    <p class="option-intro">
-      Same folder-tab layout as Option A.1, but tapping <em>Assessments</em> prompts for the <strong>teacher's password</strong>. Tap <em>Assessments</em> in the mock below to preview the dialog.
-    </p>
+    <h2 class="option-title">Option A.2: Teacher password</h2>
+    <div class="option-intro">
+      <p>Use the same folder-tab layout as Option A.1.</p>
+      <p>When a student taps <em>Assessments</em>, ask for the teacher&rsquo;s password before opening the tab. This helps ensure assessments are only started with teacher approval.</p>
+    </div>
   </section>
 
   <section class="stage">
@@ -1511,9 +1543,10 @@
   <!-- ================================================================ -->
   <section class="option-section" aria-label="Option B">
     <h2 class="option-title">Option B: Dropdown</h2>
-    <p class="option-intro">
-      Add a <strong>dropdown menu</strong> (<em>Lessons</em> / <em>Assessments</em>) beside the date header. Mirrors the grade-level dropdown that already exists in other tabs in the Library. Open the dropdown in the mock below to swap views.
-    </p>
+    <div class="option-intro">
+      <p>Add a <em>Lessons</em> / <em>Assessments</em> dropdown next to the date header.</p>
+      <p>This follows the same pattern as the grade-level dropdown already used in other Library tabs. Selecting an option updates the list to show that activity type.</p>
+    </div>
   </section>
 
   <section class="stage">
@@ -1696,10 +1729,11 @@
   <!-- Option B.1 — Dropdown + parent-lock dialog on Assessments        -->
   <!-- ================================================================ -->
   <section class="option-section is-sub" aria-label="Option B.1">
-    <h2 class="option-title">Option B.1: Lock Dialog</h2>
-    <p class="option-intro">
-      Same dropdown layout as Option B, but choosing <em>Assessments</em> prompts a <strong>swipe-to-continue lock</strong>. Open the dropdown and pick <em>Assessments</em> in the mock below to preview the dialog.
-    </p>
+    <h2 class="option-title">Option B.1: Lock dialog</h2>
+    <div class="option-intro">
+      <p>Use the same dropdown layout as Option B.</p>
+      <p>When a student selects <em>Assessments</em> from the dropdown, show a swipe-to-continue lock before switching the list. This adds light friction before a student can access assessments.</p>
+    </div>
   </section>
 
   <section class="stage">

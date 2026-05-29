@@ -222,6 +222,20 @@ r<!DOCTYPE html>
     }
     .option-intro .option-bullets strong { color: var(--text-primary); }
 
+    /* Static screenshot (e.g. Teacher Settings) shown inline in an option. */
+    .settings-figure {
+      margin: 20px 0 0;
+    }
+    .settings-figure img {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: 18px;
+      border: 1px solid rgba(39, 68, 122, 0.12);
+      box-shadow: 0 8px 28px rgba(39, 68, 122, 0.12);
+    }
+
     /* Sub-options (e.g. Option A.1, A.2). Tighter top spacing + smaller
        headline + a subtle left rail to communicate "child of the option
        above". The iPad mock itself stays centered and the same size as
@@ -1855,9 +1869,22 @@ r<!DOCTYPE html>
   </section>
 
   <!-- ================================================================ -->
-  <!-- Option A.2 — Folder tabs + teacher-password dialog on Assessments -->
+  <!-- Teacher Password Toggle — Teacher Settings toggle + mockup        -->
   <!-- ================================================================ -->
-  <section class="option-section is-sub" aria-label="Option A.2">
+  <section class="option-section" aria-label="Teacher Password Toggle">
+    <h1 class="option-title">Teacher Password Toggle</h1>
+    <div class="option-intro">
+      <p>Teachers may want to limit access to assessments. We want to add a toggle in Teacher Settings (default set to <strong>OFF</strong>) that requires a password to access assessments.</p>
+    </div>
+    <figure class="settings-figure">
+      <img src="assets/TeacherSettings.png" alt="Teacher Settings screen with a toggle to require a password before accessing assessments">
+    </figure>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Teacher Password On — in-banner toggle + password dialog          -->
+  <!-- ================================================================ -->
+  <section class="option-section is-sub" aria-label="Teacher Password On">
     <h2 class="option-title">Teacher Password On</h2>
     <div class="option-intro">
       <p>Use the same in-banner toggle layout as the In-Banner Toggle option.</p>
@@ -2062,7 +2089,7 @@ r<!DOCTYPE html>
       <div class="mock-dims">1366 × 1024</div>
     </div>
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Note: Assignments tab folder split with no activities">
+    <div class="mock-card" aria-label="Note: Assignments tab with in-banner toggle and no activities" data-banner-toggle data-toggle-kind="lessons-assessments">
       <div class="kk-screen has-folders">
         <!-- Top bar -->
         <div class="kk-topbar">
@@ -2114,24 +2141,27 @@ r<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Folder tabs: Lessons | Assessments -->
-        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
-          <button class="kk-folder-tab is-active"
-                  type="button"
-                  role="tab"
-                  aria-selected="true"
-                  data-folder="lessons">Lessons</button>
-          <button class="kk-folder-tab"
-                  type="button"
-                  role="tab"
-                  aria-selected="false"
-                  data-folder="assessments">Assessments</button>
-        </div>
-
-        <!-- Banner (title & subtitle swap when the folder changes) -->
-        <div class="kk-banner">
-          <h2 data-banner-title>Lessons</h2>
-          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        <!-- Banner with in-banner toggle (title & subtitle swap on change) -->
+        <div class="kk-banner has-toggle">
+          <div class="kk-banner-copy">
+            <h2 data-banner-title>Lessons</h2>
+            <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+          </div>
+          <div class="kk-banner-mid-toggle" role="tablist" aria-label="Activity type">
+            <button class="kk-banner-mid-btn is-active" type="button" role="tab" aria-selected="true" data-folder="lessons">
+              <span class="kk-banner-mid-icon is-check" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M3 8.4 6.5 12 13 4.5"/></svg>
+              </span>
+              <span>Lessons</span>
+            </button>
+            <button class="kk-banner-mid-btn" type="button" role="tab" aria-selected="false" data-folder="assessments">
+              <span class="kk-banner-mid-icon is-star" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M8 2.1 9.8 5.8l4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 6.4l4-.6z"/></svg>
+              </span>
+              <span>Assessments</span>
+            </button>
+          </div>
+          <div class="kk-banner-spacer" aria-hidden="true"></div>
         </div>
 
         <!-- Empty-state panels: no thumbnails, just a friendly note per folder. -->

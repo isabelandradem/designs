@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+r<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -289,13 +289,6 @@
       outline: 3px solid #1568db;
       outline-offset: -3px;
     }
-    /* Narrower tabs when short labels like "Practice" / "Assess" are active */
-    .kk-folder-tabs.is-compact .kk-folder-tab {
-      min-width: 150px;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-
     /* When folder tabs are present, the banner butts directly against them */
     .kk-screen.has-folders .kk-banner {
       margin-top: 0;
@@ -636,46 +629,113 @@
       font-weight: 400;
       letter-spacing: 0.04em;
     }
+    .stage[hidden] { display: none !important; }
 
-    /* ---------- Label-toggle pill (sits above a specific mockup) ---------- */
-    .label-toggle-wrap {
+    /* Outside-of-mockup toggle for Option A variants */
+    .option-a-view-toggle-wrap {
+      max-width: 800px;
+      margin: 0 auto 14px;
+      padding: 0 4px;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 14px;
-      padding: 0 4px;
+      color: rgba(39, 68, 122, 0.58);
       font-size: 13px;
-      color: rgba(39, 68, 122, 0.55);
       font-weight: 500;
     }
-    .label-toggle-wrap span { white-space: nowrap; }
-    .label-toggle {
+    .option-a-view-toggle {
       display: inline-flex;
       border-radius: 999px;
       border: 1.5px solid rgba(39, 68, 122, 0.22);
       overflow: hidden;
-      font-family: var(--font);
-      font-size: 13px;
-      font-weight: 600;
+      background: #ffffff;
     }
-    .label-toggle button {
-      padding: 5px 16px;
+    .option-a-view-toggle button {
+      border: 0;
       background: transparent;
-      border: none;
-      cursor: pointer;
-      color: rgba(39, 68, 122, 0.5);
+      color: rgba(39, 68, 122, 0.6);
+      padding: 6px 16px;
       font-family: var(--font);
       font-size: 13px;
       font-weight: 600;
-      transition: background 0.15s, color 0.15s;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
     }
-    .label-toggle button.is-active {
+    .option-a-view-toggle button.is-active {
       background: var(--kk-navy);
       color: #ffffff;
     }
-    .label-toggle button:not(.is-active):hover {
-      background: rgba(39, 68, 122, 0.07);
+    .option-a-view-toggle button:not(.is-active):hover {
+      background: rgba(39, 68, 122, 0.08);
       color: var(--kk-navy);
+    }
+
+    /* ---------- Toggle placed inside Option A teal banner ---------- */
+    .kk-banner.has-toggle {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .kk-banner-copy { flex-shrink: 0; }
+    .kk-banner-spacer { display: none; }
+    .kk-banner.has-toggle .kk-banner-mid-toggle { margin-left: auto; }
+    .kk-banner-mid-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      background: rgba(15, 128, 124, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.16);
+      box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.08);
+    }
+    .kk-banner-mid-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-family: var(--font);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.78);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+      cursor: pointer;
+      transition: background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
+    }
+    .kk-banner-mid-btn.is-active {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.55);
+    }
+    .kk-banner-mid-icon {
+      width: 21px;
+      height: 21px;
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .kk-banner-mid-icon svg {
+      width: 12px;
+      height: 12px;
+      display: block;
+      stroke: #ffffff;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .kk-banner-mid-icon.is-star svg {
+      fill: none;
+      stroke-width: 1.9;
     }
 
     /* ---------- Assignments tab recreation (scaled for 1366×1024) ----------
@@ -1335,7 +1395,7 @@
           <p>Lessons assigned to you by Mr. Jesse</p>
         </div>
 
-        <!-- "Today" section: 4 lesson thumbnails grouped under one date -->
+        <!-- "Today" section: all 4 assigned activities grouped under one date -->
         <div class="kk-section">
           <h3 class="kk-section-title">Today</h3>
           <div class="kk-thumbs">
@@ -1438,7 +1498,7 @@
   <!-- Option A — Split Assignments vs. Assessments into folder tabs    -->
   <!-- ================================================================ -->
   <section class="option-section" aria-label="Option A">
-    <h2 class="option-title">Option A: Folder tabs</h2>
+    <h2 class="option-title">In-Banner Toggle</h2>
     <div class="option-intro">
       <p>Split the Assignments tab into two tabs:</p>
       <ul class="option-bullets">
@@ -1449,24 +1509,22 @@
     </div>
   </section>
 
-  <section class="stage">
-    <div class="mock-stack" id="optionAMockStack">
+  <div class="option-a-view-toggle-wrap" data-option-a-toggle>
+    <span>Mockup view:</span>
+    <div class="option-a-view-toggle" role="group" aria-label="Option A mockup variant">
+      <button type="button" class="is-active" data-option-a-view="lessons-assessments">Lessons/Assessments</button>
+      <button type="button" data-option-a-view="practice-assess">Practice/Assess</button>
+    </div>
+  </div>
+
+  <section class="stage" data-option-a-stage="lessons-assessments">
+    <div class="mock-stack">
     <div class="mock-header">
-      <div class="mock-label">Option A · Folder tabs</div>
+      <div class="mock-label">Option A · Banner toggle (Lessons / Assessments)</div>
       <div class="mock-dims">1366 × 1024</div>
     </div>
-
-    <!-- Toggle outside the mockup: swap between Lessons/Assessments and Practice/Assess -->
-    <div class="label-toggle-wrap">
-      <span>Tab labels:</span>
-      <div class="label-toggle" id="optionALabelToggle" role="group" aria-label="Choose tab label variant">
-        <button type="button" class="is-active" data-variant="lessons-assessments">Lessons / Assessments</button>
-        <button type="button" data-variant="practice-assess">Practice / Assess</button>
-      </div>
-    </div>
-
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option A: Assignments tab with folder split" id="optionAMock">
+    <div class="mock-card" aria-label="Option A: Toggle in teal banner with Lessons and Assessments" data-banner-toggle data-toggle-kind="lessons-assessments">
       <div class="kk-screen has-folders">
         <!-- Top bar -->
         <div class="kk-topbar">
@@ -1517,32 +1575,34 @@
           </div>
         </div>
 
-        <!-- Folder tabs: Lessons | Assessments -->
-        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
-          <button class="kk-folder-tab is-active"
-                  type="button"
-                  role="tab"
-                  aria-selected="true"
-                  data-folder="lessons">Lessons</button>
-          <button class="kk-folder-tab"
-                  type="button"
-                  role="tab"
-                  aria-selected="false"
-                  data-folder="assessments">Assessments</button>
+        <!-- Banner with in-banner toggle (no color switching) -->
+        <div class="kk-banner has-toggle">
+          <div class="kk-banner-copy">
+            <h2 data-banner-title>Lessons</h2>
+            <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+          </div>
+          <div class="kk-banner-mid-toggle" role="tablist" aria-label="Activity type">
+            <button class="kk-banner-mid-btn is-active" type="button" role="tab" aria-selected="true" data-folder="lessons">
+              <span class="kk-banner-mid-icon is-check" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M3 8.4 6.5 12 13 4.5"/></svg>
+              </span>
+              <span>Lessons</span>
+            </button>
+            <button class="kk-banner-mid-btn" type="button" role="tab" aria-selected="false" data-folder="assessments">
+              <span class="kk-banner-mid-icon is-star" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M8 2.1 9.8 5.8l4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 6.4l4-.6z"/></svg>
+              </span>
+              <span>Assessments</span>
+            </button>
+          </div>
+          <div class="kk-banner-spacer" aria-hidden="true"></div>
         </div>
 
-        <!-- Banner (title & subtitle swap when the folder changes) -->
-        <div class="kk-banner">
-          <h2 data-banner-title>Lessons</h2>
-          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
-        </div>
-
-        <!-- "Today" section. Each folder has its own panel of thumbs. -->
+        <!-- "Today" section. Toggle swaps Lessons vs. Assessments panels. -->
         <div class="kk-section">
           <h3 class="kk-section-title">Today</h3>
 
-          <!-- Lessons folder (default) -->
-          <div class="kk-thumbs kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
+          <div class="kk-thumbs" data-folder-panel="lessons" role="tabpanel">
 
             <div class="kk-thumb">
               <div class="kk-thumb-card" aria-label="Bored & Silly">
@@ -1589,19 +1649,18 @@
 
           </div>
 
-          <!-- Assessments folder -->
-          <div class="kk-thumbs kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
+          <div class="kk-thumbs" data-folder-panel="assessments" role="tabpanel" hidden>
 
             <div class="kk-thumb">
               <div class="kk-thumb-card" aria-label="Print Concepts">
                 <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <defs>
-                    <linearGradient id="skyA" x1="0" x2="0" y1="0" y2="1">
+                    <linearGradient id="skyAla" x1="0" x2="0" y1="0" y2="1">
                       <stop offset="0" stop-color="#cfe9b8"/>
                       <stop offset="1" stop-color="#a4d287"/>
                     </linearGradient>
                   </defs>
-                  <rect width="200" height="144" fill="url(#skyA)"/>
+                  <rect width="200" height="144" fill="url(#skyAla)"/>
                   <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
                   <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
                   <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
@@ -1643,28 +1702,15 @@
     </div>
   </section>
 
-  <!-- ================================================================ -->
-  <!-- Option A.1 — Folder tabs + parent-lock dialog on Assessments     -->
-  <!-- ================================================================ -->
-  <section class="option-section is-sub" aria-label="Option A.1">
-    <h2 class="option-title">Option A.1: Lock dialog</h2>
-    <div class="option-intro">
-      <p>Use the same folder-tab layout as Option A.</p>
-      <p>When a student taps <em>Assessments</em>, show a swipe-to-continue lock before opening the tab. This adds light friction before a student can access assessments.</p>
-    </div>
-  </section>
-
-  <section class="stage">
+  <section class="stage" data-option-a-stage="practice-assess" hidden>
     <div class="mock-stack">
     <div class="mock-header">
-      <div class="mock-label">Option A.1 · Lock dialog on Assessments</div>
+      <div class="mock-label">Option B · Banner toggle (Practice / Assess)</div>
       <div class="mock-dims">1366 × 1024</div>
     </div>
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option A.1: Folder tabs with parent-lock dialog on Assessments">
-      <!-- data-lock marks which folder requires unlocking before it'll show -->
-      <div class="kk-screen has-folders" data-lock="assessments">
-        <!-- Top bar -->
+    <div class="mock-card" aria-label="Option A: Toggle in teal banner with Practice and Assess" data-banner-toggle data-toggle-kind="practice-assess">
+      <div class="kk-screen has-folders">
         <div class="kk-topbar">
           <div class="kk-back" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1675,7 +1721,6 @@
           <div></div>
         </div>
 
-        <!-- Bubble tabs (Assignments-First mode still on, so others dimmed) -->
         <div class="kk-tabs">
           <div class="kk-tab selected">
             <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
@@ -1684,43 +1729,44 @@
 
           <div class="kk-divider dim" aria-hidden="true"></div>
 
-          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png"  alt="Letters tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png"  alt="Reading tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png"  alt="Math tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png" alt="Letters tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png" alt="Reading tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png" alt="Math tab (disabled)"></div>
           <div class="kk-tab dim"><img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
 
           <div class="kk-divider dim" aria-hidden="true"></div>
 
-          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png"    alt="Books tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png"   alt="Videos tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png"     alt="Create tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png" alt="Books tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png" alt="Videos tab (disabled)"></div>
+          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png" alt="Create tab (disabled)"></div>
           <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
         </div>
 
-        <!-- Folder tabs: Lessons | Assessments -->
-        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
-          <button class="kk-folder-tab is-active"
-                  type="button"
-                  role="tab"
-                  aria-selected="true"
-                  data-folder="lessons">Lessons</button>
-          <button class="kk-folder-tab"
-                  type="button"
-                  role="tab"
-                  aria-selected="false"
-                  data-folder="assessments">Assessments</button>
-        </div>
-
-        <div class="kk-banner">
-          <h2 data-banner-title>Lessons</h2>
-          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        <div class="kk-banner has-toggle">
+          <div class="kk-banner-copy">
+            <h2 data-banner-title>Practice</h2>
+            <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+          </div>
+          <div class="kk-banner-mid-toggle" role="tablist" aria-label="Activity type">
+            <button class="kk-banner-mid-btn is-active" type="button" role="tab" aria-selected="true" data-folder="lessons">
+              <span class="kk-banner-mid-icon is-check" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M3 8.4 6.5 12 13 4.5"/></svg>
+              </span>
+              <span>Practice</span>
+            </button>
+            <button class="kk-banner-mid-btn" type="button" role="tab" aria-selected="false" data-folder="assessments">
+              <span class="kk-banner-mid-icon is-star" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M8 2.1 9.8 5.8l4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 6.4l4-.6z"/></svg>
+              </span>
+              <span>Assess</span>
+            </button>
+          </div>
+          <div class="kk-banner-spacer" aria-hidden="true"></div>
         </div>
 
         <div class="kk-section">
           <h3 class="kk-section-title">Today</h3>
-
-          <div class="kk-thumbs kk-folder-panel" data-folder-panel="lessons" role="tabpanel">
-
+          <div class="kk-thumbs" data-folder-panel="lessons" role="tabpanel">
             <div class="kk-thumb">
               <div class="kk-thumb-card" aria-label="Bored & Silly">
                 <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1744,12 +1790,12 @@
               <div class="kk-thumb-card" aria-label="Rhyming">
                 <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <defs>
-                    <linearGradient id="oceanA1" x1="0" x2="0" y1="0" y2="1">
+                    <linearGradient id="oceanAPractice" x1="0" x2="0" y1="0" y2="1">
                       <stop offset="0" stop-color="#cdeaf3"/>
                       <stop offset="1" stop-color="#9fd3e4"/>
                     </linearGradient>
                   </defs>
-                  <rect width="200" height="144" fill="url(#oceanA1)"/>
+                  <rect width="200" height="144" fill="url(#oceanAPractice)"/>
                   <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
                   <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
                   <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
@@ -1763,30 +1809,17 @@
               </div>
               <div class="kk-thumb-label">Rhyming</div>
             </div>
-
           </div>
 
-          <div class="kk-thumbs kk-folder-panel" data-folder-panel="assessments" role="tabpanel" hidden>
-
+          <div class="kk-thumbs" data-folder-panel="assessments" role="tabpanel" hidden>
             <div class="kk-thumb">
               <div class="kk-thumb-card" aria-label="Print Concepts">
                 <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="skyA1" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0" stop-color="#cfe9b8"/>
-                      <stop offset="1" stop-color="#a4d287"/>
-                    </linearGradient>
-                  </defs>
-                  <rect width="200" height="144" fill="url(#skyA1)"/>
-                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
-                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
-                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
-                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
-                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
-                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
-                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
-                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
-                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                  <rect width="200" height="144" fill="#b7d99e"/>
+                  <path d="M0 144 L80 64 L122 64 L200 144 Z" fill="#78ae51"/>
+                  <path d="M72 144 L97 64 L105 64 L130 144 Z" fill="#5d5d5d"/>
+                  <rect x="18" y="56" width="4" height="48" fill="#8a6033"/>
+                  <polygon points="10,56 30,56 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
                 </svg>
                 <div class="kk-pill assessment">Assessment</div>
               </div>
@@ -1808,24 +1841,10 @@
               </div>
               <div class="kk-thumb-label">Vowel Sounds</div>
             </div>
-
           </div>
         </div>
 
         <div class="kk-home-indicator" aria-hidden="true"></div>
-
-        <!-- Parent-lock dialog (hidden by default; shown when Assessments is tapped) -->
-        <div class="kk-lock-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="lockTitleA1">
-          <div class="kk-lock-backdrop"></div>
-          <div class="kk-lock-card">
-            <button class="kk-lock-close" type="button" aria-label="Close">
-              <img src="assets/leaf_hintvideo_close_btn@2x.png" alt="">
-            </button>
-            <h3 class="kk-lock-title" id="lockTitleA1">Grown-Ups Only!</h3>
-            <img class="kk-lock-icon" src="assets/childlock_icon@2x.png" alt="">
-            <p class="kk-lock-instruction">Swipe <span data-swipe-dir>RIGHT</span> to continue</p>
-          </div>
-        </div>
       </div>
     </div>
     </div>
@@ -1836,9 +1855,9 @@
   <!-- Option A.2 — Folder tabs + teacher-password dialog on Assessments -->
   <!-- ================================================================ -->
   <section class="option-section is-sub" aria-label="Option A.2">
-    <h2 class="option-title">Option A.2: Teacher password</h2>
+    <h2 class="option-title">Teacher Password On</h2>
     <div class="option-intro">
-      <p>Use the same folder-tab layout as Option A.1.</p>
+      <p>Use the same in-banner toggle layout as the In-Banner Toggle option.</p>
       <p>When a student taps <em>Assessments</em>, ask for the teacher&rsquo;s password before opening the tab. This helps ensure assessments are only started with teacher approval.</p>
     </div>
   </section>
@@ -1846,11 +1865,11 @@
   <section class="stage">
     <div class="mock-stack">
     <div class="mock-header">
-      <div class="mock-label">Option A.2 · Teacher password on Assessments</div>
+      <div class="mock-label">Teacher Password</div>
       <div class="mock-dims">1366 × 1024</div>
     </div>
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option A.2: Folder tabs with teacher-password dialog on Assessments">
+    <div class="mock-card" aria-label="Teacher password: in-banner toggle with password dialog on Assessments" data-banner-toggle data-toggle-kind="lessons-assessments">
       <div class="kk-screen has-folders" data-lock="assessments">
         <div class="kk-topbar">
           <div class="kk-back" aria-hidden="true">
@@ -1883,22 +1902,26 @@
           <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
         </div>
 
-        <div class="kk-folder-tabs" role="tablist" aria-label="Activity type">
-          <button class="kk-folder-tab is-active"
-                  type="button"
-                  role="tab"
-                  aria-selected="true"
-                  data-folder="lessons">Lessons</button>
-          <button class="kk-folder-tab"
-                  type="button"
-                  role="tab"
-                  aria-selected="false"
-                  data-folder="assessments">Assessments</button>
-        </div>
-
-        <div class="kk-banner">
-          <h2 data-banner-title>Lessons</h2>
-          <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+        <div class="kk-banner has-toggle">
+          <div class="kk-banner-copy">
+            <h2 data-banner-title>Lessons</h2>
+            <p data-banner-sub>Lessons assigned to you by Teacher Isa</p>
+          </div>
+          <div class="kk-banner-mid-toggle" role="tablist" aria-label="Activity type">
+            <button class="kk-banner-mid-btn is-active" type="button" role="tab" aria-selected="true" data-folder="lessons">
+              <span class="kk-banner-mid-icon is-check" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M3 8.4 6.5 12 13 4.5"/></svg>
+              </span>
+              <span>Lessons</span>
+            </button>
+            <button class="kk-banner-mid-btn" type="button" role="tab" aria-selected="false" data-folder="assessments">
+              <span class="kk-banner-mid-icon is-star" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="M8 2.1 9.8 5.8l4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 6.4l4-.6z"/></svg>
+              </span>
+              <span>Assessments</span>
+            </button>
+          </div>
+          <div class="kk-banner-spacer" aria-hidden="true"></div>
         </div>
 
         <div class="kk-section">
@@ -2013,193 +2036,6 @@
             <a class="kk-pwd-forgot" href="#" onclick="return false;">Forgot Password?</a>
           </div>
         </div>
-      </div>
-    </div>
-    </div>
-    </div>
-  </section>
-
-  <!-- ================================================================ -->
-  <!-- Option B — Single tab, with Lessons / Assessments filter chips   -->
-  <!-- ================================================================ -->
-  <section class="option-section" aria-label="Option B">
-    <h2 class="option-title">Option B: Dropdown</h2>
-    <div class="option-intro">
-      <p>Add a <em>Lessons</em> / <em>Assessments</em> dropdown next to the date header.</p>
-      <p>This follows the same pattern as the grade-level dropdown already used in other Library tabs. Selecting an option updates the list to show that activity type.</p>
-    </div>
-  </section>
-
-  <section class="stage">
-    <div class="mock-stack">
-    <div class="mock-header">
-      <div class="mock-label">Option B · Dropdown filter</div>
-      <div class="mock-dims">1366 × 1024</div>
-    </div>
-    <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option B: Assignments tab with Lessons / Assessments dropdown filter">
-      <div class="kk-screen">
-        <div class="kk-topbar">
-          <div class="kk-back" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 6 9 12 15 18"></polyline>
-            </svg>
-          </div>
-          <div class="kk-title">Library</div>
-          <div></div>
-        </div>
-
-        <div class="kk-tabs">
-          <div class="kk-tab selected">
-            <img src="assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
-            <span class="kk-count" aria-hidden="true">4</span>
-          </div>
-
-          <div class="kk-divider dim" aria-hidden="true"></div>
-
-          <div class="kk-tab dim"><img src="assets/library_ollo_btn1@2x.png"  alt="Letters tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_reya_btn1@2x.png"  alt="Reading tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_peck_btn1@2x.png"  alt="Math tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
-
-          <div class="kk-divider dim" aria-hidden="true"></div>
-
-          <div class="kk-tab dim"><img src="assets/library_books_btn1@2x.png"    alt="Books tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_videos_btn1@2x.png"   alt="Videos tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_draw_btn1@2x.png"     alt="Create tab (disabled)"></div>
-          <div class="kk-tab dim"><img src="assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
-        </div>
-
-        <!-- Banner stays static for Option B (chips filter, don't navigate) -->
-        <div class="kk-banner">
-          <h2>Assignments</h2>
-          <p>Lessons assigned to you by Teacher Isa</p>
-        </div>
-
-        <div class="kk-section">
-          <div class="kk-section-head">
-            <h3 class="kk-section-title">Today</h3>
-            <div class="kk-dropdown" data-filter-default="lessons">
-              <button class="kk-dropdown-trigger"
-                      type="button"
-                      aria-haspopup="listbox"
-                      aria-expanded="false">
-                <span data-dropdown-label>Lessons</span>
-                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-              </button>
-              <div class="kk-dropdown-menu" role="listbox" aria-label="Filter by activity type" hidden>
-                <button class="kk-dropdown-option is-active"
-                        type="button"
-                        role="option"
-                        aria-selected="true"
-                        data-value="lessons">Lessons</button>
-                <button class="kk-dropdown-option"
-                        type="button"
-                        role="option"
-                        aria-selected="false"
-                        data-value="assessments">Assessments</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Lessons (default) -->
-          <div class="kk-thumbs kk-filter-panel" data-filter-panel="lessons" role="tabpanel">
-
-            <div class="kk-thumb">
-              <div class="kk-thumb-card" aria-label="Bored & Silly">
-                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="200" height="144" fill="#f4ebd9"/>
-                  <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
-                  <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
-                  <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
-                  <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
-                  <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                  <circle cx="130" cy="74" r="26" fill="#f3a047"/>
-                  <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
-                  <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
-                  <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-                </svg>
-                <div class="kk-pill main">Main</div>
-              </div>
-              <div class="kk-thumb-label">Bored &amp; Silly</div>
-            </div>
-
-            <div class="kk-thumb">
-              <div class="kk-thumb-card" aria-label="Rhyming">
-                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="oceanB" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0" stop-color="#cdeaf3"/>
-                      <stop offset="1" stop-color="#9fd3e4"/>
-                    </linearGradient>
-                  </defs>
-                  <rect width="200" height="144" fill="url(#oceanB)"/>
-                  <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
-                  <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
-                  <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
-                  <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
-                  <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
-                  <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
-                  <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
-                  <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
-                </svg>
-                <div class="kk-pill main">Main</div>
-              </div>
-              <div class="kk-thumb-label">Rhyming</div>
-            </div>
-
-          </div>
-
-          <!-- Assessments -->
-          <div class="kk-thumbs kk-filter-panel" data-filter-panel="assessments" role="tabpanel" hidden>
-
-            <div class="kk-thumb">
-              <div class="kk-thumb-card" aria-label="Print Concepts">
-                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="skyB" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0" stop-color="#cfe9b8"/>
-                      <stop offset="1" stop-color="#a4d287"/>
-                    </linearGradient>
-                  </defs>
-                  <rect width="200" height="144" fill="url(#skyB)"/>
-                  <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
-                  <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
-                  <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
-                  <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
-                  <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
-                  <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
-                  <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
-                  <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
-                  <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
-                </svg>
-                <div class="kk-pill assessment">Assessment</div>
-              </div>
-              <div class="kk-thumb-label">Print Concepts</div>
-            </div>
-
-            <div class="kk-thumb">
-              <div class="kk-thumb-card" aria-label="Vowel Sounds">
-                <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="200" height="144" fill="#1b3a8a"/>
-                  <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
-                  <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
-                  <circle cx="56" cy="116" r="14" fill="#3498db"/>
-                  <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
-                  <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
-                  <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
-                </svg>
-                <div class="kk-pill assessment">Assessment</div>
-              </div>
-              <div class="kk-thumb-label">Vowel Sounds</div>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="kk-home-indicator" aria-hidden="true"></div>
       </div>
     </div>
     </div>
@@ -2341,6 +2177,99 @@
       fit();
     })();
 
+    // Outside-of-mockup toggle for Option A:
+    // switches between the two variant mockups.
+    (function () {
+      var toggleWrap = document.querySelector('[data-option-a-toggle]');
+      if (!toggleWrap) return;
+      var buttons = toggleWrap.querySelectorAll('button[data-option-a-view]');
+      var stages = document.querySelectorAll('.stage[data-option-a-stage]');
+      if (!buttons.length || !stages.length) return;
+
+      function setView(view) {
+        buttons.forEach(function (btn) {
+          var on = btn.getAttribute('data-option-a-view') === view;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        stages.forEach(function (stage) {
+          stage.hidden = stage.getAttribute('data-option-a-stage') !== view;
+        });
+        // The mock-card scaling runs on load; a stage that was hidden then
+        // has zero width and collapses to scale(0). Re-fit now that the
+        // newly revealed stage has real dimensions.
+        window.dispatchEvent(new Event('resize'));
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setView(btn.getAttribute('data-option-a-view'));
+        });
+      });
+
+      var initial = toggleWrap.querySelector('button.is-active');
+      setView(initial ? initial.getAttribute('data-option-a-view') : 'lessons-assessments');
+    })();
+
+    // Option A in-banner toggle interaction.
+    // Switches activity panels within the new Option A mockups:
+    // - Lessons/Practice shows Bored & Silly + Rhyming
+    // - Assessments/Assess shows Print Concepts + Vowel Sounds
+    (function () {
+      var COPY_BY_KIND = {
+        'lessons-assessments': {
+          lessons: { title: 'Lessons', sub: 'Lessons assigned to you by Teacher Isa' },
+          assessments: { title: 'Assessments', sub: 'Assessments assigned to you by Teacher Isa' }
+        },
+        'practice-assess': {
+          lessons: { title: 'Practice', sub: 'Lessons assigned to you by Teacher Isa' },
+          assessments: { title: 'Assess', sub: 'Assessments assigned to you by Teacher Isa' }
+        }
+      };
+
+      function switchBannerFolder(card, folder) {
+        card.querySelectorAll('.kk-banner-mid-btn').forEach(function (btn) {
+          var on = btn.getAttribute('data-folder') === folder;
+          btn.classList.toggle('is-active', on);
+          btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        card.querySelectorAll('[data-folder-panel]').forEach(function (panel) {
+          panel.hidden = panel.getAttribute('data-folder-panel') !== folder;
+        });
+
+        var kind = card.getAttribute('data-toggle-kind') || 'lessons-assessments';
+        var copySet = COPY_BY_KIND[kind] || COPY_BY_KIND['lessons-assessments'];
+        var copy = copySet[folder];
+        var titleEl = card.querySelector('[data-banner-title]');
+        var subEl = card.querySelector('[data-banner-sub]');
+        if (titleEl && copy) titleEl.textContent = copy.title;
+        if (subEl && copy) subEl.textContent = copy.sub;
+      }
+
+      document.querySelectorAll('.mock-card[data-banner-toggle]').forEach(function (card) {
+        // Expose the banner switcher so a gate dialog can apply the
+        // locked folder after a successful unlock.
+        card._switchFolder = function (folder) { switchBannerFolder(card, folder); };
+
+        var screen = card.querySelector('.kk-screen');
+        var lockedFolder = screen && screen.getAttribute('data-lock');
+
+        card.querySelectorAll('.kk-banner-mid-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var folder = btn.getAttribute('data-folder');
+            if (!folder) return;
+            // Gated folder: show the lock/password dialog instead of
+            // switching. A successful unlock calls back via _switchFolder.
+            if (lockedFolder === folder) {
+              var gate = card._lockDialog || card._pwdDialog;
+              if (gate) { gate.show(); return; }
+            }
+            switchBannerFolder(card, folder);
+          });
+        });
+      });
+    })();
+
     // Folder-tab interaction: swap visible panel + banner text when the user
     // taps Lessons vs. Assessments. Scoped per mock so multiple options
     // can coexist on the page. Mocks may opt into a parent-lock dialog on
@@ -2402,8 +2331,10 @@
         });
       });
 
-      // Expose the switcher to the lock-dialog module via a tiny per-card hook
+      // Expose the switcher to the lock-dialog module via a tiny per-card hook.
+      // Skip banner-toggle cards — they expose their own _switchFolder.
       document.querySelectorAll('.mock-card').forEach(function (card) {
+        if (!card.querySelector('.kk-folder-tab')) return;
         card._switchFolder = function (folder) { switchFolder(card, folder); };
       });
     })();
@@ -2709,89 +2640,6 @@
       });
     })();
 
-    // Option A label-toggle: swap folder-tab text between
-    // "Lessons / Assessments" and "Practice / Assess" without re-rendering
-    // the mockup. Also updates the banner title to match the active folder.
-    (function () {
-      var toggle  = document.getElementById('optionALabelToggle');
-      var mock    = document.getElementById('optionAMock');
-      if (!toggle || !mock) return;
-
-      var VARIANTS = {
-        'lessons-assessments': {
-          lessons:     'Lessons',
-          assessments: 'Assessments',
-          banners: {
-            lessons:     { title: 'Lessons',     sub: 'Lessons assigned to you by Teacher Isa' },
-            assessments: { title: 'Assessments', sub: 'Assessments assigned to you by Teacher Isa' }
-          }
-        },
-        'practice-assess': {
-          lessons:     'Practice',
-          assessments: 'Assess',
-          banners: {
-            lessons:     { title: 'Practice',    sub: 'Practice activities assigned to you by Teacher Isa' },
-            assessments: { title: 'Assess',      sub: 'Assessments assigned to you by Teacher Isa' }
-          }
-        }
-      };
-
-      function applyVariant(variantKey) {
-        var v = VARIANTS[variantKey];
-        if (!v) return;
-
-        // Compact tab width for short labels
-        var tabsEl = mock.querySelector('.kk-folder-tabs');
-        if (tabsEl) tabsEl.classList.toggle('is-compact', variantKey === 'practice-assess');
-
-        // Update folder-tab button text
-        mock.querySelectorAll('.kk-folder-tab').forEach(function (btn) {
-          var folder = btn.getAttribute('data-folder');
-          if (v[folder]) btn.textContent = v[folder];
-        });
-
-        // Update the banner to reflect the currently active folder
-        var activeFolder = (mock.querySelector('.kk-folder-tab.is-active') || {}).getAttribute
-          ? mock.querySelector('.kk-folder-tab.is-active').getAttribute('data-folder')
-          : 'lessons';
-        var titleEl = mock.querySelector('[data-banner-title]');
-        var subEl   = mock.querySelector('[data-banner-sub]');
-        var copy    = v.banners[activeFolder];
-        if (titleEl && copy) titleEl.textContent = copy.title;
-        if (subEl   && copy) subEl.textContent   = copy.sub;
-
-        // Patch the global BANNERS map so folder-tab clicks keep using the
-        // right copy after the variant is switched.
-        if (mock._patchedBanners) mock._patchedBanners(v.banners);
-      }
-
-      // Expose a patcher hook so the folder-switch handler can call it back.
-      // We find the card's _switchFolder which was set up by the folder-tab
-      // IIFE, then wrap the banner lookup with the current variant.
-      var currentVariant = 'lessons-assessments';
-      mock._patchedBanners = null; // filled in below after DOM is ready
-
-      toggle.querySelectorAll('button').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          toggle.querySelectorAll('button').forEach(function (b) { b.classList.remove('is-active'); });
-          btn.classList.add('is-active');
-          currentVariant = btn.getAttribute('data-variant');
-          applyVariant(currentVariant);
-        });
-      });
-
-      // Override the folder switcher's BANNERS lookup for this specific card
-      // by monkey-patching _switchFolder to use the patched map.
-      (function waitForHook() {
-        if (!mock._switchFolder) { setTimeout(waitForHook, 50); return; }
-        var origSwitch = mock._switchFolder;
-        mock._switchFolder = function (folder) {
-          origSwitch(folder);
-          // Re-apply label so the banner matches the current variant
-          applyVariant(currentVariant);
-        };
-      })();
-    })();
   </script>
 
 </body>

@@ -234,6 +234,53 @@ r<!DOCTYPE html>
       border-radius: 18px;
       border: 1px solid rgba(39, 68, 122, 0.12);
       box-shadow: 0 8px 28px rgba(39, 68, 122, 0.12);
+      cursor: zoom-in;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .settings-figure img:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 34px rgba(39, 68, 122, 0.18);
+    }
+
+    /* Lightbox: tap a screenshot to view it full-size. */
+    .img-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      background: rgba(16, 28, 54, 0.72);
+      backdrop-filter: blur(2px);
+      cursor: zoom-out;
+    }
+    .img-lightbox[hidden] { display: none; }
+    .img-lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    }
+    .img-lightbox-close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #1b2c52;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
     }
 
     /* Sub-options (e.g. Option A.1, A.2). Tighter top spacing + smaller
@@ -1877,7 +1924,7 @@ r<!DOCTYPE html>
       <p>Teachers may want to limit access to assessments. We want to add a toggle in Teacher Settings (default set to <strong>OFF</strong>) that requires a password to access assessments.</p>
     </div>
     <figure class="settings-figure">
-      <img src="assets/TeacherSettings.png" alt="Teacher Settings screen with a toggle to require a password before accessing assessments">
+      <img src="assets/TeacherSettings.png" alt="Teacher Settings screen with a toggle to require a password before accessing assessments" data-zoomable role="button" tabindex="0" aria-label="Expand Teacher Settings screenshot">
     </figure>
   </section>
 
@@ -2670,6 +2717,57 @@ r<!DOCTYPE html>
         }
         studentsTab.addEventListener('keydown', keyActivate(selectStudents));
         assessmentsTab.addEventListener('keydown', keyActivate(selectAssessments));
+      });
+    })();
+
+    // Image lightbox: tap a [data-zoomable] image to view it full-size.
+    (function () {
+      var zoomables = document.querySelectorAll('img[data-zoomable]');
+      if (!zoomables.length) return;
+
+      var overlay = document.createElement('div');
+      overlay.className = 'img-lightbox';
+      overlay.hidden = true;
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      var full = document.createElement('img');
+      var closeBtn = document.createElement('button');
+      closeBtn.className = 'img-lightbox-close';
+      closeBtn.type = 'button';
+      closeBtn.setAttribute('aria-label', 'Close');
+      closeBtn.innerHTML = '&times;';
+      overlay.appendChild(full);
+      overlay.appendChild(closeBtn);
+      document.body.appendChild(overlay);
+
+      function open(src, alt) {
+        full.src = src;
+        full.alt = alt || '';
+        overlay.hidden = false;
+      }
+      function close() {
+        overlay.hidden = true;
+        full.src = '';
+      }
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === full) return; // clicking the image itself keeps it open
+        close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !overlay.hidden) close();
+      });
+
+      zoomables.forEach(function (img) {
+        img.addEventListener('click', function () {
+          open(img.currentSrc || img.src, img.alt);
+        });
+        img.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(img.currentSrc || img.src, img.alt);
+          }
+        });
       });
     })();
 

@@ -878,6 +878,9 @@ r<!DOCTYPE html>
       align-items: flex-start;
       flex-wrap: wrap;
     }
+    /* display:flex above otherwise overrides the hidden attribute on
+       toggle panels, so force-hide them when hidden. */
+    .kk-thumbs[hidden] { display: none !important; }
     /* Empty-state copy used when a folder has no activities yet
        (e.g. "Note: No Assignments" mock). Sits flush near the top of the
        content area, mirroring the in-app empty state. */

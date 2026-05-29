@@ -356,7 +356,7 @@ r<!DOCTYPE html>
       transition: background 0.18s ease;
     }
     /* Banner color follows the active folder. */
-    .kk-banner.is-assessments { background: #0A2A66; }
+    .kk-banner.is-assessments { background: #28447A; }
 
     /* Folder content panels — hidden ones use the `hidden` attribute */
     .kk-folder-panel[hidden] { display: none !important; }
@@ -2313,6 +2313,9 @@ r<!DOCTYPE html>
           btn.classList.toggle('is-active', on);
           btn.setAttribute('aria-selected', on ? 'true' : 'false');
         });
+        // Banner turns navy for assessments, stays teal for lessons/practice.
+        var banner = card.querySelector('.kk-banner');
+        if (banner) banner.classList.toggle('is-assessments', folder === 'assessments');
         card.querySelectorAll('[data-folder-panel]').forEach(function (panel) {
           panel.hidden = panel.getAttribute('data-folder-panel') !== folder;
         });

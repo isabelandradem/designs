@@ -1583,6 +1583,7 @@ r<!DOCTYPE html>
     <div class="option-a-view-toggle" role="group" aria-label="Option A mockup variant">
       <button type="button" class="is-active" data-option-a-view="lessons-assessments">Lessons/Assessments</button>
       <button type="button" data-option-a-view="practice-assess">Practice/Assess</button>
+      <button type="button" data-option-a-view="practice-assessments">Practice/Assessments</button>
     </div>
   </div>
 
@@ -1774,11 +1775,11 @@ r<!DOCTYPE html>
   <section class="stage" data-option-a-stage="practice-assess" hidden>
     <div class="mock-stack">
     <div class="mock-header">
-      <div class="mock-label">Option B · Banner toggle (Practice / Assess)</div>
+      <div class="mock-label" data-option-a-practice-label>Option B · Banner toggle (Practice / Assess)</div>
       <div class="mock-dims">1366 × 1024</div>
     </div>
     <div class="mock-card-wrap">
-    <div class="mock-card" aria-label="Option A: Toggle in teal banner with Practice and Assess" data-banner-toggle data-toggle-kind="practice-assess">
+    <div class="mock-card" aria-label="Option B: Toggle in teal banner with Practice and Assess" data-option-a-practice-card data-banner-toggle data-toggle-kind="practice-assess">
       <div class="kk-screen has-folders">
         <div class="kk-topbar">
           <div class="kk-back" aria-hidden="true">
@@ -2263,7 +2264,7 @@ r<!DOCTYPE html>
     })();
 
     // Outside-of-mockup toggle for Option A:
-    // switches between the two variant mockups.
+    // switches between the wording variants.
     (function () {
       var toggleWrap = document.querySelector('[data-option-a-toggle]');
       if (!toggleWrap) return;
@@ -2271,14 +2272,46 @@ r<!DOCTYPE html>
       var stages = document.querySelectorAll('.stage[data-option-a-stage]');
       if (!buttons.length || !stages.length) return;
 
+      var PRACTICE_COPY = {
+        'practice-assess': {
+          mockLabel: 'Option B · Banner toggle (Practice / Assess)',
+          ariaLabel: 'Option B: Toggle in teal banner with Practice and Assess',
+          lessonsBtn: 'Practice',
+          assessmentsBtn: 'Assess'
+        },
+        'practice-assessments': {
+          mockLabel: 'Option C · Banner toggle (Practice / Assessments)',
+          ariaLabel: 'Option C: Toggle in teal banner with Practice and Assessments',
+          lessonsBtn: 'Practice',
+          assessmentsBtn: 'Assessments'
+        }
+      };
+
+      function setPracticeStageVariant(view) {
+        if (!PRACTICE_COPY[view]) return;
+        var cfg = PRACTICE_COPY[view];
+        var labelEl = document.querySelector('[data-option-a-practice-label]');
+        var card = document.querySelector('[data-option-a-practice-card]');
+        if (labelEl) labelEl.textContent = cfg.mockLabel;
+        if (!card) return;
+        card.setAttribute('aria-label', cfg.ariaLabel);
+        card.setAttribute('data-toggle-kind', view);
+        var lessonsText = card.querySelector('.kk-banner-mid-btn[data-folder="lessons"] span:last-child');
+        var assessmentsText = card.querySelector('.kk-banner-mid-btn[data-folder="assessments"] span:last-child');
+        if (lessonsText) lessonsText.textContent = cfg.lessonsBtn;
+        if (assessmentsText) assessmentsText.textContent = cfg.assessmentsBtn;
+      }
+
       function setView(view) {
+        var visibleStage = (view === 'practice-assessments') ? 'practice-assess' : view;
+        setPracticeStageVariant(view);
         buttons.forEach(function (btn) {
           var on = btn.getAttribute('data-option-a-view') === view;
           btn.classList.toggle('is-active', on);
           btn.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
         stages.forEach(function (stage) {
-          stage.hidden = stage.getAttribute('data-option-a-stage') !== view;
+          stage.hidden = stage.getAttribute('data-option-a-stage') !== visibleStage;
         });
         // The mock-card scaling runs on load; a stage that was hidden then
         // has zero width and collapses to scale(0). Re-fit now that the
@@ -2309,6 +2342,10 @@ r<!DOCTYPE html>
         'practice-assess': {
           lessons: { title: 'Practice', sub: 'Lessons assigned to you by Teacher Isa' },
           assessments: { title: 'Assess', sub: 'Assessments assigned to you by Teacher Isa' }
+        },
+        'practice-assessments': {
+          lessons: { title: 'Practice', sub: 'Lessons assigned to you by Teacher Isa' },
+          assessments: { title: 'Assessments', sub: 'Assessments assigned to you by Teacher Isa' }
         }
       };
 

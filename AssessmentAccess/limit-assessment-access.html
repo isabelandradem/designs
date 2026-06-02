@@ -653,14 +653,45 @@
     }
     .kk-lesson-pill.main { background: var(--kk-teal); }
     .kk-lesson-pill.assessment { background: #0A2A66; }
-    /* Locked assessments: greyed out (alpha 0.4) and not tappable. */
-    .kk-thumb.is-locked { opacity: 0.4; pointer-events: none; cursor: default; }
+    /* Locked assessments: greyed out (alpha 0.4). Tapping shows the
+       "only available during school hours" message. */
+    .kk-thumb.is-locked { opacity: 0.4; cursor: pointer; }
     .kk-home-indicator {
       position: absolute; bottom: 16px; left: 50%;
       transform: translateX(-50%);
       width: 180px; height: 6px;
       background: #1d1d1f; border-radius: 3px; opacity: 0.85;
     }
+
+    /* "Assessments locked" message dialog (mirrors the in-app OOPS! box) */
+    .kk-msg-overlay {
+      position: absolute; inset: 0; z-index: 40;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .kk-msg-overlay[hidden] { display: none; }
+    .kk-msg-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.42); }
+    .kk-msg-card {
+      position: relative; background: #ffffff; border-radius: 28px;
+      padding: 46px 70px 40px; min-width: 520px; max-width: 640px;
+      text-align: center; box-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
+    }
+    .kk-msg-title {
+      margin: 0 0 22px; font-family: var(--font);
+      font-weight: 600; font-size: 40px; color: #27447A; letter-spacing: 0.02em;
+    }
+    .kk-msg-body {
+      margin: 0 0 32px; font-family: var(--font);
+      font-weight: 500; font-size: 26px; line-height: 1.4; color: #4a6499;
+    }
+    .kk-msg-btn {
+      font-family: var(--font); font-weight: 600; font-size: 26px; color: #ffffff;
+      background: var(--kk-teal-banner); border: 0; border-radius: 999px;
+      padding: 14px 60px; cursor: pointer;
+      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.05);
+      transition: background 0.15s ease, transform 0.08s ease;
+    }
+    .kk-msg-btn:hover { background: #50c4b7; }
+    .kk-msg-btn:active { transform: translateY(1px); }
 
     /* ---------- Footer ---------- */
     footer {
@@ -1122,6 +1153,16 @@
 
             <div class="kk-home-indicator" aria-hidden="true"></div>
           </div>
+
+          <!-- Tapping a greyed assessment explains why it's locked -->
+          <div class="kk-msg-overlay" hidden data-assessment-msg>
+            <div class="kk-msg-backdrop" data-msg-close></div>
+            <div class="kk-msg-card" role="dialog" aria-label="OOPS!">
+              <h3 class="kk-msg-title">OOPS!</h3>
+              <p class="kk-msg-body">Assessments are only available during school hours.</p>
+              <button class="kk-msg-btn" type="button" data-msg-close>Okay</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1265,6 +1306,21 @@
           activeBtn.querySelector('[data-time-label]').textContent = pendingValue;
         }
         close();
+      });
+    })();
+
+    // Student App: tapping a greyed (locked) assessment shows the
+    // "only available during school hours" message.
+    (function () {
+      document.querySelectorAll('.kk-msg-overlay[data-assessment-msg]').forEach(function (overlay) {
+        var card = overlay.closest('.mock-card');
+        if (!card) return;
+        card.querySelectorAll('.kk-thumb.is-locked').forEach(function (thumb) {
+          thumb.addEventListener('click', function () { overlay.hidden = false; });
+        });
+        overlay.querySelectorAll('[data-msg-close]').forEach(function (el) {
+          el.addEventListener('click', function () { overlay.hidden = true; });
+        });
       });
     })();
   </script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SPEC: Limit Access to Assessments Outside of School Hours</title>
+  <title>Limit Access to Assessments Outside of School Hours</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -999,6 +999,20 @@
     </div>
   </section>
 
+  <section class="option-section" aria-label="Time picker behavior">
+    <h2 class="option-title">Time picker behavior</h2>
+    <p class="option-intro">
+      The picker <strong>prevents</strong> invalid ranges rather than correcting them after the fact,
+      reusing the min / max pattern already in <em>DatePicker.vue</em>:
+    </p>
+    <ul class="option-list">
+      <li>The <strong>Start</strong> picker greys out and disables every time at or after the End time.</li>
+      <li>The <strong>End</strong> picker greys out and disables every time at or before the Start time.</li>
+      <li>A <strong>30-minute minimum window</strong> is enforced, so a zero-length range (e.g. 7:00&nbsp;AM&nbsp;&ndash;&nbsp;7:00&nbsp;AM) can't be set.</li>
+      <li>As a safeguard, <strong>Save</strong> still validates that End is after Start; if it isn't, saving is blocked rather than storing an invalid window.</li>
+    </ul>
+  </section>
+
   <!-- ================================================================ -->
   <!-- Mockup — Student App, Assignments (locked assessments)           -->
   <!-- ================================================================ -->
@@ -1169,7 +1183,6 @@
   </section>
 
   <footer>
-    Khan Academy Kids · Internal engineering spec · KKIDS · Default: On, Mon–Fri, 7:00 AM – 3:00 PM
   </footer>
 
   <script>

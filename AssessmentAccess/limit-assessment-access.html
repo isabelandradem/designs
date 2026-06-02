@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPEC: Limit Access to Assessments Outside of School Hours</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f4f8fa;
+      --text-primary: #27447a;
+      --text-muted: #6c7a99;
+      --frame-border: #d8dde6;
+
+      /* Web Dashboard palette (from the Vue app) */
+      --navy: #27447A;
+      --teal: #14BF96;
+      --grey-back: #C9D3D6;
+      --table-header: #E9EFF1;
+      --dark-border: #d8dde6;
+      --td-text: #5E6365;
+
+      /* Khan Kids in-app palette (Student App mock) */
+      --kk-teal: #4ec9bc;
+      --kk-teal-banner: #5dcdc1;
+      --kk-navy: #2b3a55;
+      --kk-grey-back: #c9d3d6;
+
+      --font: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- Back link ---------- */
+    .back-link-wrap {
+      max-width: 1180px;
+      margin: 28px auto 0;
+      padding: 0 32px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.18s ease;
+    }
+    .back-link:hover { color: var(--text-primary); }
+    .back-link::before {
+      content: '←';
+      font-weight: 700;
+      display: inline-block;
+      transition: transform 0.18s ease;
+    }
+    .back-link:hover::before { transform: translateX(-2px); }
+
+    /* ---------- Page header ---------- */
+    .page-header {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 56px 24px 24px;
+      text-align: left;
+    }
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 400;
+      font-size: 32px;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+    h1 strong { font-weight: 600; }
+
+    /* ---------- Prose blocks (Problem / Proposal) ---------- */
+    .prose {
+      max-width: 840px;
+      margin: 8px auto 0;
+      padding: 0 24px;
+    }
+    .prose-title {
+      margin: 32px 0 12px;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+      text-align: left;
+    }
+    .prose p {
+      margin: 0 0 10px;
+      color: var(--text-primary);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose ul {
+      margin: 0;
+      padding-left: 22px;
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .prose ul li { margin-bottom: 6px; }
+    .prose strong { font-weight: 600; }
+
+    .jira-link {
+      color: #1568db;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(21, 104, 219, 0.35);
+      font-weight: 500;
+    }
+    .jira-link:hover { border-bottom-color: #1568db; }
+
+    /* ---------- Section heading for the mockup ---------- */
+    .option-section {
+      max-width: 840px;
+      margin: 56px auto 16px;
+      padding: 0 24px;
+    }
+    .option-title {
+      margin: 0 0 10px;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+    .option-title-sub { font-weight: 400; }
+    .option-intro {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .option-intro + .option-intro { margin-top: 10px; }
+
+    /* ---------- Mock stage ---------- */
+    .stage {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 8px 24px 64px;
+    }
+    .mock-stack {
+      width: 100%;
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .mock-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      padding: 0;
+    }
+    .mock-label {
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(39, 68, 122, 0.45);
+      font-weight: 500;
+    }
+    .mock-dims {
+      font-size: 12px;
+      color: rgba(39, 68, 122, 0.35);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .mock-card-wrap {
+      width: 100%;
+      max-width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .mock-card {
+      width: 1200px;
+      height: 920px;
+      flex: 0 0 1200px;
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--frame-border);
+      box-shadow:
+        0 20px 60px rgba(39, 68, 122, 0.10),
+        0 4px 12px rgba(39, 68, 122, 0.05);
+      overflow: hidden;
+      position: relative;
+      transform-origin: top center;
+    }
+
+    /* ---------- Browser chrome ---------- */
+    .browser-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 16px;
+      background: #eef1f5;
+      border-bottom: 1px solid var(--frame-border);
+    }
+    .browser-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .browser-url {
+      margin-left: 14px;
+      flex: 1;
+      max-width: 520px;
+      height: 26px;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #dfe4ec;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 13px;
+      color: #8a96a6;
+      font-weight: 400;
+    }
+
+    /* ---------- Dashboard layout (sidebar + content) ---------- */
+    .dash {
+      display: flex;
+      height: calc(920px - 44px);
+      background: #f4f6f9;
+    }
+    .dash-side {
+      width: 232px;
+      flex: 0 0 232px;
+      background: #ffffff;
+      border-right: 1px solid var(--frame-border);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-logo {
+      padding: 0 24px 24px;
+      font-weight: 600;
+      font-size: 20px;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dash-logo .mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--teal);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 16px;
+    }
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #7c879b;
+      cursor: default;
+    }
+    .dash-nav-item .ic {
+      width: 20px; height: 20px; opacity: 0.8;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .dash-nav-item.is-active {
+      color: var(--navy);
+      font-weight: 600;
+      background: #eef3fb;
+      border-right: 3px solid var(--navy);
+    }
+
+    .dash-content {
+      flex: 1;
+      overflow: hidden;
+      padding: 28px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+    .settings-title {
+      font-weight: 600;
+      font-size: 32px;
+      color: var(--navy);
+      margin: 0 0 20px;
+    }
+    .settings-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 6px;
+    }
+
+    /* ---------- Settings table (mirrors table.css + GenericTable) ---------- */
+    .settings-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 10px;
+      border: 1px solid var(--dark-border);
+      overflow: hidden;
+      margin-bottom: 30px;
+      background: #fff;
+    }
+    .settings-table .tbl-header {
+      background: var(--table-header);
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--navy);
+      text-align: left;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .settings-table .tbl-row {
+      border-bottom: 1px solid var(--dark-border);
+    }
+    .settings-table .tbl-row:last-child { border-bottom: 0; }
+
+    /* Preference row (mirrors PreferenceRow.vue) */
+    .pref-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      min-height: 68px;
+      padding: 12px 24px;
+    }
+    .pref-left { display: flex; flex-direction: column; text-align: left; }
+    .pref-name { font-size: 16px; color: var(--navy); }
+    .pref-desc {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(94, 99, 101, 0.85);
+    }
+    .pref-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      margin-left: auto;
+    }
+
+    /* Overview row (mirrors OverviewRow.vue) */
+    .ov-area { display: flex; flex-direction: row; }
+    .ov-left {
+      width: 150px;
+      flex: 0 0 150px;
+      min-height: 136px;
+      border-right: 1px solid var(--dark-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ov-avatar {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: #ffe3a9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+    }
+    .ov-right { display: flex; flex-direction: column; flex-grow: 1; }
+    .ov-row {
+      display: flex; flex-direction: row; height: 68px; padding: 10px 24px;
+      align-items: center;
+    }
+    .ov-row.bordered { border-bottom: 1px solid var(--dark-border); }
+    .ov-rleft { display: flex; flex-direction: column; text-align: left; }
+    .ov-name {
+      margin-bottom: 8px; font-weight: 700; font-size: 14px; color: var(--navy);
+    }
+    .ov-value { font-size: 16px; color: var(--navy); }
+    .ov-rright { margin-left: auto; display: flex; align-items: center; }
+    .edit-link { font-size: 16px; color: var(--navy); text-decoration: none; cursor: pointer; }
+    .edit-link:hover { text-decoration: underline; }
+
+    /* Generate-code button (mirrors Button.vue look) */
+    .dash-btn {
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--navy);
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 16px;
+      cursor: pointer;
+    }
+
+    /* Dropdown look (archive period) */
+    .dash-dropdown {
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid var(--navy);
+      border-radius: 10px;
+      padding: 7px 30px 7px 12px;
+      height: 34px;
+      cursor: pointer;
+      position: relative;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%2327447A' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+
+    /* ---------- Switch (mirrors Switch.vue) ---------- */
+    .kk-switch { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+    .kk-switch-label { font-size: 16px; color: var(--navy); user-select: none; min-width: 26px; text-align: right; }
+    .kk-pill {
+      display: flex; align-items: center;
+      min-width: 40px; width: 40px; height: 24px;
+      border-style: solid; border-width: 1px; border-radius: 12px;
+      cursor: pointer; transition: background 0.15s ease;
+    }
+    .kk-pill.on { justify-content: flex-end; background: var(--navy); border-color: var(--navy); }
+    .kk-pill.off { justify-content: flex-start; background: var(--grey-back); border-color: var(--grey-back); }
+    .kk-pill-circle {
+      width: 22px; height: 22px; background: #fff;
+      border-style: solid; border-width: 1px; border-radius: 50%;
+    }
+    .kk-pill.on .kk-pill-circle { border-color: var(--navy); }
+    .kk-pill.off .kk-pill-circle { border-color: var(--grey-back); }
+
+    /* ---------- New row highlight ---------- */
+    .pref-row.is-new {
+      background: rgba(20, 191, 150, 0.07);
+      box-shadow: inset 3px 0 0 var(--teal);
+    }
+    .new-badge {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0f8f70;
+      background: rgba(20, 191, 150, 0.16);
+      border-radius: 999px;
+      padding: 2px 8px;
+      vertical-align: middle;
+    }
+
+    /* ---------- Time range control ---------- */
+    .time-range { display: flex; align-items: center; gap: 10px; }
+    .time-range.is-disabled { opacity: 0.35; pointer-events: none; }
+    .time-sep { font-size: 15px; color: var(--td-text); font-weight: 500; }
+
+    /* DateButton.vue look */
+    .date-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border: 1px solid var(--navy);
+      border-radius: 10px;
+      height: 34px;
+      padding: 5px 14px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .date-button .clock-icn { width: 16px; height: 16px; flex-shrink: 0; }
+
+    /* ---------- Time picker dialog (mirrors GenericDlg + DatePicker) ---------- */
+    .tp-overlay {
+      position: absolute; inset: 0; z-index: 30;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tp-overlay[hidden] { display: none; }
+    .tp-backdrop { position: absolute; inset: 0; background: rgba(16, 28, 54, 0.42); }
+    .tp-card {
+      position: relative;
+      background: #fff;
+      border-radius: 18px;
+      padding: 26px;
+      width: 360px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+    }
+    .tp-title {
+      font-weight: 600; font-size: 22px; color: var(--navy);
+      margin: 0 0 20px; text-align: left;
+    }
+    .tp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .tp-item {
+      height: 38px;
+      border-radius: 19px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 500; color: var(--navy);
+      border: 1px solid transparent;
+      cursor: pointer; user-select: none;
+    }
+    .tp-item:hover { background: #eef3fb; }
+    .tp-item.selected { color: #fff; background: var(--navy); }
+    .tp-buttons {
+      display: flex; justify-content: flex-end; align-items: center;
+      gap: 24px; margin-top: 24px;
+    }
+    .tp-cancel {
+      background: none; border: 0; cursor: pointer;
+      font-family: var(--font); font-size: 16px; font-weight: 600; color: var(--navy);
+    }
+    .tp-ok {
+      background: var(--navy); color: #fff; border: 0; cursor: pointer;
+      font-family: var(--font); font-size: 16px; font-weight: 600;
+      border-radius: 10px; padding: 9px 22px;
+    }
+
+    /* ================================================================ */
+    /* Student App mock (iPad 1366×1024) — Assignments-First recreation */
+    /* ================================================================ */
+    .kk-screen {
+      background: #ffffff;
+      padding: 28px 56px 32px;
+      position: relative;
+      height: 100%;
+    }
+    .kk-topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 4px 10px;
+    }
+    .kk-back {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--kk-grey-back);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.08);
+      justify-self: start;
+    }
+    .kk-back svg { width: 22px; height: 22px; color: #ffffff; }
+    .kk-title {
+      font-family: var(--font);
+      font-weight: 600;
+      color: var(--kk-teal);
+      font-size: 42px;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 0 rgba(0,0,0,0.03);
+    }
+    .kk-tabs {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px 0 12px;
+      flex-wrap: nowrap;
+    }
+    .kk-tab {
+      flex: 0 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .kk-tab img {
+      height: 120px; width: auto; display: block;
+      user-select: none; -webkit-user-drag: none;
+    }
+    .kk-tab.selected .kk-count {
+      position: absolute;
+      top: 38%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: #ffffff;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1;
+      pointer-events: none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+    }
+    .kk-divider {
+      width: 1px; height: 74px; align-self: flex-end;
+      background: #d6dee2; margin: 0 6px 14px;
+    }
+    .kk-tab.dim { opacity: 0.3; }
+    .kk-divider.dim { opacity: 0.3; }
+    .kk-banner {
+      background: var(--kk-teal-banner);
+      color: #ffffff;
+      padding: 22px 56px 24px;
+      margin: 12px -56px 0;
+    }
+    .kk-banner h2 { margin: 0; font-weight: 600; font-size: 36px; letter-spacing: 0.01em; }
+    .kk-banner p { margin: 4px 0 0; font-weight: 400; font-size: 18px; opacity: 0.95; }
+    .kk-section { padding: 26px 4px 0; }
+    .kk-section-title {
+      margin: 0 0 16px;
+      font-weight: 600; font-size: 32px;
+      color: var(--kk-navy); letter-spacing: 0.01em;
+    }
+    .kk-thumbs { display: flex; gap: 36px; align-items: flex-start; flex-wrap: wrap; }
+    .kk-thumb { width: 200px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .kk-thumb-card {
+      width: 200px; height: 144px; border-radius: 14px;
+      overflow: hidden; position: relative;
+      box-shadow: 0 2px 6px rgba(39, 68, 122, 0.10);
+      border: 1px solid rgba(39, 68, 122, 0.06);
+    }
+    .kk-thumb-card svg { display: block; width: 100%; height: 100%; }
+    .kk-thumb-label { font-weight: 500; font-size: 20px; color: #8a96a6; text-align: center; }
+    .kk-lesson-pill {
+      position: absolute; left: 50%; bottom: 14px;
+      transform: translateX(-50%);
+      width: max-content; max-width: none;
+      color: #ffffff; font-weight: 600; font-size: 16px;
+      padding: 4px 16px; border-radius: 14px;
+      letter-spacing: 0.01em; white-space: nowrap;
+      text-align: center;
+    }
+    .kk-lesson-pill.main { background: var(--kk-teal); }
+    .kk-lesson-pill.assessment { background: #0A2A66; }
+    /* Locked assessments: greyed out (alpha 0.4) and not tappable. */
+    .kk-thumb.is-locked { opacity: 0.4; pointer-events: none; cursor: default; }
+    .kk-home-indicator {
+      position: absolute; bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      width: 180px; height: 6px;
+      background: #1d1d1f; border-radius: 3px; opacity: 0.85;
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      max-width: 840px;
+      margin: 24px auto 80px;
+      padding: 20px 24px 0;
+      border-top: 1px solid rgba(39, 68, 122, 0.12);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="back-link-wrap">
+    <a class="back-link" href="./">Back to specs</a>
+  </div>
+
+  <header class="page-header">
+    <div class="eyebrow">Engineering PRD</div>
+    <h1>Limit Assessment Access to School Hours</h1>
+  </header>
+
+  <section class="prose" aria-label="Problem">
+    <h2 class="prose-title">Problem</h2>
+    <p>
+      Teachers and administrators need assessment results to reflect what students can do in a controlled classroom setting with teacher supervision. 
+      When students complete assessments at home, they may receive help from a parent or caregiver, which can make the results less reliable.
+    </p>
+  </section>
+
+  <section class="prose" aria-label="Proposal">
+    <h2 class="prose-title">Proposal</h2>
+    <p>
+      Add a new teacher setting that limits when students can access assessments.
+    </p>
+    <p>
+      The setting is <strong>on by default,</strong> with the default access window set to
+      <strong>7:00&nbsp;AM&ndash;3:00&nbsp;PM, Monday through Friday.</strong> Teachers can customize the start and end times.
+    </p>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Mockup — Teacher Settings page in the Web Dashboard              -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Mockup">
+    <h2 class="option-title">Mockup <span class="option-title-sub">· Teacher Settings, Web Dashboard</span></h2>
+    <p class="option-intro">
+      The updated Settings page adds a new <strong>Class Preferences</strong> row beneath
+      Show students Assignments first.
+    </p>
+    <p class="option-intro">
+      The new row includes an on/off switch and a time-range picker styled after the dashboard's
+      existing <em>DateButton</em> / <em>DatePicker</em> components. Teachers can toggle the setting on or off
+      and select either time to customize the assessment access window.
+    </p>
+    <p class="option-intro">
+    When the setting is <strong>on</strong>, teachers can select either time to customize the assessment access window. When the setting is <strong>off</strong>, the time-range picker buttons are disabled and do not open the time picker.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+      <div class="mock-header">
+        <div class="mock-label">Web Dashboard · Settings</div>
+        <div class="mock-dims">1200 × 920</div>
+      </div>
+      <div class="mock-card-wrap">
+        <div class="mock-card" data-w="1200" data-h="920" aria-label="Recreated Teacher Settings page from the Khan Kids Web Dashboard">
+
+          <!-- Browser chrome -->
+          <div class="browser-bar">
+            <span class="browser-dot dot-red"></span>
+            <span class="browser-dot dot-yellow"></span>
+            <span class="browser-dot dot-green"></span>
+            <div class="browser-url">classroom.khankids.org/settings</div>
+          </div>
+
+          <div class="dash">
+            <!-- Sidebar -->
+            <nav class="dash-side">
+              <div class="dash-logo"><span class="mark">K</span> Khan Kids</div>
+              <div class="dash-nav-item"><span class="ic">▤</span> Roster</div>
+              <div class="dash-nav-item"><span class="ic">✎</span> Assignments</div>
+              <div class="dash-nav-item"><span class="ic">▦</span> Reports</div>
+              <div class="dash-nav-item is-active"><span class="ic">⚙</span> Settings</div>
+            </nav>
+
+            <!-- Content -->
+            <div class="dash-content">
+              <h1 class="settings-title">Settings</h1>
+              <div class="settings-scroll">
+
+                <!-- Overview -->
+                <div class="settings-table">
+                  <div class="tbl-header">Overview</div>
+                  <div class="tbl-row">
+                    <div class="ov-area">
+                      <div class="ov-left">
+                        <div class="ov-avatar">🐻</div>
+                      </div>
+                      <div class="ov-right">
+                        <div class="ov-row bordered">
+                          <div class="ov-rleft">
+                            <div class="ov-name">Teacher Name</div>
+                            <div class="ov-value">Teacher Isa</div>
+                          </div>
+                          <div class="ov-rright"><a class="edit-link">Edit</a></div>
+                        </div>
+                        <div class="ov-row">
+                          <div class="ov-rleft">
+                            <div class="ov-name">Class Name</div>
+                            <div class="ov-value">Room 12</div>
+                          </div>
+                          <div class="ov-rright"><a class="edit-link">Edit</a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tbl-row">
+                    <div class="ov-row">
+                      <div class="ov-rleft">
+                        <div class="ov-name">Class Grade</div>
+                        <div class="ov-value">Kindergarten</div>
+                      </div>
+                      <div class="ov-rright"><a class="edit-link">Edit</a></div>
+                    </div>
+                  </div>
+                  <div class="tbl-row">
+                    <div class="ov-row">
+                      <div class="ov-rleft">
+                        <div class="ov-name">Class Code</div>
+                        <div class="ov-value">ZTQ-481</div>
+                      </div>
+                      <div class="ov-rright"><button class="dash-btn">Generate New Code</button></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Class Preferences -->
+                <div class="settings-table">
+                  <div class="tbl-header">Class Preferences</div>
+
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Archive Assignments after:</div>
+                        <div class="pref-desc">Hide assignments from students 2 weeks after the Due Date</div>
+                      </div>
+                      <div class="pref-right">
+                        <select class="dash-dropdown" aria-label="Archive period count">
+                          <option>2</option>
+                        </select>
+                        <select class="dash-dropdown" aria-label="Archive period units">
+                          <option>weeks</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Show students Assignments first</div>
+                        <div class="pref-desc">Students must complete assignments before free play</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">On</span>
+                          <div class="kk-pill on"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ===== NEW ROW ===== -->
+                  <div class="tbl-row">
+                    <div class="pref-row is-new">
+                      <div class="pref-left">
+                        <div class="pref-name">
+                          Limit Assessment access to school hours
+                          <span class="new-badge">New</span>
+                        </div>
+                        <div class="pref-desc">Students can only open Assessments during these hours, Monday through Friday.</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="time-range" data-time-range>
+                          <button class="date-button" data-time-btn="start" type="button">
+                            <svg class="clock-icn" viewBox="0 0 24 24" fill="none" stroke="#27447A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <circle cx="12" cy="12" r="9"></circle>
+                              <polyline points="12 7 12 12 16 14"></polyline>
+                            </svg>
+                            <span data-time-label>7:00 AM</span>
+                          </button>
+                          <span class="time-sep">to</span>
+                          <button class="date-button" data-time-btn="end" type="button">
+                            <svg class="clock-icn" viewBox="0 0 24 24" fill="none" stroke="#27447A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                              <circle cx="12" cy="12" r="9"></circle>
+                              <polyline points="12 7 12 12 16 14"></polyline>
+                            </svg>
+                            <span data-time-label>3:00 PM</span>
+                          </button>
+                        </div>
+                        <div class="kk-switch" data-switch data-controls-times>
+                          <span class="kk-switch-label">On</span>
+                          <div class="kk-pill on"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ===== /NEW ROW ===== -->
+
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Show students Create tab</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">On</span>
+                          <div class="kk-pill on"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Show students Videos tab</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">On</span>
+                          <div class="kk-pill on"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Background Music</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">Off</span>
+                          <div class="kk-pill off"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Teacher Preferences -->
+                <div class="settings-table">
+                  <div class="tbl-header">Teacher Preferences</div>
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Show Full Student Names</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">Off</span>
+                          <div class="kk-pill off"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tbl-row">
+                    <div class="pref-row">
+                      <div class="pref-left">
+                        <div class="pref-name">Show Lesson Standards</div>
+                      </div>
+                      <div class="pref-right">
+                        <div class="kk-switch" data-switch>
+                          <span class="kk-switch-label">On</span>
+                          <div class="kk-pill on"><div class="kk-pill-circle"></div></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Time picker dialog (mirrors Select Date dialog) -->
+          <div class="tp-overlay" hidden data-tp-overlay>
+            <div class="tp-backdrop" data-tp-cancel></div>
+            <div class="tp-card" role="dialog" aria-label="Select Time">
+              <h3 class="tp-title">Select Time</h3>
+              <div class="tp-grid" data-tp-grid></div>
+              <div class="tp-buttons">
+                <button class="tp-cancel" type="button" data-tp-cancel>Cancel</button>
+                <button class="tp-ok" type="button" data-tp-ok>Apply</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <!-- Mockup — Student App, Assignments (locked assessments)           -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Student App mockup">
+    <h2 class="option-title">Mockup <span class="option-title-sub">· Student App, Assignments</span></h2>
+    <p class="option-intro">
+      If a student opens the Assignments tab <strong>outside</strong> of the approved Monday&ndash;Friday
+      school hours, the assessments appear greyed out and are not tappable. Lessons remain available as usual.
+    </p>
+    <p class="option-intro">
+      In this example, the two assessments &mdash; <em>Print Concepts</em> and <em>Vowel Sounds</em> &mdash;
+      are dimmed because it's outside the access window.
+    </p>
+  </section>
+
+  <section class="stage">
+    <div class="mock-stack">
+      <div class="mock-header">
+        <div class="mock-label">Student App · Assignments</div>
+        <div class="mock-dims">1366 × 1024</div>
+      </div>
+      <div class="mock-card-wrap">
+        <div class="mock-card" data-w="1366" data-h="1024" style="width:1366px;height:1024px;flex-basis:1366px;border-radius:28px;" aria-label="Student App Assignments tab with assessments locked outside school hours">
+          <div class="kk-screen">
+            <!-- Top bar -->
+            <div class="kk-topbar">
+              <div class="kk-back" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 6 9 12 15 18"></polyline>
+                </svg>
+              </div>
+              <div class="kk-title">Library</div>
+              <div></div>
+            </div>
+
+            <!-- Tab strip (assets served from the published design site).
+                 Non-Assignments tabs are dimmed because Assignments-First mode is on. -->
+            <div class="kk-tabs">
+              <div class="kk-tab selected">
+                <img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_assignments_btn2@2x.png" alt="Assignments tab, selected, 4 assignments">
+                <span class="kk-count" aria-hidden="true">4</span>
+              </div>
+              <div class="kk-divider dim" aria-hidden="true"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_ollo_btn1@2x.png" alt="Letters tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_reya_btn1@2x.png" alt="Reading tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_peck_btn1@2x.png" alt="Math tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_sandy_btn1@2x.png" alt="Logic+ tab (disabled)"></div>
+              <div class="kk-divider dim" aria-hidden="true"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_books_btn1@2x.png" alt="Books tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_videos_btn1@2x.png" alt="Videos tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_draw_btn1@2x.png" alt="Create tab (disabled)"></div>
+              <div class="kk-tab dim"><img src="https://isabelandradem.github.io/designs/AssignmentTab/assets/library_suitcase_btn1@2x.png" alt="Offline tab (disabled)"></div>
+            </div>
+
+            <!-- Green Assignments banner -->
+            <div class="kk-banner">
+              <h2>Assignments</h2>
+              <p>Lessons assigned to you by Mr. Jesse</p>
+            </div>
+
+            <!-- "Today" section: assessments greyed out (locked) -->
+            <div class="kk-section">
+              <h3 class="kk-section-title">Today</h3>
+              <div class="kk-thumbs">
+
+                <div class="kk-thumb is-locked" aria-disabled="true">
+                  <div class="kk-thumb-card" aria-label="Print Concepts (locked outside school hours)">
+                    <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="sky2" x1="0" x2="0" y1="0" y2="1">
+                          <stop offset="0" stop-color="#cfe9b8"/>
+                          <stop offset="1" stop-color="#a4d287"/>
+                        </linearGradient>
+                      </defs>
+                      <rect width="200" height="144" fill="url(#sky2)"/>
+                      <path d="M0 144 L80 60 L120 60 L200 144 Z" fill="#7fb558"/>
+                      <path d="M70 144 L95 60 L105 60 L130 144 Z" fill="#5a5a5a"/>
+                      <path d="M99 144 L100 60 L101 60 L101 144 Z" stroke="#fff7a8" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+                      <rect x="18" y="58" width="4" height="50" fill="#8a6033"/>
+                      <polygon points="10,58 30,58 20,38" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                      <rect x="170" y="68" width="4" height="46" fill="#8a6033"/>
+                      <rect x="158" y="50" width="28" height="22" rx="2" fill="#f3c43a" stroke="#b88a1a" stroke-width="1.5"/>
+                      <circle cx="160" cy="20" r="10" fill="#fff" opacity="0.7"/>
+                      <circle cx="172" cy="22" r="8" fill="#fff" opacity="0.7"/>
+                    </svg>
+                    <div class="kk-lesson-pill assessment">Assessment</div>
+                  </div>
+                  <div class="kk-thumb-label">Print Concepts</div>
+                </div>
+
+                <div class="kk-thumb">
+                  <div class="kk-thumb-card" aria-label="Bored & Silly">
+                    <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <rect width="200" height="144" fill="#f4ebd9"/>
+                      <rect x="14" y="22" width="172" height="100" rx="6" fill="#ffffff" stroke="#d8c9a8" stroke-width="2"/>
+                      <circle cx="76" cy="74" r="26" fill="#8e7a64"/>
+                      <circle cx="68" cy="68" r="3" fill="#1d1d1f"/>
+                      <circle cx="84" cy="68" r="3" fill="#1d1d1f"/>
+                      <path d="M68 84 Q76 90 84 84" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                      <circle cx="130" cy="74" r="26" fill="#f3a047"/>
+                      <circle cx="122" cy="68" r="3" fill="#1d1d1f"/>
+                      <circle cx="138" cy="68" r="3" fill="#1d1d1f"/>
+                      <path d="M122 86 Q130 80 138 86" stroke="#1d1d1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <div class="kk-lesson-pill main">Main</div>
+                  </div>
+                  <div class="kk-thumb-label">Bored &amp; Silly</div>
+                </div>
+
+                <div class="kk-thumb is-locked" aria-disabled="true">
+                  <div class="kk-thumb-card" aria-label="Vowel Sounds (locked outside school hours)">
+                    <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <rect width="200" height="144" fill="#1b3a8a"/>
+                      <circle cx="56" cy="44" r="14" fill="#e74c3c"/>
+                      <circle cx="56" cy="80" r="14" fill="#2ecc71"/>
+                      <circle cx="56" cy="116" r="14" fill="#3498db"/>
+                      <text x="120" y="52" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">u</text>
+                      <text x="120" y="88" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">i</text>
+                      <text x="120" y="124" font-family="Fredoka, sans-serif" font-size="22" font-weight="600" fill="#ffffff" text-anchor="middle">e</text>
+                    </svg>
+                    <div class="kk-lesson-pill assessment">Assessment</div>
+                  </div>
+                  <div class="kk-thumb-label">Vowel Sounds</div>
+                </div>
+
+                <div class="kk-thumb">
+                  <div class="kk-thumb-card" aria-label="Rhyming">
+                    <svg viewBox="0 0 200 144" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="ocean2" x1="0" x2="0" y1="0" y2="1">
+                          <stop offset="0" stop-color="#cdeaf3"/>
+                          <stop offset="1" stop-color="#9fd3e4"/>
+                        </linearGradient>
+                      </defs>
+                      <rect width="200" height="144" fill="url(#ocean2)"/>
+                      <path d="M0 110 Q50 100 100 110 T200 110 L200 144 L0 144 Z" fill="#6fb7d0" opacity="0.5"/>
+                      <ellipse cx="100" cy="82" rx="58" ry="26" fill="#7a8896"/>
+                      <ellipse cx="100" cy="74" rx="58" ry="22" fill="#9aa9b8"/>
+                      <circle cx="78" cy="70" r="3.5" fill="#1d1d1f"/>
+                      <path d="M150 70 Q170 56 168 84 Z" fill="#7a8896"/>
+                      <path d="M52 58 Q44 50 56 48 Z" fill="#7a8896"/>
+                      <circle cx="58" cy="32" r="5" fill="#ffffff" opacity="0.85"/>
+                      <circle cx="64" cy="22" r="3" fill="#ffffff" opacity="0.85"/>
+                    </svg>
+                    <div class="kk-lesson-pill main">Main</div>
+                  </div>
+                  <div class="kk-thumb-label">Rhyming</div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="kk-home-indicator" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Khan Academy Kids · Internal engineering spec · KKIDS · Default: On, Mon–Fri, 7:00 AM – 3:00 PM
+  </footer>
+
+  <script>
+    // Scale each mock-card to fit its wrapper, preserving the true design size.
+    (function () {
+      var wraps = Array.prototype.slice.call(document.querySelectorAll('.mock-card-wrap'));
+      if (!wraps.length) return;
+      function fit() {
+        wraps.forEach(function (wrap) {
+          var card = wrap.querySelector('.mock-card');
+          if (!card) return;
+          var w = parseFloat(card.getAttribute('data-w')) || 1200;
+          var h = parseFloat(card.getAttribute('data-h')) || 920;
+          var scale = Math.min(1, wrap.clientWidth / w);
+          card.style.transform = 'scale(' + scale + ')';
+          wrap.style.height = (h * scale) + 'px';
+        });
+      }
+      window.addEventListener('resize', fit);
+      window.addEventListener('load', fit);
+      fit();
+    })();
+
+    // Switch toggle (mirrors Switch.vue). When a switch controls the time
+    // pickers, disable them while off.
+    (function () {
+      document.querySelectorAll('[data-switch]').forEach(function (sw) {
+        sw.addEventListener('click', function () {
+          var pill = sw.querySelector('.kk-pill');
+          var label = sw.querySelector('.kk-switch-label');
+          var on = pill.classList.toggle('on');
+          pill.classList.toggle('off', !on);
+          if (label) label.textContent = on ? 'On' : 'Off';
+
+          if (sw.hasAttribute('data-controls-times')) {
+            var row = sw.closest('.pref-row');
+            var range = row && row.querySelector('[data-time-range]');
+            if (range) range.classList.toggle('is-disabled', !on);
+          }
+        });
+      });
+    })();
+
+    // Time picker dialog (mirrors GenericDlg "Select Date" + DatePicker grid).
+    (function () {
+      var overlay = document.querySelector('[data-tp-overlay]');
+      if (!overlay) return;
+      var grid = overlay.querySelector('[data-tp-grid]');
+      var activeBtn = null;
+      var pendingValue = null;
+
+      // Build half-hour time options from 5:00 AM to 8:00 PM.
+      var times = [];
+      for (var m = 5 * 60; m <= 20 * 60; m += 30) {
+        times.push(m);
+      }
+      function label(mins) {
+        var h = Math.floor(mins / 60);
+        var mm = mins % 60;
+        var ampm = h >= 12 ? 'PM' : 'AM';
+        var h12 = h % 12; if (h12 === 0) h12 = 12;
+        return h12 + ':' + (mm < 10 ? '0' + mm : mm) + ' ' + ampm;
+      }
+
+      function render(selectedLabel) {
+        grid.innerHTML = '';
+        times.forEach(function (mins) {
+          var lbl = label(mins);
+          var item = document.createElement('div');
+          item.className = 'tp-item' + (lbl === selectedLabel ? ' selected' : '');
+          item.textContent = lbl;
+          item.addEventListener('click', function () {
+            pendingValue = lbl;
+            grid.querySelectorAll('.tp-item').forEach(function (el) { el.classList.remove('selected'); });
+            item.classList.add('selected');
+          });
+          grid.appendChild(item);
+        });
+      }
+
+      function open(btn) {
+        activeBtn = btn;
+        var current = btn.querySelector('[data-time-label]').textContent.trim();
+        pendingValue = current;
+        render(current);
+        overlay.hidden = false;
+        var sel = grid.querySelector('.tp-item.selected');
+        if (sel) sel.scrollIntoView({ block: 'center' });
+      }
+      function close() { overlay.hidden = true; activeBtn = null; }
+
+      document.querySelectorAll('[data-time-btn]').forEach(function (btn) {
+        btn.addEventListener('click', function () { open(btn); });
+      });
+      overlay.querySelectorAll('[data-tp-cancel]').forEach(function (el) {
+        el.addEventListener('click', close);
+      });
+      overlay.querySelector('[data-tp-ok]').addEventListener('click', function () {
+        if (activeBtn && pendingValue) {
+          activeBtn.querySelector('[data-time-label]').textContent = pendingValue;
+        }
+        close();
+      });
+    })();
+  </script>
+</body>
+</html>

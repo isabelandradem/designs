@@ -156,6 +156,16 @@
       color: var(--text-primary);
     }
     .option-intro + .option-intro { margin-top: 10px; }
+    .option-list {
+      margin: 10px 0 0;
+      padding-left: 22px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--text-primary);
+    }
+    .option-list li { margin-bottom: 6px; }
+    .option-list li:last-child { margin-bottom: 0; }
+    .option-list strong { font-weight: 600; }
 
     /* ---------- Mock stage ---------- */
     .stage {
@@ -702,9 +712,10 @@
       The new row includes an on/off switch and a time-range picker. Teachers can toggle the setting on or off
       and select either time to customize the assessment access window.
     </p>
-    <p class="option-intro">
-    When the setting is <strong>on</strong>, teachers can select either time to customize the assessment access window. When the setting is <strong>off</strong>, the time-range picker buttons are disabled and do not open the time picker.
-    </p>
+    <ul class="option-list">
+      <li>When the setting is <strong>on</strong>, teachers can select either time to customize the assessment access window.</li>
+      <li>When the setting is <strong>off</strong>, the time-range picker buttons are disabled and do not open the time picker.</li>
+    </ul>
   </section>
 
   <section class="stage">

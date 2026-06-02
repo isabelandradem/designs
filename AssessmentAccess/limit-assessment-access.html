@@ -534,6 +534,9 @@
     }
     .tp-item:hover { background: #eef3fb; }
     .tp-item.selected { color: #fff; background: var(--navy); }
+    /* Out-of-range times: greyed and not tappable (mirrors disabled-date-item) */
+    .tp-item.is-disabled { color: rgba(39, 68, 122, 0.30); cursor: default; }
+    .tp-item.is-disabled:hover { background: transparent; }
     .tp-buttons {
       display: flex; justify-content: flex-end; align-items: center;
       gap: 24px; margin-top: 24px;
@@ -1190,29 +1193,63 @@
         return h12 + ':' + (mm < 10 ? '0' + mm : mm) + ' ' + ampm;
       }
 
+      // Parse a "7:00 AM" label back to minutes-since-midnight.
+      function parse(lbl) {
+        var m = /(\d+):(\d+)\s*(AM|PM)/i.exec(lbl);
+        if (!m) return null;
+        var h = parseInt(m[1], 10) % 12;
+        if (/PM/i.test(m[3])) h += 12;
+        return h * 60 + parseInt(m[2], 10);
+      }
+
+      var MIN_WINDOW = 30;          // end must be at least 30 min after start
+      var minAllowed = -Infinity;   // constraints for the currently open picker
+      var maxAllowed = Infinity;
+
       function render(selectedLabel) {
         grid.innerHTML = '';
         times.forEach(function (mins) {
           var lbl = label(mins);
+          // Mirrors DatePicker.vue: times outside the allowed range render
+          // greyed out and are not selectable, so start is always < end.
+          var disabled = mins < minAllowed || mins > maxAllowed;
           var item = document.createElement('div');
-          item.className = 'tp-item' + (lbl === selectedLabel ? ' selected' : '');
+          item.className = 'tp-item'
+            + (lbl === selectedLabel && !disabled ? ' selected' : '')
+            + (disabled ? ' is-disabled' : '');
           item.textContent = lbl;
-          item.addEventListener('click', function () {
-            pendingValue = lbl;
-            grid.querySelectorAll('.tp-item').forEach(function (el) { el.classList.remove('selected'); });
-            item.classList.add('selected');
-          });
+          if (!disabled) {
+            item.addEventListener('click', function () {
+              pendingValue = lbl;
+              grid.querySelectorAll('.tp-item').forEach(function (el) { el.classList.remove('selected'); });
+              item.classList.add('selected');
+            });
+          }
           grid.appendChild(item);
         });
       }
 
       function open(btn) {
         activeBtn = btn;
+        var range = btn.closest('[data-time-range]');
+        var startBtn = range.querySelector('[data-time-btn="start"]');
+        var endBtn = range.querySelector('[data-time-btn="end"]');
+        var startMins = parse(startBtn.querySelector('[data-time-label]').textContent);
+        var endMins = parse(endBtn.querySelector('[data-time-label]').textContent);
+
+        if (btn.getAttribute('data-time-btn') === 'start') {
+          minAllowed = -Infinity;
+          maxAllowed = endMins - MIN_WINDOW;   // start must stay before end
+        } else {
+          minAllowed = startMins + MIN_WINDOW; // end must stay after start
+          maxAllowed = Infinity;
+        }
+
         var current = btn.querySelector('[data-time-label]').textContent.trim();
         pendingValue = current;
         render(current);
         overlay.hidden = false;
-        var sel = grid.querySelector('.tp-item.selected');
+        var sel = grid.querySelector('.tp-item.selected') || grid.querySelector('.tp-item:not(.is-disabled)');
         if (sel) sel.scrollIntoView({ block: 'center' });
       }
       function close() { overlay.hidden = true; activeBtn = null; }

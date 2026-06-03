@@ -92,6 +92,18 @@
       line-height: 1.25;
     }
     h1 strong { font-weight: 600; }
+    .jira-link {
+      margin: 14px 0 0;
+      font-size: 14px;
+      text-align: left;
+    }
+    .jira-link a {
+      color: var(--teal);
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(20, 191, 150, 0.35);
+    }
+    .jira-link a:hover { border-bottom-color: var(--teal); }
 
     /* ---------- Prose blocks (Problem / Proposal) ---------- */
     .prose {
@@ -713,6 +725,7 @@
   <header class="page-header">
     <div class="eyebrow">Engineering PRD</div>
     <h1>Limit Assessment Access to School Hours</h1>
+    <p class="jira-link"><a href="https://duckduckmoose.atlassian.net/browse/KKIDS-8518" target="_blank" rel="noopener">Jira: KKIDS-8518</a></p>
   </header>
 
   <section class="prose" aria-label="Problem">

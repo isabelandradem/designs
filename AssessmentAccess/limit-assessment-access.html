@@ -1187,6 +1187,30 @@
     </div>
   </section>
 
+  <!-- ================================================================ -->
+  <!-- Edge cases                                                        -->
+  <!-- ================================================================ -->
+  <section class="option-section" aria-label="Edge cases">
+    <h2 class="option-title">Edge Cases</h2>
+    <ul class="option-list">
+      <li>
+        <strong>Mid-session window close:</strong> If a student is inside an assessment when 3&nbsp;PM hits,
+        let them finish the current assessment and block new ones.
+      </li>
+      <li>
+        <strong>Interaction with &ldquo;Assignments-first&rdquo;:</strong> If a class has both
+        &ldquo;Show students Assignments first&rdquo; and &ldquo;Limit assessment access&rdquo; turned on, a child
+        could open the app outside school hours and find that their only assigned work is assessments &mdash; which
+        are locked. Without a fix, they&rsquo;d be trapped on the assignments screen with nothing they&rsquo;re
+        allowed to tap. To prevent this, the app should treat locked assessments as &ldquo;not currently doable&rdquo;
+        when deciding whether to hold the child in assignments-first mode. So &mdash; if the child&rsquo;s only
+        remaining assignments are assessments and it&rsquo;s outside school hours, the app lets them out of
+        assignments-first into normal free play. The assessment tiles still show greyed out with the
+        &ldquo;only available during school hours&rdquo; message if tapped.
+      </li>
+    </ul>
+  </section>
+
   <footer>
   </footer>
 

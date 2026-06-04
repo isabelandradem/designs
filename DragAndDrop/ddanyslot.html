@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDAnySlot — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDAnySlot</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 1 · Slot-Based Drags</div>
+    <h1>DDAnySlot</h1>
+    <p class="lede">
+      The child fills the drop slots with <code>Valid</code> items. Any
+      <code>Valid</code> item can go in any drop slot, because placement is not matched
+      item-by-item.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump current" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#vs">vs DD1SlotPerItem</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v41" class="sub">4.1 · Valid items accepted by any drop slot</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        In a <code>DDAnySlot</code> question, the screen has a few drop slots and some
+        draggable items. The child drags <code>Valid</code> items into the drop slots, and
+        it doesn’t matter which <code>Valid</code> item goes in which drop slot. Each drop
+        slot still holds only one item.
+      </p>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDAnySlot</p>
+        <p>
+          There is no item-to-slot match. Any <code>Valid</code> item is accepted by any
+          drop slot. The task is about filling drop slots, not matching each item to a
+          specific slot.
+        </p>
+      </div>
+
+      <!-- ===== VS ===== -->
+      <h2 id="vs">How is this different from DD1SlotPerItem?</h2>
+      <p>
+        These two look similar — both put one item per drop slot — but they grade the
+        child completely differently:
+      </p>
+      <table class="glossary">
+        <tr><th></th><th>DD1SlotPerItem</th><th>DDAnySlot</th></tr>
+        <tr>
+          <td><b>Does it matter which item goes where?</b></td>
+          <td><b>Yes</b> — each <code>Valid</code> item has an accepted drop slot.</td>
+          <td><b>No</b> — any <code>Valid</code> item can go in any drop slot.</td>
+        </tr>
+        <tr>
+          <td><b>The task</b></td>
+          <td><b>Match</b> each <code>Valid</code> item to its drop slot.</td>
+          <td><b>Fill</b> the drop slots (placement is irrelevant).</td>
+        </tr>
+        <tr>
+          <td><b><code>slot</code> on a Valid item</b></td>
+          <td>Has a slot number, e.g. <code>"1"</code> or <code>"2,3"</code>.</td>
+          <td><b>Left blank</b> — no assigned drop slot.</td>
+        </tr>
+        <tr>
+          <td><b>Graded on</b></td>
+          <td>Correct item-to-drop-slot pairing.</td>
+          <td>Getting <code>Valid</code> items into the drop slots.</td>
+        </tr>
+      </table>
+      <div class="callout note">
+        <p class="callout-title">The quickest way to tell them apart</p>
+        <p>
+          Look at the <code>Valid</code> items. If they carry a <code>slot</code> value, it’s
+          a matching task (<code>DD1SlotPerItem</code>). If they have <b>no</b> <code>slot</code>,
+          any <code>Valid</code> item fits anywhere (<code>DDAnySlot</code>). In both,
+          <code>Bogus</code> items are never accepted into a drop slot.
+        </p>
+      </div>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDAnySlot"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — how many drop slots and where they sit.</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear in total.</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many drop slots need to be filled.</td></tr>
+        <tr><td><code>numExtraItems</code></td><td>Extra items offered beyond what’s needed (so the child has choices).</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>A draggable item accepted by any drop slot. Usually has no <code>slot</code>; one line can list several pictures.</td></tr>
+        <tr><td><code>Bogus</code></td><td>A draggable item that is never accepted into a drop slot.</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture — often the character/art aligned to a drop slot.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines a drop slot itself (position/size).</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 4.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v41"><span class="variant-tag">4.1</span> Valid items are accepted by any drop slot</h2>
+      <p>
+        Several items, a few drop slots, and any <code>Valid</code> item can fill any drop
+        slot. The child just needs to get a <code>Valid</code> item into each drop slot.
+        Notice the <code>Valid</code> items have no <code>slot</code> — that’s what makes
+        placement free.
+      </p>
+
+      <!-- Example 4.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Give a hat to the cat and the dog</span>
+          <span class="example-file">Drag-All.leaf.json · q3 (101–158)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddanyslot-41-hats.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddanyslot-41-hats.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Four Valid hat items and two animal drop slots. Any hat can go on either animal as long as both drop slots are filled.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q3",
+  "questionType": "DDAnySlot",
+  "layout": ".../Drag/DDXYintoA4",
+  "numValidItems": 2,
+  "numTotalItems": 4,
+  "numExtraItems": 2,
+  "soundExt": "_silent",
+  "comments": "DDAnySlot",
+  "items": [
+    { "itemType": "Valid", "path": ".../kodihats:kodihat9_thumb,kodihat7_thumb,kodihat50_thumb,kodihat3_thumb", "behavior": "wiggle1" },
+    { "itemType": "Static", "path": ".../catCharStat.png", "slot": "drop1" },
+    { "itemType": "Static", "path": ".../dogCharStat.png", "slot": "drop2" },
+    { "itemType": "Background", "path": ".../bluebg.png" },
+    { "itemType": "Drop", "slot": "drop1", "x": "46%", "y": "4%",  "scale": "60%" },
+    { "itemType": "Drop", "slot": "drop2", "x": "51%", "y": "-6%", "scale": "60%" },
+    { "itemType": "Instruction", "text": "give a hat to the cat and the dog" },
+    { "itemType": "Yay", "text": "looking good" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The single <b>Valid</b> line offers four hats, none with a <code>slot</code> — so
+          any hat is accepted on either animal. There are two drop slots to fill
+          (<code>numValidItems: 2</code>: the cat on <code>drop1</code>, the dog on
+          <code>drop2</code>), and <code>numExtraItems: 2</code> means extra hats are offered
+          so the child has a choice. Compare this to DD1SlotPerItem, where each hat would
+          have an assigned drop slot.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Quick recap</p>
+        <p>
+          <code>DDAnySlot</code> = fill every drop slot, any <code>Valid</code> item works. The giveaway is
+          <code>Valid</code> items with <b>no</b> <code>slot</code>. If which-item-goes-where
+          matters, you want <a href="dd1slotperitem.html">DD1SlotPerItem</a> instead.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="dd1slotperitem.html">
+          <span class="next-prev-label">Previous type</span>
+          <strong>DD1SlotPerItem</strong>
+          <span>One item per drop slot</span>
+        </a>
+        <a class="next" href="ddboxes.html">
+          <span class="next-prev-label">Next family</span>
+          <strong>DDBoxes</strong>
+          <span>Match to drop slots</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDAnySlot
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

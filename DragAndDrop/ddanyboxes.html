@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDAnyBoxes — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDAnyBoxes</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 2 · “Boxes” Drags</div>
+    <h1>DDAnyBoxes</h1>
+    <p class="lede">
+      Same row of Boxes-style drop slots as <a href="ddboxes.html">DDBoxes</a>, but the
+      answer is graded by which drop slots are filled, not by item identity.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump current" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#vs">vs DDBoxes</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v71" class="sub">7.1 · Measure with blocks</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        DDAnyBoxes shows a set of drop slots and usually identical items. The child drags
+        items into the drop slots and taps the green button to check. Two things make it special:
+      </p>
+      <ul class="lead-list">
+        <li><b>Any item can go in any drop slot.</b> Unlike DDBoxes, an item isn’t matched to one drop slot.</li>
+        <li><b>It grades by which drop slots are filled</b>, not by which item is in which slot. The answer is right when every <code>Valid</code> slot is filled and every <code>Bogus</code> slot is empty.</li>
+      </ul>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDAnyBoxes</p>
+        <p>
+          <b>It’s about counting, not matching.</b> The child chooses how many drop slots to
+          fill (and which ones). The items themselves are usually interchangeable, so it
+          never matters which block lands in which drop slot.
+        </p>
+      </div>
+
+      <!-- ===== VS ===== -->
+      <h2 id="vs">vs DDBoxes</h2>
+      <table class="glossary">
+        <tr><th></th><th>DDBoxes / DDFillBoxes</th><th>DDAnyBoxes</th></tr>
+        <tr>
+          <td><b>The task</b></td>
+          <td>Put each <code>Valid</code> item in its accepted drop slot.</td>
+          <td>Fill the <code>Valid</code> drop slots; leave the <code>Bogus</code> drop slots empty.</td>
+        </tr>
+        <tr>
+          <td><b>How it’s graded</b></td>
+          <td>Accepted item in the accepted drop slot.</td>
+          <td><code>Valid</code> slots filled + <code>Bogus</code> slots empty. <b>Item identity is ignored.</b></td>
+        </tr>
+        <tr>
+          <td><b>Can you drop into a Bogus slot?</b></td>
+          <td>No — only accepted drop slots accept an item.</td>
+          <td><b>Yes</b> — any drop slot accepts an item, even one that should stay empty.</td>
+        </tr>
+        <tr>
+          <td><b>Item size in drop slot</b></td>
+          <td colspan="2" style="text-align:center;">Resizes to fill the drop slot (same as DDFillBoxes)</td>
+        </tr>
+        <tr>
+          <td><b>Typical use</b></td>
+          <td>Spelling, sorting, sequencing.</td>
+          <td>Measuring / counting (“how many?”).</td>
+        </tr>
+      </table>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDAnyBoxes"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — how many drop slots and where the tray sits.</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear in total.</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many drop slots must be filled for a correct answer.</td></tr>
+        <tr><td><code>numExtraItems</code></td><td>How many drop slots should stay empty.</td></tr>
+        <tr><td><code>dropSlotStyle</code></td><td>Look of the drop slots, e.g. <code>"DashBorder"</code> draws the dashed outline.</td></tr>
+        <tr><td><code>showSubmitButton</code></td><td><code>true</code> shows the green check button so the child confirms when done.</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>Marks which drop slots should be filled. Its <code>slot</code> list (e.g. <code>"1,2,3"</code>) names those slots.</td></tr>
+        <tr><td><code>Bogus</code></td><td>Marks which drop slots should stay empty. Its <code>slot</code> (e.g. <code>"4"</code>) names those slots.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines the drop slots themselves (position/size).</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture — here, the person being measured.</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+      </table>
+      <div class="callout note">
+        <p class="callout-title">How <code>Valid</code> and <code>Bogus</code> work here</p>
+        <p>
+          In DDAnyBoxes, <code>Valid</code> and <code>Bogus</code> don’t describe individual
+          draggable pieces so much as they <b>label the drop slots</b>. <code>Valid</code>’s
+          <code>slot</code> list is the set of drop slots that must end up filled; <code>Bogus</code>’s
+          <code>slot</code> list is the set that must stay empty. The blocks the child drags
+          are usually all the same picture.
+        </p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 7.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v71"><span class="variant-tag">7.1</span> Measure with blocks</h2>
+      <p>
+        A measuring task: <em>“How many blocks tall is the boy?”</em> There’s a vertical
+        stack of 4 drop slots next to the boy, who is 3 blocks tall. The child drags blocks
+        into the drop slots to measure him — the answer is correct when the bottom 3 drop
+        slots are filled and the top drop slot stays empty.
+      </p>
+
+      <!-- Example 7.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">How many blocks tall is the boy?</span>
+          <span class="example-file">MAT08Measurement_EN.asm.leaf.json · q07 (556–619)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddanyboxes-71-measure.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddanyboxes-71-measure.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">A stack of 4 dashed drop slots beside the boy, with identical blocks in the tray. The child fills drop slots to match his height, then taps the green button.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "MAT8V2-EN-q07-4YO",
+  "questionType": "DDAnyBoxes",
+  "layout": "test/holly/measurevertically4",
+  "numTotalItems": 4,
+  "numValidItems": 3,
+  "numExtraItems": 1,
+  "dropSlotStyle": "DashBorder",
+  "disable": "oops,multiTries,sparkles,exuberantKodi,thisIsHow",
+  "showSubmitButton": true,
+  "comments": "ask: measure the boy with blocks",
+  "items": [
+    { "itemType": "Static", "path": ".../people/boy8.png", "slot": "stat1", "scale": "94", "y": "63" },
+    { "itemType": "Valid", "path": ".../shape/squareround1.png", "slot": "1,2,3", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../shape/squareround1.png", "slot": "4",     "behavior": "wiggle1" },
+    { "itemType": "Drop",  "slot": "drop1,drop2,drop3" },
+    { "itemType": "Instruction", "text": "How many blocks tall is the boy? Measure him by dragging blocks to the dotted squares. ...Press the green button when youre done." },
+    { "itemType": "Background", "path": ".../BG_Measurement_sidewalk-chalk.png" },
+    { "itemType": "Yay",  "text": "Lets do another one!" },
+    { "itemType": "Oops", "text": "Lets do another one!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The <code>Valid</code> block lists <code>slot: "1,2,3"</code> — the bottom three
+          drop slots that <b>must</b> end up filled (<code>numValidItems: 3</code>). The
+          <code>Bogus</code> block lists <code>slot: "4"</code> — the top drop slot that
+          <b>must stay empty</b> (<code>numExtraItems: 1</code>). Notice both blocks use the
+          <i>same picture</i> (<code>squareround1.png</code>): the child isn’t matching, just
+          deciding how many blocks tall the boy is. Filling all 4 drop slots (or only 2) would be
+          marked wrong.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Why not DDBoxes here?</p>
+        <p>
+          With <a href="ddboxes.html">DDBoxes</a> each drop slot wants a specific <code>Valid</code> item, which
+          makes no sense when every block is identical and the real question is “how many?”.
+          DDAnyBoxes lets the child drop blocks freely and grades the count — the
+          <code>Valid</code> drop slots filled, the <code>Bogus</code> drop slots empty.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="ddfillboxes.html">
+          <span class="next-prev-label">Previous type</span>
+          <strong>DDFillBoxes</strong>
+          <span>Resize to drop slot</span>
+        </a>
+        <a class="next" href="ddletterboxes.html">
+          <span class="next-prev-label">Next type</span>
+          <strong>DDLetterBoxes</strong>
+          <span>Text items in order</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDAnyBoxes
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drag &amp; Drop Question Types — Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">Content Author Guide</div>
+    <h1>Drag &amp; Drop Question Types</h1>
+    <p class="lede">
+      Choose the <code>questionType</code> that matches how items, drop slots,
+      <code>Valid</code> items, and <code>Bogus</code> items behave.
+    </p>
+  </header>
+
+  <!-- ===================== FAMILY 1 ===================== -->
+  <section class="family">
+    <div class="family-head">
+      <span class="family-kicker">Family 1</span>
+      <h2>Slot-Based Drags</h2>
+    </div>
+    <p class="family-note">
+      Use these when items are dragged into one or more drop slots on the screen.
+    </p>
+
+    <div class="type-list">
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDXintoA</span>
+          <span class="type-summary">One drop slot group: drag the Valid item(s) into the matching drop slot.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> Valid items all belong in the same drop slot or drop slot group.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Choose the item that rhymes with a word and drag it to the drop slot.</li>
+            <li>Drag all items from one category, like fruit, into the same drop slot.</li>
+            <li>Drag a requested number of items into one drop slot, like one toy into a bowl.</li>
+          </ul>
+          <p><b>Avoid this when</b> Valid items need to be split across two drop slot groups or matched one-to-one with slots.</p>
+          <div class="type-actions">
+            <a href="ddxintoa.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDXYintoAB</span>
+          <span class="type-summary">Two drop slot groups: sort Valid items into A or B.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> each Valid item belongs in one of two drop slot groups.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Sort letter items by beginning sound into two character drop slots.</li>
+            <li>Sort picture items into two categories, like animals that live on land vs. in water.</li>
+            <li>Sort people or objects into two labeled drop slot groups.</li>
+          </ul>
+          <p><b>Avoid this when</b> there is only one drop slot group, or when each item needs its own specific drop slot.</p>
+          <div class="type-actions">
+            <a href="ddxyintoab.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DD1SlotPerItem</span>
+          <span class="type-summary">One item per drop slot: match each Valid item to its drop slot.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> each drop slot can hold one item and the item-to-slot match matters.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Match uppercase letters to lowercase letters in separate drop slots.</li>
+            <li>Complete a pattern where each next item has a specific drop slot.</li>
+            <li>Fill only the drop slots that match a measured height or length.</li>
+          </ul>
+          <p><b>Avoid this when</b> any Valid item can fill any drop slot. Use <code>DDAnySlot</code> for that.</p>
+          <div class="type-actions">
+            <a href="dd1slotperitem.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDAnySlot</span>
+          <span class="type-summary">Any Valid item can fill any drop slot.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> the child just needs to fill the available drop slots.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Give hats to two characters when any hat can go on either character.</li>
+            <li>Fill a set number of open drop slots with interchangeable items.</li>
+            <li>Let the child choose from extra items when any Valid item works.</li>
+          </ul>
+          <p><b>Avoid this when</b> the answer depends on which item lands in which drop slot.</p>
+          <div class="type-actions">
+            <a href="ddanyslot.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== FAMILY 2 ===================== -->
+  <section class="family">
+    <div class="family-head">
+      <span class="family-kicker alt">Family 2</span>
+      <h2>“Boxes” Drags</h2>
+    </div>
+    <p class="family-note">
+      Use these when items are placed into a row of Boxes-style drop slots, then checked.
+    </p>
+
+    <div class="type-list">
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDBoxes</span>
+          <span class="type-summary">Match Valid items to specific Boxes-style drop slots, then tap to check.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> each drop slot has a specific Valid item or set of acceptable Valid items.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Copy a visual pattern into a row of drop slots.</li>
+            <li>Put story pictures in order from left to right.</li>
+            <li>Choose the correct sound or image item for each drop slot, then submit.</li>
+          </ul>
+          <p><b>Avoid this when</b> all Valid items are interchangeable, or when the only difference is that items should resize to fill the drop slot.</p>
+          <div class="type-actions">
+            <a href="ddboxes.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDFillBoxes</span>
+          <span class="type-summary">Like DDBoxes, but dropped items resize to fill the drop slot.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> you want DDBoxes behavior with cleaner, uniform sizing.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Drop an item onto a ruler so it lines up with the measurement marks.</li>
+            <li>Place differently cropped story panels into same-size drop slots.</li>
+            <li>Make image items snap neatly into frames or panels after drop.</li>
+          </ul>
+          <p><b>Avoid this when</b> the item should keep its original size after it is dropped.</p>
+          <div class="type-actions">
+            <a href="ddfillboxes.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDAnyBoxes</span>
+          <span class="type-summary">Fill the correct drop slots; item identity does not matter.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> the child decides which drop slots should be filled and which should stay empty.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Measure a character by filling the correct number of block drop slots.</li>
+            <li>Show how many units tall or long something is with identical items.</li>
+            <li>Fill the Valid drop slots while leaving extra Bogus drop slots empty.</li>
+          </ul>
+          <p><b>Avoid this when</b> each drop slot needs a specific Valid item. Use <code>DDBoxes</code> instead.</p>
+          <div class="type-actions">
+            <a href="ddanyboxes.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+
+      <details class="type-toggle">
+        <summary>
+          <span class="type-name">DDLetterBoxes</span>
+          <span class="type-summary">Spell a word by placing text items in drop slot order.</span>
+        </summary>
+        <div class="type-detail">
+          <p><b>Use this when</b> the answer is a word built from letter or letter-chunk items.</p>
+          <p><b>Good for</b></p>
+          <ul>
+            <li>Spell a word by placing letter items in order.</li>
+            <li>Build a word from letter chunks, like <code>h</code> + <code>er</code> + <code>d</code>.</li>
+            <li>Practice blending sounds where the final answer is the ordered text items.</li>
+          </ul>
+          <p><b>Avoid this when</b> the child is matching image items into drop slots instead of spelling a word.</p>
+          <div class="type-actions">
+            <a href="ddletterboxes.html">Open full guide</a>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · Drag &amp; Drop question types
+  </footer>
+</body>
+</html>

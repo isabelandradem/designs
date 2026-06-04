@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDFillBoxes — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDFillBoxes</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 2 · “Boxes” Drags</div>
+    <h1>DDFillBoxes</h1>
+    <p class="lede">
+      Exactly like <a href="ddboxes.html">DDBoxes</a>, but each dropped item resizes to fill
+      its drop slot. Use this when the drop slot should control the item’s displayed size.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump current" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#vs">vs DDBoxes</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v61" class="sub">6.1 · Fill drop slots in order</a>
+        <a href="#v62" class="sub">6.2 · Measure on a ruler</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        DDFillBoxes is the same as DDBoxes in every way that matters for the answer:
+        a row of drop slots, each with an accepted <code>Valid</code> item. The one added
+        behavior is that when an item is dropped into a slot, it resizes to fill that drop
+        slot (and shrinks back to its normal size if pulled out).
+      </p>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDFillBoxes</p>
+        <p>
+          <b>The drop slot controls the size.</b> Whatever you drop snaps to fill the drop
+          slot, so every placed item looks consistent — handy when your items have different
+          natural sizes.
+        </p>
+      </div>
+
+      <!-- ===== VS ===== -->
+      <h2 id="vs">vs DDBoxes</h2>
+      <p>
+        These two are interchangeable for grading — the difference is purely visual:
+      </p>
+      <table class="glossary">
+        <tr><th></th><th>DDBoxes</th><th>DDFillBoxes</th></tr>
+        <tr>
+          <td><b>Dropped item size</b></td>
+          <td>Keeps its own size (its <code>scale</code>).</td>
+          <td><b>Resizes to fill the drop slot.</b></td>
+        </tr>
+        <tr>
+          <td><b>Who controls the size</b></td>
+          <td>The item.</td>
+          <td>The drop slot.</td>
+        </tr>
+        <tr>
+          <td><b>Matching, swapping, submit button</b></td>
+          <td colspan="2" style="text-align:center;">Identical in both</td>
+        </tr>
+      </table>
+      <div class="callout note">
+        <p class="callout-title">Which should you pick?</p>
+        <p>
+          Choose <b>DDFillBoxes</b> when items have different shapes/sizes and you want them
+          all to fit their drop slots uniformly (pictures into frames, panels into a row). Choose
+          <a href="ddboxes.html"><b>DDBoxes</b></a> when items are already box-sized and
+          should keep their own size. Switching between the two is just a one-word change to
+          <code>questionType</code>.
+        </p>
+      </div>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDFillBoxes"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — how many drop slots and where the tray sits.</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear (<code>Valid</code> + <code>Bogus</code>).</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many drop slots must be filled with accepted <code>Valid</code> items.</td></tr>
+        <tr><td><code>dropSlotStyle</code></td><td>Look of the drop slots, e.g. <code>"DashBorder"</code> draws a dashed outline.</td></tr>
+        <tr><td><code>bgPath</code> (on an item)</td><td>A background behind the item (e.g. a white square) so it reads as a clean tile inside the drop slot.</td></tr>
+        <tr><td><code>itemSlot</code> (on an item)</td><td>Which tray position the item starts in (so it doesn’t start already in order).</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>A draggable item accepted by a drop slot. Its <code>slot</code> names the accepted drop slot; it will resize to fill that slot.</td></tr>
+        <tr><td><code>Bogus</code></td><td>A draggable item that isn’t accepted by any drop slot.</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture — a label, arrows between drop slots, or drop slot art.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines a drop slot itself (position/size). This size is what items fill to.</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 6.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v61"><span class="variant-tag">6.1</span> Fill the drop slots in order</h2>
+      <p>
+        A sequencing task: the child puts story pictures in the right order across a row of
+        drop slots. Each picture belongs in one drop slot (<code>slot: "1"</code>, <code>"2"</code>,
+        <code>"3"</code>), and because the panels are cropped differently, DDFillBoxes makes
+        them all fill their drop slots uniformly.
+      </p>
+
+      <!-- Example 6.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Retelling: move the pictures to put the story in order</span>
+          <span class="example-file">LIT04Retelling_EN.asm.leaf.json · q02 (384–451)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddfillboxes-61-story.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddfillboxes-61-story.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Three story pictures and three drop slots (with arrows between them). The child orders the panels left-to-right, then taps the green button.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LIT4V3-EN-q02-3YO",
+  "questionType": "DDFillBoxes",
+  "numTotalItems": 3,
+  "numValidItems": 3,
+  "layout": ".../DDSequence3S3",
+  "dropSlotStyle": "DashBorder",
+  "disable": "thisIsHow,oops,multiTries,sparkles,exuberantKodi",
+  "comments": "ask: Move the pictures to retell the story.",
+  "items": [
+    { "itemType": "Instruction", "text": "Move the pictures to put the story in order. ...Tap the green button when you are done." },
+    { "itemType": "Valid", "path": ".../SandysBandp1zoomed.png", "audioPathText": "Sandy wanted to start a band.",          "slot": "1", "itemSlot": "3", "bgPath": ".../WhiteBgSquare.png", "scale": "98" },
+    { "itemType": "Valid", "path": ".../SandysBandp2zoomed.png", "audioPathText": "But her friends did not sound good.",      "slot": "2", "itemSlot": "1", "bgPath": ".../WhiteBgSquare.png", "scale": "98" },
+    { "itemType": "Valid", "path": ".../SandysBandp3zoomed.png", "audioPathText": "After some practice they sounded much better.", "slot": "3", "itemSlot": "2", "bgPath": ".../WhiteBgSquare.png", "scale": "98" },
+    { "itemType": "Static", "path": ".../lightarrowright.png", "slot": "stat1,stat2" },
+    { "itemType": "Background", "path": ".../tablebrown2.png" },
+    { "itemType": "Yay",  "text": "Keep it up." },
+    { "itemType": "Oops", "text": "Keep it up." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Each story panel has its accepted drop slot — <code>slot: "1"</code>, <code>"2"</code>,
+          <code>"3"</code> (the right order) — while <code>itemSlot</code> shuffles their
+          starting positions in the tray (3, 1, 2) so the child has to reorder them. The
+          panels are cropped differently, so DDFillBoxes resizes each to fill its drop slot for a
+          tidy, even row. The <code>Static</code> arrows (<code>stat1,stat2</code>) sit
+          between the boxes to show left-to-right order.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Good to know</p>
+        <p>
+          This exact question would also work as <a href="ddboxes.html">DDBoxes</a> — the
+          grading is the same. The author chose <code>DDFillBoxes</code> so the differently
+          cropped story panels all fill their drop slots uniformly. That’s the whole difference.
+        </p>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 6.2                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v62"><span class="variant-tag">6.2</span> Measure on a ruler</h2>
+      <p>
+        Here there’s just one drop slot at the top of a ruler and several items to
+        try. The child drags each item onto the ruler to see how long it is, and leaves the
+        <code>Valid</code> item in place. Because the items are different lengths,
+        DDFillBoxes keeps the dropped item sized to the drop slot so it lines up cleanly
+        with the ruler.
+      </p>
+
+      <!-- Example 6.2.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Which item is 8 inches long? Drop it on the ruler.</span>
+          <span class="example-file">CHF_MeasurementLayouts.leaf.json · q1 (5–64)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddfillboxes-62-ruler.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddfillboxes-62-ruler.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">A ruler with one drop slot above it. The straw (8 in), pencil (5 in) and paintbrush (7 in) sit in the tray; the child tries them on the ruler and leaves the 8-inch one.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q1 - leaf MAD_01_a",
+  "questionType": "DDFillBoxes",
+  "layout": ".../DDMeasure2Items1Drop1Static",
+  "numValidItems": 1,
+  "numTotalItems": 3,
+  "showSubmitButton": true,
+  "items": [
+    { "itemType": "Background", "path": ".../Background:{var1}" },
+    { "itemType": "Instruction", "text": "Drag the items to the top of the ruler... When you find the one that is 8 inches long, tap the green button" },
+    { "itemType": "Static", "slot": "stat1", "path": ".../measure/ruler_inch.png" },
+    { "itemType": "Valid", "slot": "drop1", "path": ".../measure:measure_8in_straw_full", "align": "Left", "scale": "200" },
+    { "itemType": "Bogus", "path": ".../measure:measure_5in_pencil_full,measure_7in_paintbrush_full", "align": "Left", "scale": "200" },
+    { "itemType": "Drop", "slot": "drop1" },
+    { "itemType": "Yay",  "text": "Cool! You dragged the straw that is 8 inches long" },
+    { "itemType": "Oops", "text": "Oops! That is not 8 inches long. Try something else." },
+    { "itemType": "ThisIsHow", "text": "The straw is 8 inches long" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          There’s a single drop slot (<code>drop1</code>), defined by the <code>Drop</code> item and
+          backed by the ruler <code>Static</code>. The <code>Valid</code> straw is accepted by it
+          (<code>slot: "drop1"</code>), while the <code>Bogus</code> item supplies the two
+          Bogus items (pencil + paintbrush) — note one <code>Bogus</code> entry can list
+          several pictures. <code>numValidItems: 1</code> means only one drop slot needs a
+          Valid item. The child can freely try each item on the ruler; it snaps to fill the drop slot so
+          it aligns with the inch marks.
+        </div>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="ddboxes.html">
+          <span class="next-prev-label">Previous type</span>
+          <strong>DDBoxes</strong>
+          <span>Match to drop slots</span>
+        </a>
+        <a class="next" href="ddanyboxes.html">
+          <span class="next-prev-label">Next type</span>
+          <strong>DDAnyBoxes</strong>
+          <span>Fill correct drop slots</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDFillBoxes
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

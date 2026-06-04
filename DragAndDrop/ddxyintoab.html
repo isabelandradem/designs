@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDXYintoAB — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDXYintoAB</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 1 · Slot-Based Drags</div>
+    <h1>DDXYintoAB</h1>
+    <p class="lede">
+      The child sorts <code>Valid</code> items into two drop slot groups:
+      <code>drop1</code> or <code>drop2</code>. <code>Bogus</code> items belong in neither.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump current" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#vs">DDXintoA vs DDXYintoAB</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v21" class="sub">2.1 · Sort two groups</a>
+        <a href="#v22" class="sub">2.2 · Valid + Bogus items</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        In a <code>DDXYintoAB</code> question there are two drop slot groups:
+        <code>drop1</code> and <code>drop2</code>. Each <code>Valid</code> item belongs in
+        one of those groups. <code>Bogus</code> items belong in neither group.
+      </p>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDXYintoAB</p>
+        <p>
+          There are exactly two accepted drop slot groups. Each <code>Valid</code> item is
+          tagged with <code>"slot": "1"</code> (belongs in <code>drop1</code>) or
+          <code>"slot": "2"</code> (belongs in <code>drop2</code>).
+        </p>
+      </div>
+
+      <!-- ===== VS ===== -->
+      <h2 id="vs">DDXintoA vs DDXYintoAB</h2>
+      <p>If you already read the DDXintoA guide, this is the only change to keep in mind:</p>
+      <table class="glossary">
+        <tr><th></th><th>DDXintoA</th><th>DDXYintoAB</th></tr>
+        <tr><td><b>Drop slot groups</b></td><td>One accepted group</td><td>Two accepted groups (<code>drop1</code> &amp; <code>drop2</code>)</td></tr>
+        <tr><td><b>The task</b></td><td>Drag Valid item(s) into one group.</td><td>Sort Valid items into group 1 or group 2.</td></tr>
+        <tr><td><b>Item <code>slot</code></b></td><td>The accepted drop slot (e.g. <code>drop2</code>)</td><td><code>"1"</code> or <code>"2"</code> — which drop slot group accepts it</td></tr>
+      </table>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDXYintoAB"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — where the two drop slot groups and the tray sit.</td></tr>
+        <tr><td><code>behaviorStyle</code></td><td>Optional special container, e.g. <code>"Fishbowl"</code> or <code>"ToyBox"</code> (two drawers).</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear in total.</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many <code>Valid</code> items need to be sorted into a drop slot group.</td></tr>
+        <tr><td><code>soundExt</code></td><td>Which audio version plays on tap, e.g. <code>"_word"</code>, <code>"_phonics"</code>, <code>"_silent"</code>.</td></tr>
+      </table>
+      <div class="callout note">
+        <p class="callout-title">The two-slot wiring, in plain terms</p>
+        <p>
+          A <b>Valid</b> item’s <code>"slot": "1"</code> or <code>"2"</code> says which
+          drop slot group accepts it. The groups themselves are built from a <b>Drop</b>
+          plus a <b>Static</b> or <b>Custom</b> picture sharing
+          <code>drop1</code> / <code>drop2</code>. One <code>Valid</code> entry can list
+          several pictures separated by commas — they all belong to the same group.
+        </p>
+      </div>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>A draggable item accepted by one drop slot group. <code>"slot": "1"</code> → <code>drop1</code>, <code>"slot": "2"</code> → <code>drop2</code>.</td></tr>
+        <tr><td><code>Bogus</code></td><td>A draggable item accepted by neither drop slot group.</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture — usually drop slot art / label, placed on <code>drop1</code> or <code>drop2</code>.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines a drop slot group itself (its position/size).</td></tr>
+        <tr><td><code>Custom</code></td><td>A special interactive container (e.g. a fishbowl with colored water).</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 2.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v21"><span class="variant-tag">2.1</span> Sort two groups — each group into its own drop slot</h2>
+      <p>
+        Every item on screen is <code>Valid</code>. One group of <code>Valid</code> items
+        goes into <code>drop1</code>, and the other group goes into
+        <code>drop2</code>. Here <code>numValidItems</code> equals <code>numTotalItems</code>
+        because everything gets sorted.
+      </p>
+
+      <!-- Example 2.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Size match: big hat on the big orangutan, small hat on the small one</span>
+          <span class="example-file">A4_APL_APLe_EAR_02.leaf.json · 6–76</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddxyintoab-21-hats.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxyintoab-21-hats.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Two orangutans (big &amp; small) mark the two drop slots. The big hat is Valid for <code>drop1</code>; the small hat is Valid for <code>drop2</code>.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q1a",
+  "questionType": "DDXYintoAB",
+  "layout": "USGK/CommonLayouts/Drag/DD1SlotPerItem2STall",
+  "numValidItems": 2,
+  "numTotalItems": 2,
+  "comments": "big with big - hat",
+  "soundExt": "_silent",
+  "items": [
+    { "itemType": "Valid", "path": ".../hat.png", "slot": "1", "scale": "150%" },
+    { "itemType": "Valid", "path": ".../hat.png", "slot": "2", "scale": "80%" },
+    { "itemType": "Static", "path": ".../orangutan.png", "slot": "drop1", "scale": "100%" },
+    { "itemType": "Drop",   "slot": "drop1", "x": "49%", "y": "42%", "scale": "55%" },
+    { "itemType": "Static", "path": ".../orangutan.png", "slot": "drop2", "scale": "55%" },
+    { "itemType": "Drop",   "slot": "drop2", "x": "49%", "y": "74%", "scale": "30%" },
+    { "itemType": "Background", "path": ".../earthdayjungle.png" },
+    { "itemType": "Instruction", "text": "Put the big hat on the big orangutan. Put the small hat on the small orangutan." },
+    { "itemType": "Yay", "text": "outstanding orangutan! Now lets do something silly." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The big hat is <code>"slot": "1"</code> (<code>drop1</code>); the small hat is
+          <code>"slot": "2"</code> (<code>drop2</code>). Each drop slot is a
+          <b>Static</b> orangutan picture plus a <b>Drop</b> item sharing the same
+          <code>drop1</code>/<code>drop2</code> name.
+        </div>
+      </div>
+
+      <!-- Example 2.1.b -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Color sort (Fishbowl): brown things in green water, green things in brown water</span>
+          <span class="example-file">A3_APL_APLe_EAR_04.leaf.json · 55–109</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddxyintoab-21-fishbowl.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxyintoab-21-fishbowl.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Two fishbowls (brown water &amp; green water) are the two drop slots. Each Valid item group goes into the opposite-color bowl.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q2",
+  "questionType": "DDXYintoAB",
+  "behaviorStyle": "Fishbowl",
+  "layout": "behaviorStyles/Fishbowl/layout",
+  "numValidItems": 6,
+  "numTotalItems": 6,
+  "soundExt": "_silent",
+  "comments": "brown in green, green in brown",
+  "items": [
+    { "itemType": "Valid",  "path": ".../Words:monkey,cockroach,beaver,weasel", "slot": "2" },
+    { "itemType": "Custom", "path": ".../fishbowl1.png", "params": "waterColor=D0AB8B,waterLevel=50%", "slot": "drop1" },
+    { "itemType": "Valid",  "path": ".../Words:chameleon,leaf,pear,frog", "slot": "1" },
+    { "itemType": "Custom", "path": ".../fishbowl1.png", "params": "waterColor=5A9F4B,waterLevel=50%", "slot": "drop2" },
+    { "itemType": "Background", "path": ".../earthdayflowerfield.png" },
+    { "itemType": "Instruction", "text": "Put the brown things in the green water. Put the green things in the brown water." },
+    { "itemType": "Oops", "text": "Oops! This is a tricky one. Listen carefully." },
+    { "itemType": "Yay",  "text": "great job! lets do it again." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Each <b>Valid</b> entry lists several pictures with commas — one whole group per
+          drop slot. The drop slots are <b>Custom</b> fishbowls whose water color is set with
+          <code>params</code>. <code>behaviorStyle: "Fishbowl"</code> turns on the bowl
+          animation. (Note: the brown group is <code>"slot": "2"</code> and the green group
+          is <code>"slot": "1"</code> because the answer is intentionally crossed — brown
+          into green water.)
+        </div>
+      </div>
+
+      <!-- Example 2.1.c -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Pronoun sort (ToyBox): sort the people into the “He” and “She” drawers</span>
+          <span class="example-file">Drag-All.leaf.json · 206–260</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddxyintoab-21-toybox.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxyintoab-21-toybox.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Two labeled drawers (“He” / “She”) are the two drop slots. Each Valid person item is dragged into the matching drawer.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q5",
+  "questionType": "DDXYintoAB",
+  "behaviorStyle": "ToyBox",
+  "numValidItems": 8,
+  "numTotalItems": 8,
+  "soundExt": "_word",
+  "comments": "DDXYintoAB; 2 Drawers with text labels",
+  "items": [
+    { "itemType": "Valid", "path": ".../people:boy1,boy2,boy3,man1,man2,man3,grandpa1,grandpa2,grandpa3" },
+    { "itemType": "Valid", "path": ".../people:girl1,girl2,girl3,woman1,woman2,woman3,grandma1,grandma2,grandma3" },
+    { "itemType": "Bogus", "path": ".../people:people1,people2,people3" },
+    { "itemType": "Instruction", "text": "Sort the people by the pronoun he or she.", "block": "0%" },
+    { "itemType": "Yay", "text": "You sorted them." },
+    { "itemType": "Background", "path": ".../patternbg10.png" },
+    { "itemType": "Custom", "path": "behaviorStyles/Toybox/drawerorange.png" },
+    { "itemType": "Static", "text": "He",  "audioPath": ".../Words:He_word",  "slot": "drop1" },
+    { "itemType": "Static", "text": "She", "audioPath": ".../Words:She_word", "slot": "drop2" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          <code>behaviorStyle: "ToyBox"</code> gives two drawers. The first <b>Valid</b>
+          group (boys/men/grandpas) sorts into <code>drop1</code> (“He”), the second group
+          (girls/women/grandmas) into <code>drop2</code> (“She”). The drawer labels are <b>Static</b>
+          text items on <code>drop1</code> / <code>drop2</code>. The mixed-group
+          <b>Bogus</b> people belong in neither.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 2.2                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v22"><span class="variant-tag">2.2</span> Valid items into two drop slots — with Bogus items</h2>
+      <p>
+        Same two drop slot groups, but now the tray also contains <code>Bogus</code> items
+        that don’t belong in either group. The child has to sort the <code>Valid</code>
+        items into their groups and leave the <code>Bogus</code> items behind.
+        so <code>numValidItems</code> is smaller than <code>numTotalItems</code>.
+      </p>
+
+      <!-- Example 2.2.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Letter sort: P to the polar bear, D to the deer</span>
+          <span class="example-file">A5_LSW_LSWe_EAR_05_SortLetters.leaf.json · 68–132</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddxyintoab-22-letters.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxyintoab-22-letters.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Two animal drop slots (polar bear “p”, deer “d”). The child drags Valid p and d items to the matching drop slot and ignores the Bogus letters.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q2",
+  "questionType": "DDXYintoAB",
+  "layout": "USGK/CommonLayouts/Drag/DDXYintoAB",
+  "numValidItems": 6,
+  "numTotalItems": 10,
+  "soundExt": "_phonics",
+  "comments": "p to polar bear. d to deer",
+  "items": [
+    { "itemType": "Valid", "text": "p", "slot": "1", "textColor": "645B83", "scale": "90%" },
+    { "itemType": "Valid", "text": "d", "slot": "2", "textColor": "645B83", "scale": "90%" },
+    { "itemType": "Bogus", "text": "a,m,j,b,c,s,x,i,l", "textColor": "645B83", "scale": "90%" },
+    { "itemType": "Background", "path": ".../earthdaytundra.png" },
+    { "itemType": "Static", "text": "p", "slot": "drop1", "bgPath": ".../polarbear.png",
+      "audioPath": ".../polarbear_word.mp3", "params": "bgScale=85%" },
+    { "itemType": "Static", "text": "d", "slot": "drop2", "bgPath": ".../deer.png",
+      "audioPath": ".../deer_word.mp3" },
+    { "itemType": "Instruction", "text": "Drag the letter P to the polar bear. Drag the letter D to the deer." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The “p” is <code>"slot": "1"</code> (polar bear on <code>drop1</code>) and
+          the “d” is <code>"slot": "2"</code> (deer on <code>drop2</code>). The
+          <b>Bogus</b> entry holds a comma-separated list of Bogus letters
+          (<code>a, m, j, …</code>) that belong in neither group. Each drop slot is a <b>Static</b>
+          letter sitting on its animal picture (<code>bgPath</code>).
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Quick recap of the two shapes</p>
+        <p>
+          <b>2.1</b> all items are Valid and sorted into one of two drop slot groups ·
+          <b>2.2</b> sort the Valid items and leave the Bogus items behind.
+          In both cases there are exactly two accepted drop slot groups — that’s
+          what makes it DDXYintoAB.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="ddxintoa.html">
+          <span class="next-prev-label">Previous type</span>
+          <strong>DDXintoA</strong>
+          <span>One drop slot group</span>
+        </a>
+        <a class="next" href="dd1slotperitem.html">
+          <span class="next-prev-label">Next type</span>
+          <strong>DD1SlotPerItem</strong>
+          <span>One item per drop slot</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDXYintoAB
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDBoxes — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDBoxes</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 2 · “Boxes” Drags</div>
+    <h1>DDBoxes</h1>
+    <p class="lede">
+      The child fills a row of Boxes-style drop slots. Each drop slot has a matching
+      <code>Valid</code> item, and the child taps the green button to check.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump current" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#family">First, what is a “Boxes” drag?</a>
+        <a href="#how">How DDBoxes works</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v51" class="sub">5.1 · One drop slot per Valid item</a>
+        <a href="#v52" class="sub">5.2 · Multiple drop slots per Valid item</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== FAMILY 2 INTRO ===== -->
+      <h2 id="family">First, what is a “Boxes” drag?</h2>
+      <p>
+        DDBoxes is the first of the <b>Family 2</b> “Boxes” types. Boxes drags feel a little
+        different from the slot-based drags in Family 1:
+      </p>
+      <table class="glossary">
+        <tr><th></th><th>Family 1 · Slot-Based drags</th><th>Family 2 · Boxes drags</th></tr>
+        <tr>
+          <td><b>Feel</b></td>
+          <td>Drop an item into a drop slot; the question often checks immediately.</td>
+          <td>Arrange items in a row of Boxes-style drop slots; the child can rearrange before submitting.</td>
+        </tr>
+        <tr>
+          <td><b>Swapping</b></td>
+          <td>Generally one drop, done.</td>
+          <td>Dropping onto a full drop slot <b>swaps</b> the item already there back to the tray.</td>
+        </tr>
+        <tr>
+          <td><b>Checking the answer</b></td>
+          <td>Often checks the moment the last item lands.</td>
+          <td>Child arranges everything, then taps the <b>green submit button</b> to check.</td>
+        </tr>
+      </table>
+      <div class="callout note">
+        <p class="callout-title">Why this matters for you</p>
+        <p>
+          Boxes types are great when children should be able to <b>try, rethink, and
+          rearrange</b> before committing — spelling a word, copying a pattern, or ordering
+          items. The green button lets them decide when they’re done.
+        </p>
+      </div>
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How DDBoxes works</h2>
+      <p>
+        DDBoxes shows a row of Boxes-style drop slots. Each drop slot has a matching
+        <code>Valid</code> item. The child drags items into the drop slots, rearranges as
+        needed, and presses the button to check. The answer is correct when every required
+        drop slot holds an accepted <code>Valid</code> item.
+      </p>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDBoxes</p>
+        <p>
+          Each drop slot has a specific accepted <code>Valid</code> item. A
+          <code>Valid</code> item’s <code>slot</code> says which drop slot (or slots)
+          accepts it. This is a matching-to-drop-slots task, checked when the child submits.
+        </p>
+      </div>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDBoxes"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — how many drop slots and where the tray sits.</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear (<code>Valid</code> + <code>Bogus</code>).</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many drop slots must be filled with accepted <code>Valid</code> items.</td></tr>
+        <tr><td><code>showSubmitButton</code></td><td><code>true</code> shows the green “done” button. Boxes questions usually check on submit.</td></tr>
+        <tr><td><code>dropSlotStyle</code></td><td>Look of the drop slots, e.g. <code>"DashBorder"</code> draws a dashed outline.</td></tr>
+        <tr><td><code>var1</code>, <code>var2</code>…</td><td>Reusable values swapped into image paths.</td></tr>
+        <tr><td><code>soundExt</code></td><td>Which audio version plays on tap (e.g. <code>"_word"</code>).</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>A draggable item accepted by a drop slot. Its <code>slot</code> names the accepted drop slot(s), e.g. <code>"drop1"</code> or <code>"1,3"</code>.</td></tr>
+        <tr><td><code>Bogus</code></td><td>A draggable item that isn’t accepted by any drop slot.</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture — a reference word, drop slot art, or an item already placed in a drop slot.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines a drop slot itself (position/size).</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+        <tr><td><code>ThisIsHow</code></td><td>The “let me show you” demonstration after repeated misses.</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 5.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v51"><span class="variant-tag">5.1</span> One drop slot per Valid item</h2>
+      <p>
+        The straightforward case: each <code>Valid</code> item is accepted by exactly one
+        drop slot. The child figures out which item goes in which drop slot, arranges them,
+        and submits.
+      </p>
+
+      <!-- Example 5.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Beginning sounds: which pom-poms make the word “bike”?</span>
+          <span class="example-file">LIT01cBeginningSounds_EN.asm.leaf.json · q19 (2193–2287)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddboxes-51-bike.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddboxes-51-bike.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">The /k/ sound is already in place. The child drags the /b/ and /I/ Valid items into their drop slots to spell “bike,” then taps the green button.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LIT1cV4-EN-q19-KG",
+  "questionType": "DDBoxes",
+  "layout": ".../3Boxes2Drop1Stat3Items",
+  "numTotalItems": 3,
+  "numValidItems": 2,
+  "soundExt": "_word",
+  "disable": "oops,multiTries,sparkles,exuberantKodi,scaling,enableNameItems",
+  "comments": "ask: find '/b/' and '/I/' pom poms to complete 'bike'",
+  "items": [
+    { "itemType": "Background", "path": ".../reyalibrary.png" },
+    { "itemType": "Valid", "path": ".../pompom5.png",  "audioPathText": "I Long Phonics", "itemSlot": "1", "slot": "drop2" },
+    { "itemType": "Valid", "path": ".../pompom12.png", "audioPathText": "B Phonics",      "itemSlot": "2", "slot": "drop1" },
+    { "itemType": "Bogus", "path": ".../pompom7.png",  "audioPathText": "M Phonics",      "itemSlot": "3" },
+    { "itemType": "Static", "path": ".../pompom3.png", "audioPathText": "K Phonics", "slot": "stat4", "bgPath": ".../squareround9Dark.png" },
+    { "itemType": "Static", "path": ".../bike.png", "slot": "stat1" },
+    { "itemType": "Static", "path": ".../squareround9Dark.png", "slot": "stat2" },
+    { "itemType": "Static", "path": ".../squareround9Dark.png", "slot": "stat3" },
+    { "itemType": "Drop", "slot": "drop1" },
+    { "itemType": "Instruction", "text": "Which pom poms make the word bike? Drag them to the boxes." },
+    { "itemType": "Instruction", "text": "Press the green button when youre done." },
+    { "itemType": "Yay",  "text": "Last question!" },
+    { "itemType": "Oops", "text": "Last question!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Two <b>Valid</b> pom-poms, each with a single accepted drop slot: the /I/ sound goes in
+          <code>drop2</code>, the /b/ sound goes in <code>drop1</code>. The /m/ pom-pom is a
+          <b>Bogus</b> item. The “bike” word and the already-placed /k/ sound are
+          <b>Static</b>, and the instruction tells the child to press the green button when done.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 5.2                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v52"><span class="variant-tag">5.2</span> Multiple accepted drop slots per Valid item</h2>
+      <p>
+        When several drop slots should accept the same item, that item can be valid in more
+        than one drop slot. Use a comma-list on the <code>Valid</code> item’s
+        <code>slot</code> to say “any of these drop slots accepts this item.”
+      </p>
+
+      <!-- Example 5.2.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Patterns: copy the yellow–red–yellow–red pattern</span>
+          <span class="example-file">MAT07Patterns_EN.asm.leaf.json · p01 (77–148)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddboxes-52-pattern.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddboxes-52-pattern.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">The pattern (yellow, red, yellow, red) is shown on top. The child copies it into the four dashed drop slots below, then taps the green button.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "MAT7V2-EN-p01-3YO",
+  "questionType": "DDBoxes",
+  "layout": ".../Drag/DD1SlotPerItem4by2",
+  "numTotalItems": 4,
+  "numValidItems": 4,
+  "var1": "monsterstripedyellow", "var2": "monstertallred",
+  "disable": "oops,thisIsHow",
+  "dropSlotStyle": "DashBorder #light",
+  "showSubmitButton": true,
+  "comments": "ask: copy the AB pattern",
+  "items": [
+    { "itemType": "Instruction", "text": "Look carefully at the pattern and copy it below. ...Press the green button when youre done." },
+    { "itemType": "Background", "path": ".../stargazingwhiteboxv3.png" },
+    { "itemType": "Static", "path": ".../{var1}.png", "slot": "stat1,stat3", "bgPath": ".../squarestatic16.png" },
+    { "itemType": "Static", "path": ".../{var2}.png", "slot": "stat2,stat4", "bgPath": ".../squarestatic16.png" },
+    { "itemType": "Valid", "path": ".../{var1}.png", "slot": "1,3", "itemSlot": "1,2", "behavior": "wiggle1" },
+    { "itemType": "Valid", "path": ".../{var2}.png", "slot": "2,4", "itemSlot": "3,4", "behavior": "wiggle1" },
+    { "itemType": "Yay",  "text": "Yay! You copied the pattern. Tap me if you ever need help." },
+    { "itemType": "Oops", "text": "Oops. That is not the same pattern. The pattern is yellow red yellow red. Try again." },
+    { "itemType": "ThisIsHow", "text": "This is how you copy the pattern." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The yellow monster is <code>"slot": "1,3"</code> — accepted by drop slot 1 or 3.
+          The red monster is <code>"slot": "2,4"</code> — accepted by drop slot 2 or 4.
+          <code>itemSlot: "1,2"</code> just sets the tray positions (two yellow copies, two
+          red). The pattern to copy is shown as <b>Static</b> monsters up top, and
+          <code>showSubmitButton: true</code> gives the green check button.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Quick recap</p>
+        <p>
+          <b>5.1</b> each Valid item → one accepted drop slot · <b>5.2</b> a Valid item can be accepted by
+          several drop slots (comma-list <code>slot</code>). Across both, DDBoxes is a
+          matching-to-drop-slots task that the child confirms with the green button.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="ddanyslot.html">
+          <span class="next-prev-label">Previous family</span>
+          <strong>DDAnySlot</strong>
+          <span>Any Valid item fits</span>
+        </a>
+        <a class="next" href="ddfillboxes.html">
+          <span class="next-prev-label">Next type</span>
+          <strong>DDFillBoxes</strong>
+          <span>Resize to drop slot</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDBoxes
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDLetterBoxes — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDLetterBoxes</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 2 · “Boxes” Drags</div>
+    <h1>DDLetterBoxes</h1>
+    <p class="lede">
+      A row of drop slots for spelling a word. The child drags <code>Valid</code> text
+      items into order, and the answer is graded by the order those items spell.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump current" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#vs">vs DDBoxes</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v81" class="sub">8.1 · Spell “herd”</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        DDLetterBoxes shows a row of empty drop slots and a set of <code>Valid</code> text
+        items (single letters or letter chunks like <code>er</code>). The child drags the
+        text items into the drop slots to spell the target word, then taps the green button
+        to check.
+      </p>
+      <ul class="lead-list">
+        <li><b>The draggable items are text, not pictures.</b> You type the letters right in the JSON; the app draws them as draggable text items.</li>
+        <li><b>Order is what matters.</b> The answer is correct when the text items, read left-to-right, spell the target word. A text item is not tied to one specific drop slot unless the order requires it there.</li>
+        <li><b>Each drop slot holds one text item</b>, and the slots fill left to right.</li>
+      </ul>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDLetterBoxes</p>
+        <p>
+          <b>It grades the spelling, not the placement.</b> The app reads the letter sounds in
+          the order they were placed and checks whether they spell the word — which is why
+          this type is built for letters and word-building.
+        </p>
+      </div>
+
+      <!-- ===== VS ===== -->
+      <h2 id="vs">vs DDBoxes</h2>
+      <table class="glossary">
+        <tr><th></th><th>DDBoxes</th><th>DDLetterBoxes</th></tr>
+        <tr>
+          <td><b>What you drag</b></td>
+          <td>Image items (each has its own <code>path</code>).</td>
+          <td><b>Text items</b> — letters or letter chunks you type in the JSON.</td>
+        </tr>
+        <tr>
+          <td><b>How it’s graded</b></td>
+          <td>Accepted <code>Valid</code> item in the accepted drop slot.</td>
+          <td><b>The text items, in order, spell the word.</b></td>
+        </tr>
+        <tr>
+          <td><b>Order matters?</b></td>
+          <td>Only if you set it up that way.</td>
+          <td>Yes — built in (<code>itemsInOrder=true</code>).</td>
+        </tr>
+        <tr>
+          <td><b>Typical use</b></td>
+          <td>Sorting, matching, sequencing pictures.</td>
+          <td>Spelling and word-building.</td>
+        </tr>
+      </table>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDLetterBoxes"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — how many drop slots and where the text items sit.</td></tr>
+        <tr><td><code>var1</code></td><td>The whole target word (used for the picture, audio and feedback), e.g. <code>"herd"</code>.</td></tr>
+        <tr><td><code>var2</code>, <code>var3</code>, <code>var4</code>…</td><td>The word broken into text items, e.g. <code>"h"</code>, <code>"er"</code>, <code>"d"</code>.</td></tr>
+        <tr><td><code>numValidItems</code> / <code>numTotalItems</code></td><td>How many text items/drop slots there are.</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>The draggable text items. One entry lists every item in its <code>text</code> (e.g. <code>"h,er,d"</code>) with the matching <code>slot</code> order (<code>"1,2,3"</code>) and <code>params: "itemsInOrder=true"</code>.</td></tr>
+        <tr><td><code>Static</code></td><td>Fixed art — the picture of the word and the drop slot graphic behind the slots.</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks (e.g. “Spell the word. herd.”).</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>Correct / incorrect feedback. Can use <code>{currentOrder()}</code> to read back what the child spelled.</td></tr>
+        <tr><td><code>ThisIsHow</code></td><td>The “here’s how” demonstration after a wrong try.</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 8.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v81"><span class="variant-tag">8.1</span> Spell “herd”</h2>
+      <p>
+        The child sees a picture of a herd of animals and three drop slots, with the text
+        items <code>h</code>, <code>er</code>, <code>d</code> below. They drag the items into
+        the slots in order to spell <b>herd</b> — note <code>er</code> is a single text item,
+        teaching that two letters can make one sound.
+      </p>
+
+      <!-- Example 8.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Spell the word: herd (h · er · d)</span>
+          <span class="example-file">LetterBoxes.leaf.json · q1 (3–61)</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ddletterboxes-81-herd.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddletterboxes-81-herd.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">A picture of a herd above three empty drop slots, with the text items h, er and d in the tray. The child orders them to spell the word.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "q1",
+  "questionType": "DDLetterBoxes",
+  "layout": ".../LetterBoxes3Image",
+  "var1": "herd",
+  "var2": "h",
+  "var3": "er",
+  "var4": "d",
+  "numValidItems": 3,
+  "numTotalItems": 3,
+  "comments": "spell h-er-d",
+  "items": [
+    { "itemType": "Background", "path": ".../plantaseed.png" },
+    { "itemType": "Static", "path": ".../Words/{var1}.png", "audioPath": ".../Words/{var1}_word.mp3", "slot": "stat2" },
+    { "itemType": "Static", "path": ".../DDBoxes/junglelightgreen3box.png", "slot": "stat1" },
+    { "itemType": "Valid", "text": "{var2},{var3},{var4}", "slot": "1,2,3", "audioPath": ".../{var2}phonics,{var3}phonics,{var4}phonics", "params": "itemsInOrder=true" },
+    { "itemType": "Instruction", "text": "Spell the word. {var1}." },
+    { "itemType": "Yay",  "text": "{currentOrder()}. that makes. {var1}. The letters e and r sometimes make the er sound..." },
+    { "itemType": "Oops", "text": "Oops! This spells. {currentOrder()}. Try again." },
+    { "itemType": "ThisIsHow", "text": "This is how you spell the word. {var1}..." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          One <code>Valid</code> entry defines all three text items: <code>text: "h,er,d"</code>
+          with <code>slot: "1,2,3"</code> sets the accepted left-to-right order, and
+          <code>itemsInOrder=true</code> means the spelling is graded by that order. The two
+          <code>Static</code> items provide the herd picture (<code>stat2</code>) and the drop slot
+          graphic (<code>stat1</code>). The feedback uses <code>{currentOrder()}</code> so
+          Kodi can read back exactly what the child spelled — right or wrong.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Why a “Boxes” type, but graded differently</p>
+        <p>
+          DDLetterBoxes looks like <a href="ddboxes.html">DDBoxes</a> (a row of drop slots the
+          child fills), but instead of checking item-to-drop-slot matches, it checks whether
+          the text items in order spell the word. That’s what makes it the go-to type for
+          spelling and word-building.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="ddanyboxes.html">
+          <span class="next-prev-label">Previous type</span>
+          <strong>DDAnyBoxes</strong>
+          <span>Fill correct drop slots</span>
+        </a>
+        <a class="next" href="index.html">
+          <span class="next-prev-label">All types</span>
+          <strong>Drag &amp; Drop index</strong>
+          <span>Return to the full guide map</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDLetterBoxes
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DDXintoA — Drag &amp; Drop Author Guide</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="assets/auth.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="topbar-logo" href="index.html">Khan Kids <span>· Question Types</span></a>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">Drag &amp; Drop</span>
+      <span class="topbar-sep">/</span>
+      <span class="topbar-crumb">DDXintoA</span>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:24px;">
+    <a class="back-link" href="index.html">All question types</a>
+  </div>
+
+  <header class="hero" style="padding-top:28px;">
+    <div class="eyebrow">Family 1 · Slot-Based Drags</div>
+    <h1>DDXintoA</h1>
+    <p class="lede">
+      The child drags the <code>Valid</code> item or items into one drop slot group.
+      <code>Bogus</code> items stay out.
+    </p>
+  </header>
+
+  <div class="doc">
+    <!-- ---------------- Sidebar TOC ---------------- -->
+    <nav class="toc" aria-label="Guide navigation">
+      <div class="toc-block">
+        <div class="toc-title">Question types</div>
+        <div class="toc-group-label">Slot-Based</div>
+        <a class="type-jump current" href="ddxintoa.html"><span>DDXintoA</span><small>One drop slot group</small></a>
+        <a class="type-jump" href="ddxyintoab.html"><span>DDXYintoAB</span><small>Two drop slot groups</small></a>
+        <a class="type-jump" href="dd1slotperitem.html"><span>DD1SlotPerItem</span><small>One item per drop slot</small></a>
+        <a class="type-jump" href="ddanyslot.html"><span>DDAnySlot</span><small>Any Valid item fits</small></a>
+        <div class="toc-group-label">Boxes</div>
+        <a class="type-jump" href="ddboxes.html"><span>DDBoxes</span><small>Match to drop slots</small></a>
+        <a class="type-jump" href="ddfillboxes.html"><span>DDFillBoxes</span><small>Resize to drop slot</small></a>
+        <a class="type-jump" href="ddanyboxes.html"><span>DDAnyBoxes</span><small>Fill correct drop slots</small></a>
+        <a class="type-jump" href="ddletterboxes.html"><span>DDLetterBoxes</span><small>Text items in order</small></a>
+      </div>
+      <div class="toc-block">
+        <div class="toc-title">On this page</div>
+        <a href="#how">How it works</a>
+        <a href="#fields">Key fields</a>
+        <a href="#items">Item types</a>
+        <a href="#v11" class="sub">1.1 · Choose the Valid drop slot</a>
+        <a href="#v12" class="sub">1.2 · One Valid item</a>
+        <a href="#v13" class="sub">1.3 · Several Valid items</a>
+        <a href="#v14" class="sub">1.4 · A set number (fishbowl)</a>
+      </div>
+    </nav>
+
+    <!-- ---------------- Content ---------------- -->
+    <main class="content">
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <h2 id="how">How it works</h2>
+      <p>
+        In a <code>DDXintoA</code> question, the screen has draggable items and one drop
+        slot group. Some items are <code>Valid</code> and some may be <code>Bogus</code>.
+        The child drags the required number of <code>Valid</code> items into the drop slot.
+        A <code>Bogus</code> drop triggers the <code>Oops</code>.
+      </p>
+      <div class="callout">
+        <p class="callout-title">The one rule that defines DDXintoA</p>
+        <p>
+          There is one accepted drop slot group. Whether the layout shows one visible
+          drop slot or several possible drop slots, the goal is to get the
+          <code>Valid</code> item(s) into the accepted slot.
+        </p>
+      </div>
+
+      <!-- ===== KEY FIELDS ===== -->
+      <h2 id="fields">Key fields you’ll set</h2>
+      <p class="muted">These are the settings at the top of each question that control the behavior.</p>
+      <table class="glossary">
+        <tr><th>Field</th><th>What it does</th></tr>
+        <tr><td><code>questionType</code></td><td>Always <code>"DDXintoA"</code> for this type.</td></tr>
+        <tr><td><code>layout</code></td><td>The visual template — where the drop slot(s) and tray sit on screen.</td></tr>
+        <tr><td><code>numTotalItems</code></td><td>How many draggable items appear in the tray.</td></tr>
+        <tr><td><code>numValidItems</code></td><td>How many <code>Valid</code> items must be dragged into the drop slot.</td></tr>
+        <tr><td><code>numExtraItems</code></td><td>Extra items beyond the layout’s usual count (used by the fishbowl).</td></tr>
+        <tr><td><code>dropSlotStyle</code></td><td>Look of the drop slot, e.g. <code>"DashBorder"</code> draws a dashed outline.</td></tr>
+        <tr><td><code>showSubmitButton</code></td><td><code>false</code> = checks automatically on drop. <code>true</code> = child taps a button when done.</td></tr>
+        <tr><td><code>var1</code>, <code>var2</code>…</td><td>Reusable text/word values swapped into image paths (e.g. <code>{var1}</code>).</td></tr>
+        <tr><td><code>disable</code></td><td>Turns off features (e.g. <code>oops</code>, <code>scaling</code>, <code>sparkles</code>).</td></tr>
+      </table>
+
+      <!-- ===== ITEM TYPES ===== -->
+      <h2 id="items">Item types inside <code>items</code></h2>
+      <p class="muted">Each entry in the <code>items</code> list is one piece of the screen. The <code>itemType</code> tells the app what it is.</p>
+      <table class="glossary">
+        <tr><th>itemType</th><th>Meaning</th></tr>
+        <tr><td><code>Valid</code></td><td>A draggable item that counts toward the answer. Its <code>slot</code> says which drop slot accepts it.</td></tr>
+        <tr><td><code>Bogus</code></td><td>A draggable item that does not count toward the answer.</td></tr>
+        <tr><td><code>Static</code></td><td>A fixed picture that doesn’t move — a label, a reference item, or art aligned to a <code>stat</code> or <code>drop</code> slot.</td></tr>
+        <tr><td><code>Drop</code></td><td>Defines the drop slot itself (position/size, e.g. <code>drop1</code>).</td></tr>
+        <tr><td><code>Background</code></td><td>The full-screen background image.</td></tr>
+        <tr><td><code>Instruction</code></td><td>What Kodi says/asks. Multiple lines provide re-read variations.</td></tr>
+        <tr><td><code>Yay</code> / <code>Oops</code></td><td>The correct / incorrect feedback (text + audio).</td></tr>
+        <tr><td><code>ThisIsHow</code></td><td>The “let me show you” demonstration after repeated misses.</td></tr>
+      </table>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 1.1                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v11"><span class="variant-tag">1.1</span> Several drop slots — only one accepts the Valid item</h2>
+      <p>
+        The layout shows more than one drop slot, but only one accepts the
+        <code>Valid</code> item. The accepted drop slot is set by the
+        <code>Valid</code> item’s <code>slot</code> (for example <code>"drop2"</code>) —
+        that is the only drop slot that counts.
+      </p>
+
+      <!-- Example 1.1.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Sort by color: put the purple train with the purple one</span>
+          <span class="example-file">ATL09FlexibleThinking_EN.asm.leaf.json · 312–356</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="ATL9V2-EN-p01-L1.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-11-atl9.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Two Static reference items are on the table (orange train, purple fish). The child drags the Valid item to the matching drop slot.</p>
+          </div>
+          <pre class="example-code">{
+  "childType": "Question",
+  "name": "ATL9V2-EN-p01-L1",
+  "questionType": "DDXintoA",
+  "numTotalItems": 1,
+  "numValidItems": 1,
+  "layout": "test/pp/assessments/DimensionalCardSortDDXintoA2Stat",
+  "comments": "practice: purple train",
+  "items": [
+    { "itemType": "Background", "path": "...dimensionalcardsortbackgroundemptytables.png" },
+    { "itemType": "Static", "path": ".../OrangeTrainRoundCorners.png", "slot": "stat1" },
+    { "itemType": "Static", "path": ".../PurpleFishRoundCorners.png", "slot": "stat2" },
+    { "itemType": "Valid",  "path": ".../PurpleTrainRoundCorners.png", "slot": "drop2" },
+    { "itemType": "Instruction", "text": "Color", "path": "USGK:Labs11/K002/Color" },
+    { "itemType": "Yay",  "text": "Thats right!", "path": "..." },
+    { "itemType": "Oops", "text": "Oops. This one is purple. Put it with the other purple one.", "path": "..." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The two <b>Static</b> items (<code>stat1</code>, <code>stat2</code>) are the
+          fixed color groups already on the table. The single <b>Valid</b> train is
+          assigned <code>"slot": "drop2"</code>, so only that drop slot counts.
+          Dropping it on the other drop slot fires the <b>Oops</b>.
+        </div>
+      </div>
+
+      <!-- Example 1.1.b -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Position: put Peck on top of the table</span>
+          <span class="example-file">MAT10Positions_EN.asm.leaf.json · 583–623</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="MAT10V2-EN-q13-KG.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-11-mat10.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">The table layout offers several drop slots (top, under, beside). Only <code>drop2</code> accepts the Valid item.</p>
+          </div>
+          <pre class="example-code">{
+  "childType": "Question",
+  "name": "MAT10V2-EN-q13-KG",
+  "questionType": "DDXintoA",
+  "layout": "test/ia/Gates2025/MAT10/MAT10table",
+  "numTotalItems": 1,
+  "numValidItems": 1,
+  "dropSlotStyle": "DashBorder",
+  "disable": "oops,multiTries,sparkles,thisIsHow,exuberantKodi",
+  "comments": "ask: drag Peck TOP",
+  "items": [
+    { "itemType": "Instruction", "text": "Put Peck on top of the table", "block": "90", "path": "..." },
+    { "itemType": "Valid", "path": ".../birdChar.png", "slot": "drop2",
+      "behavior": "tapFlips1", "audioPath": ".../Character:peckintro2", "scale": "110" },
+    { "itemType": "Drop", "slot": "drop2" },
+    { "itemType": "Yay", "text": "Lets do another one!", "path": "..." },
+    { "itemType": "Background", "path": ".../MAT10Table.png" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The layout has multiple drop slots, but the <b>Valid</b> bird is tied to
+          <code>"slot": "drop2"</code> (the “top” slot). The <b>Drop</b> item marks that
+          drop slot, and <code>dropSlotStyle: "DashBorder"</code> draws the dashed outline so
+          the child can see where to aim.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 1.2                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v12"><span class="variant-tag">1.2</span> Several items — one Valid item, one drop slot</h2>
+      <p>
+        The tray holds several items but only one <code>Valid</code> item belongs in the
+        drop slot. Other draggable items are marked <code>Bogus</code> and don’t count if
+        dropped. Here <code>numValidItems</code> is
+        <b>1</b> while <code>numTotalItems</code> is higher.
+      </p>
+
+      <!-- Example 1.2.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Odd one out: give the thing that’s different to Ollo</span>
+          <span class="example-file">LAN07aWordCategories_EN.asm.leaf.json · 64–150</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="LAN7aV2-EN-p01-L2YO.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-12-lan7a.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Four items in tray slots; only the apple is Valid. The elephant/box art sits on the single drop slot.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LAN7aV2-EN-p01-L2YO",
+  "questionType": "DDXintoA",
+  "layout": ".../LAN/DDXintoA4CharBoxStatLeft",
+  "showSubmitButton": false,
+  "numTotalItems": 4,
+  "numValidItems": 1,
+  "disable": "enableNameItems",
+  "comments": "ask: not like the others - apple",
+  "items": [
+    { "itemType": "Instruction", "text": "One of these things is not like the others. Give it to Ollo." },
+    { "itemType": "Valid", "itemSlot": "4", "audioPathText": "Apple", "path": ".../food1.png" },
+    { "itemType": "Bogus", "itemSlot": "3", "audioPathText": "Duck", "path": ".../ollotub1.png" },
+    { "itemType": "Bogus", "itemSlot": "2", "audioPathText": "Duck", "path": ".../ollotub1.png" },
+    { "itemType": "Bogus", "itemSlot": "1", "audioPathText": "Duck", "path": ".../ollotub1.png" },
+    { "itemType": "Static", "slot": "stat1", "path": ".../OpenBox1.png" },
+    { "itemType": "Static", "slot": "drop1", "path": ".../elephantChar.png" },
+    { "itemType": "Drop", "slot": "drop1", "y": "85", "x": "50", "scale": "30" },
+    { "itemType": "Yay",  "text": "Thats right! An apple is not a duck..." },
+    { "itemType": "Oops", "text": "Hmm thats a duck. The thing thats different is an apple. Try again!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Four items sit in tray slots (<code>itemSlot</code> 1–4). Only the apple is
+          <b>Valid</b>; the three ducks are <b>Bogus</b>. There is one drop slot (<code>drop1</code>).
+          With <code>showSubmitButton: false</code>, the app checks the moment an item is dropped.
+        </div>
+      </div>
+
+      <!-- Example 1.2.b -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Rhyming: which word rhymes with STAR?</span>
+          <span class="example-file">LIT01aRhyming_EN.asm.leaf.json · 757–844</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="LIT1aV3-EN-q10-4YO.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-12-lit1a-star.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Four word-images to choose from; the “star” word sits as a fixed reference (stat1). Drag the rhyme (car) to the top.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LIT1aV3-EN-q10-4YO",
+  "questionType": "DDXintoA",
+  "layout": ".../LIT1a/DD1SlotPerItem1Stat1Drop4Items",
+  "numTotalItems": 4,
+  "numValidItems": 1,
+  "var1": "star", "var2": "dice", "var3": "tire", "var4": "soap", "var5": "car",
+  "soundExt": "_word",
+  "dropSlotStyle": "DashBorder #light",
+  "comments": "ask: which word rhymes with STAR? [4 ans choices]",
+  "items": [
+    { "itemType": "Background", "path": ".../stargazing.png" },
+    { "itemType": "Valid", "path": ".../Words:{var5}", "itemSlot": "4", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../Words:{var2}", "itemSlot": "1", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../Words:{var3}", "itemSlot": "2", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../Words:{var4}", "itemSlot": "3", "behavior": "wiggle1" },
+    { "itemType": "Static", "path": ".../Words:{var1}", "slot": "stat1" },
+    { "itemType": "Drop", "slot": "drop1" },
+    { "itemType": "Instruction", "text": "Which word rhymes with STAR? Drag it to the top." },
+    { "itemType": "Yay",  "text": "Lets do another one!" },
+    { "itemType": "Oops", "text": "Lets do another one!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          The target word “star” is a <b>Static</b> reference (<code>stat1</code>). The
+          <code>var</code> values make the words easy to swap. Only <code>{var5}</code>
+          (“car”) is <b>Valid</b>; the other three are <b>Bogus</b>. <code>soundExt: "_word"</code>
+          plays each word’s audio when tapped.
+        </div>
+      </div>
+
+      <!-- Example 1.2.c -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Blending: h–ug → put the matching word in the magic hat</span>
+          <span class="example-file">LIT01bBlending_EN.asm.leaf.json · 71–146</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="LIT1bV4-EN-q01-4YO.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-12-lit1b-hug.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Three word items; the magic hat art sits on the single drop slot. Drag the Valid word item that blends to “hug.”</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LIT1bV4-EN-q01-4YO",
+  "questionType": "DDXintoA",
+  "layout": ".../LIT1b/DDXintoA3MagicHat",
+  "disable": "oops,multiTries,sparkles,exuberantKodi,enableNameItems",
+  "numTotalItems": 3,
+  "numValidItems": 1,
+  "var1": "fish", "var2": "car", "var3": "hug",
+  "soundExt": "_word",
+  "comments": "ask: h-ug",
+  "items": [
+    { "itemType": "Bogus", "path": ".../Words/{var1}.png", "audioPathText": "Fish", "itemSlot": "1" },
+    { "itemType": "Bogus", "path": ".../Words/{var2}.png", "audioPathText": "Car",  "itemSlot": "2" },
+    { "itemType": "Valid", "path": ".../Words/{var3}.png", "audioPathText": "Hug",  "itemSlot": "3" },
+    { "itemType": "Static", "path": ".../magichat.png", "slot": "drop1" },
+    { "itemType": "Drop", "slot": "drop1", "scale": "55%", "y": "2%" },
+    { "itemType": "Instruction", "text": "HPhonics UgPhonics. Put it in my magic hat" },
+    { "itemType": "Background", "path": ".../whitebg.png" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Same shape as the others: 3 items, 1 <b>Valid</b> (“hug”). The magic hat is a
+          <b>Static</b> picture sitting on the single drop slot (<code>drop1</code>), so
+          the drop slot looks like part of the scene.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 1.3                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v13"><span class="variant-tag">1.3</span> Several items — more than one Valid item, one drop slot</h2>
+      <p>
+        Same single drop slot, but now several items are <code>Valid</code> and all of them
+        go into that drop slot. The child must drag in every <code>Valid</code> item.
+        Set <code>numValidItems</code> to the number of <code>Valid</code> items, and give
+        each <code>Valid</code> item the same
+        <code>slot</code> (e.g. <code>drop1</code>).
+      </p>
+
+      <!-- Example 1.3.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Category: drag only the fruit into the box</span>
+          <span class="example-file">LAN07bSharedCharacteristics_EN.asm.leaf.json · 211–290</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="LAN7bV2-EN-p01-L2YO.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-13-lan7b.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Four items; three fruit are Valid and the bike is Bogus. All three Valid items go into the single drop slot.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LAN7bV2-EN-p01-L2YO",
+  "questionType": "DDXintoA",
+  "layout": ".../LAN/DDXintoA4CharFlipBoxStatLeft",
+  "showSubmitButton": false,
+  "numTotalItems": 4,
+  "numValidItems": 3,
+  "comments": "ask: fruit",
+  "items": [
+    { "itemType": "Drop", "slot": "drop1", "scale": "30" },
+    { "itemType": "Instruction", "text": "Which of these things are fruit. Drag them to the box." },
+    { "itemType": "Valid", "itemSlot": "1", "slot": "drop1", "path": ".../strawberry.png" },
+    { "itemType": "Valid", "itemSlot": "2", "slot": "drop1", "path": ".../orange.png" },
+    { "itemType": "Valid", "itemSlot": "3", "slot": "drop1", "path": ".../grapes.png" },
+    { "itemType": "Bogus", "itemSlot": "4", "path": ".../bike.png" },
+    { "itemType": "Static", "slot": "stat1", "path": ".../OpenBox1.png" },
+    { "itemType": "Static", "slot": "stat2", "path": ".../fruit.png" },
+    { "itemType": "Yay",  "text": "Way to go! You dragged only the fruit..." },
+    { "itemType": "Oops", "text": "Remember drag only the things that follow the rule!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          <code>numValidItems: 3</code> and all three fruit share
+          <code>"slot": "drop1"</code> — they all belong in the same drop slot. The bike is
+          <b>Bogus</b>. The two <b>Static</b> items provide the open box art and the “fruit”
+          label.
+        </div>
+      </div>
+
+      <!-- Example 1.3.b -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Rhyming: which TWO words rhyme with LOCK?</span>
+          <span class="example-file">LIT01aRhyming_EN.asm.leaf.json · 1449–1532</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="LIT1aV3-EN-q18-KG.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-13-lit1a-lock.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">Four word items; two (clock, sock) are Valid. Both Valid items go to the drop slot at the top.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "LIT1aV3-EN-q18-KG",
+  "questionType": "DDXintoA",
+  "layout": ".../LIT1a/DD1SlotPerItem1Stat1Drop4ItemsV2",
+  "numTotalItems": 4,
+  "numValidItems": 2,
+  "var1": "lock", "var2": "lamp", "var3": "clock", "var4": "doll", "var5": "sock",
+  "soundExt": "_word",
+  "comments": "ask: which words rhyme with LOCK? [2 valid, 4 ans choices]",
+  "items": [
+    { "itemType": "Static", "path": ".../Words:{var1}", "slot": "stat1" },
+    { "itemType": "Valid", "path": ".../Words:{var3}", "itemSlot": "2", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../Words:{var2}", "itemSlot": "1", "behavior": "wiggle1" },
+    { "itemType": "Bogus", "path": ".../Words:{var4}", "itemSlot": "3", "behavior": "wiggle1" },
+    { "itemType": "Valid", "path": ".../Words:{var5}", "itemSlot": "4", "behavior": "wiggle1" },
+    { "itemType": "Background", "path": ".../blueprintdrop.png" },
+    { "itemType": "Drop", "slot": "drop1", "scale": "30" },
+    { "itemType": "Instruction", "text": "Which two words rhyme with LOCK?" },
+    { "itemType": "Yay",  "text": "Thanks for playing with me!" },
+    { "itemType": "Oops", "text": "Thanks for playing with me!" }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          Two <code>Valid</code> items (<code>numValidItems: 2</code>): “clock” and “sock” are both
+          <b>Valid</b>, “lamp” and “doll” are <b>Bogus</b>. The reference word “lock” is a
+          <b>Static</b> item. The child isn’t done until both Valid items are in.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- VARIANT 1.4                                                  -->
+      <!-- ============================================================ -->
+      <h2 id="v14"><span class="variant-tag">1.4</span> One drop slot — drag a set number of items (fishbowl)</h2>
+      <p>
+        One drop slot (a fishbowl), and the child drags in a specific count of items.
+        Here <code>numValidItems</code> is how many to put in, and
+        <code>numExtraItems</code> adds extra identical toys to drag from. Because there’s
+        no single required item identity — just the required count — the child taps a
+        <b>green submit button</b> to say they’re finished. This variant uses a
+        <code>behaviorStyle</code> (the special Fishbowl animation).
+      </p>
+
+      <!-- Example 1.4.a -->
+      <div class="example">
+        <div class="example-head">
+          <span class="example-ask">Counting: put one toy in the bowl</span>
+          <span class="example-file">MAT03Count1By1_EN.asm.leaf.json · 61–113</span>
+        </div>
+        <div class="example-body">
+          <div class="example-visual">
+            <div class="shot" data-shot="MAT3V2-EN-p01-2YO.png">
+              <div class="shot-hint">
+                <b>Add screenshot here</b>
+                <span class="path">assets/ddxintoa-14-mat3.png</span>
+              </div>
+            </div>
+            <p class="visual-caption">The fishbowl is the single drop slot. Several toy items are available; the child drags in the requested count, then taps the green button.</p>
+          </div>
+          <pre class="example-code">{
+  "name": "MAT3V2-EN-p01-2YO",
+  "questionType": "DDXintoA",
+  "behaviorStyle": "Fishbowl",
+  "layout": "behaviorStyles/Fishbowl/ddnintoa4_layout",
+  "numValidItems": 1,
+  "numTotalItems": 3,
+  "numExtraItems": 2,
+  "comments": "ask: 1 of 3 toys in bowl",
+  "items": [
+    { "itemType": "Valid", "path": ".../ollotoys:ollotub26" },
+    { "itemType": "Custom", "path": ".../fishbowl1.png", "slot": "drop1", "params": "waterColor=48B6CE" },
+    { "itemType": "Background", "path": ".../default_bg.png" },
+    { "itemType": "Instruction", "text": "Put one toy in the bowl. ...Then press the green button..." },
+    { "itemType": "Yay",  "text": "Yay! You dragged one toy to the bowl..." },
+    { "itemType": "Oops", "text": "Make sure only one toy is in the bowl." },
+    { "itemType": "ThisIsHow", "text": "This is how you drag one toy to the bowl." }
+  ]
+}</pre>
+        </div>
+        <div class="example-note">
+          <code>numValidItems: 1</code> = drop exactly one toy; <code>numExtraItems: 2</code>
+          gives extra toys to choose from. The bowl is a <b>Custom</b> item on
+          <code>drop1</code>. Because the answer is a <i>count</i>, the child confirms with
+          the green submit button, and <b>ThisIsHow</b> demonstrates if they keep missing.
+        </div>
+      </div>
+
+      <div class="callout note">
+        <p class="callout-title">Quick recap of the four shapes</p>
+        <p>
+          <b>1.1</b> many drop slots, one accepts the Valid item · <b>1.2</b> many items, one Valid ·
+          <b>1.3</b> many items, several Valid · <b>1.4</b> one drop slot, a set number of items.
+          In every case there is still one accepted drop slot group — that’s what
+          makes it DDXintoA.
+        </p>
+      </div>
+
+      <nav class="next-prev" aria-label="Question type navigation">
+        <a class="prev" href="index.html">
+          <span class="next-prev-label">All types</span>
+          <strong>Drag &amp; Drop index</strong>
+          <span>Return to the full guide map</span>
+        </a>
+        <a class="next" href="ddxyintoab.html">
+          <span class="next-prev-label">Next type</span>
+          <strong>DDXYintoAB</strong>
+          <span>Sort into two drop slot groups</span>
+        </a>
+      </nav>
+
+    </main>
+  </div>
+
+  <footer>
+    Khan Academy Kids · Internal content-author documentation · DDXintoA
+  </footer>
+
+  <script>
+    // Lightweight JSON syntax highlighting for the example code blocks.
+    document.querySelectorAll('.example-code').forEach(function (el) {
+      var html = el.innerHTML;
+      // string values (after a colon)
+      html = html.replace(/: (&quot;[^&]*?&quot;|"[^"]*?")/g, ': <span class="s">$1</span>');
+      // keys (quoted, before a colon)
+      html = html.replace(/("[^"]*?")(\s*):/g, '<span class="k">$1</span>$2:');
+      el.innerHTML = html;
+    });
+
+    // If a screenshot file exists in assets/, swap the placeholder for the image.
+    document.querySelectorAll('.shot[data-shot]').forEach(function (box) {
+      var file = box.getAttribute('data-shot');
+      var img = new Image();
+      img.onload = function () {
+        box.innerHTML = '';
+        box.appendChild(img);
+        box.style.borderStyle = 'solid';
+      };
+      img.src = 'assets/' + file;
+      img.alt = file;
+    });
+  </script>
+</body>
+</html>
